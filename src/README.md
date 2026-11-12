@@ -32,7 +32,7 @@ src/
 ## Dependencies
 
 - Python ≥ 3.10, a CUDA GPU (a free Colab T4 is enough)
-- `pip install -r requirements.txt && pip install -e .`
+- `pip install -e .` (installs `lib` and all dependencies from `pyproject.toml`; add `[test]` for pytest)
 - NLTK data: `python -c "import nltk; nltk.download('wordnet'); nltk.download('omw-1.4')"`
 
 Downloaded automatically by stage 01 / Hugging Face:

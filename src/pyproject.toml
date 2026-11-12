@@ -7,6 +7,26 @@ name = "vlm-halluc"
 version = "0.1.0"
 description = "Probing a frozen VLM's hidden states to detect and correct object hallucinations (SC4001 Project E)"
 requires-python = ">=3.10"
+# transformers is pinned to the release whose Qwen2-VL / OWL-ViT APIs this code was written against.
+# torch is not pinned: use whatever Colab ships (CUDA build).
+dependencies = [
+    "transformers==4.47.1",
+    "accelerate>=0.34",
+    "qwen-vl-utils==0.0.8",
+    "torch",
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "nltk",
+    "pyyaml",
+    "pillow",
+    "requests",
+    "tqdm",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
 
 [tool.setuptools.packages.find]
 include = ["lib*"]
