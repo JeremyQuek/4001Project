@@ -1,0 +1,11 @@
+person, girl, boy, man, woman, kid, child, people, adult, passenger, player
+car, automobile, van, minivan, sedan, suv, cab, taxi
+train, locomotive, tramway, caboose
+cat, kitten, feline, tabby
+dog, puppy, pup, canine, terrier
+tie, bow, bow tie
+chair, seat, stool
+dining table, table, desk
+toilet, urinal, commode, lavatory, potty
+cell phone, mobile phone, phone, cellphone, smartphone
+teddy bear, teddybear
