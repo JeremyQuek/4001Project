@@ -1,0 +1,2026 @@
+=== USER (2026-11-11 03:53 UTC) ===
+we're doing doing the retriever and the image fault detection one
+
+=== CLAUDE (2026-11-11 03:56 UTC) ===
+Here are plans for both projects. Today is 11 Nov and the deadline is 16 Nov, so each plan is sized to fit on a Colab T4 in about 3 days of experiments, leaving 1–2 days to write the report. Each one follows what the handout asks for: one focused question, a baseline, one justified change, and controlled ablations.
+
+---
+
+## F: Reliable RAG ("the retriever")
+
+**Research question:** When the retrieved passages are incomplete, irrelevant or contradictory, does a small trained evidence-sufficiency classifier help the model abstain better than prompting alone, without lowering accuracy when the evidence is good?
+
+**Data:** HotpotQA, distractor setting. Each question already comes with 2 gold paragraphs and 8 distractors, so you can control the evidence without building a Wikipedia index. Use about 1,000 dev questions for testing and part of train for the classifier.
+
+**Evidence conditions you build yourself** (this controlled setup is a big part of the novelty):
+
+| Condition | Context given to the LLM |
+|---|---|
+| Full | both gold paragraphs + distractors |
+| Incomplete | one gold paragraph removed (it's multi-hop, so the evidence really is partial) |
+| Irrelevant | distractors only |
+| Contradictory | gold paragraphs + a copy with the answer swapped for another answer of the same type |
+
+**Pipeline**
+- **Retriever:** BM25 (`rank_bm25`), then a dense retriever (`e5-small-v2` or `all-MiniLM-L6-v2`) to rank the paragraphs, keeping the top-k.
+- **Generator:** `Qwen2.5-3B-Instruct` or `Llama-3.2-3B-Instruct`, kept frozen. Greedy decoding with short answers.
+- **Baseline:** a prompt that says "answer, or say *unanswerable* if the context isn't enough".
+- **Your change:** fine-tune a cross-encoder (`deberta-v3-small` or MiniLM) on (question, top-k passages) to predict sufficient or insufficient. Labels come free from the conditions above. Use it to (a) drop passages it scores as irrelevant and (b) abstain when its score is below a threshold τ.
+
+**Comparisons:** prompt-only abstention, a threshold on the retriever score, the LLM's own answer-token log-probability, your classifier, and your classifier combined with log-probability.
+
+**Metrics:**
+- EM and F1 on answerable questions
+- Abstention precision and recall on unanswerable ones
+- Risk–coverage curve with AURC (area under it)
+- Accuracy broken down by condition
+
+**Ablations:** k ∈ {3, 5, 10}, the share of distractors, and whether the classifier only filters or also abstains.
+
+**Failure analysis:** contradictory cases where the model trusts the wrong passage, and cases where it abstains even though the evidence was there.
+
+---
+
+## J: AI-generated image detection across generators
+
+**Research question:** Does adding a lightweight high-frequency residual branch to frozen CLIP features improve detection on generators the model never saw in training, and robustness to JPEG compression and resizing?
+
+**Data:** a subset of GenImage. Its real images come from ImageNet and its fakes from 8 generators: SD v1.4, SD v1.5, Midjourney, ADM, GLIDE, Wukong, VQDM and BigGAN. Kaggle has smaller versions; aim for about 5k real + 5k fake for training.
+- **Protocol:** train on SD v1.4 only, then test on each of the others (about 1k per generator).
+
+**Known confound, worth turning into an experiment:** GenImage's real images are JPEGs while its fakes are PNGs, so a detector can score well just by spotting compression. See Grommelt et al. 2024, *"Fake or JPEG?"*, and check that citation yourselves. Run the main results twice: on the raw data, and with every image re-encoded to the same JPEG quality and size. A clear "the baseline was partly cheating" result counts for novelty.
+
+**Models**
+1. **Baseline A:** ResNet-50 fine-tuned, in the style of Wang et al. 2020 (CNNDetection).
+2. **Baseline B:** frozen CLIP ViT-L/14 (or B/16 if it's slow) with a linear probe, in the style of UnivFD (Ojha et al., CVPR 2023).
+3. **Your change:** frozen CLIP features concatenated with a small CNN on a high-pass noise residual (an image minus its blurred copy, or SRM filters), then an MLP head.
+   - Ablations: each branch on its own, and with or without JPEG/resize augmentation during training.
+
+**Robustness tests:** JPEG quality {95, 75, 50}, downscaling ×0.5, and Gaussian blur.
+
+**Metrics:**
+- AUC and AP for each unseen generator
+- Accuracy at a fixed threshold. This often drops sharply under shift even when AUC holds up, which is worth discussing.
+
+**Failure analysis:** the generators that fool every model (probably Midjourney and ADM), with example images, plus a Grad-CAM or patch-score map for the residual branch.
+
+**Compute:** extract the CLIP features once and cache them, so each probe trains in seconds. Extraction takes roughly 15–30 minutes on a T4 for about 15k images.
+
+---
+
+## Suggested timeline (for each project)
+| Day | Work |
+|---|---|
+| 11–12 Nov | Data pipeline, baselines running end to end, checkpoints saved to Drive |
+| 13 Nov | Your change plus the main results table |
+| 14 Nov | Ablations, robustness tests, failure cases, figures |
+| 15–16 Nov | Report (10 pages), README with reproduction commands, AI Use Statement |
+
+Since each project needs its own report, give each one an owner from day one.
+
+I can set up the repo scaffolds next: a data prep script, the baselines, and evaluation scripts that write results to CSV. Or I can put this plan into a shared doc for the team.
+
+=== USER (2026-11-11 03:59 UTC) ===
+actually the reliable rag one is q chill no? my proposal. baseline retreival agaisnt a naive model. then upgrade with combined ranking: Bm25 keyword search o narrow search space, then retrival from that, then reranker
+
+=== CLAUDE (2026-11-11 03:59 UTC) ===
+Yes, it's doable in the time, and the pipeline is sensible. Two things will cost you marks if you hand it in as it stands, though:
+
+1. **Novelty (20%).** BM25 → dense retrieval → reranker is the standard production RAG setup. The handout says "assembling an application from existing tools alone is insufficient" and that "a higher score alone does not establish a meaningful contribution." Showing "the 3-stage pipeline beats the naive one" is close to exactly that.
+2. **It skips the core of topic F.** F is about what happens when the evidence is incomplete, irrelevant or contradictory, and about abstaining. Better ranking improves recall, but it doesn't tell you what the LLM does when no good passage exists at all.
+
+You can keep your pipeline and fix both without much extra work.
+
+**Keep:**
+- Baselines:
+  - closed-book (no retrieval)
+  - naive dense top-k
+  - BM25 only
+- Your upgrade: BM25 prefilter (top-N) → dense retrieval (top-k) → cross-encoder reranker (`ms-marco-MiniLM-L-6-v2` is small and quick)
+
+**Add an investigation of how the pipeline behaves:**
+- **Cascade cost.** If the BM25 prefilter drops a relevant passage, the later stages can't get it back. Sweep N ∈ {20, 50, 100, 500} and measure gold recall at each stage. Your hypothesis is that paraphrased questions with little keyword overlap lose out, so split the results by how many words the question shares with the gold passage. That's a real finding, not just a leaderboard number.
+- **Reranker score as an abstention signal.** If the top reranker score is below τ, the model answers "unanswerable". This takes about 10 lines and covers the "abstain when evidence is insufficient" part of F. Compare it against prompt-only abstention.
+- **Evidence conditions:** gold present, gold removed, distractors only, and contradictory, as in my earlier plan. Report EM/F1 and abstention rate for each pipeline in each condition.
+
+**Metrics:**
+- Recall@k at each stage
+- MRR
+- EM/F1 of the final answer
+- Abstention precision and recall
+- Latency per query. The cascade's selling point is speed versus reranking everything, so show that trade-off.
+
+**Data:** HotpotQA distractor setting, or Natural Questions with a small Wikipedia passage subset if you want a real corpus for BM25 to narrow down. The cascade argument is stronger with a corpus of about 50k–100k passages than with 10 paragraphs per question.
+
+That gives you a clear story. The cascade improves recall, it has a measurable blind spot, and its reranker score lets the model abstain cheaply when the evidence isn't good enough. It's still a light workload: about 2 days of code on Colab.
+
+What did you mean by "naive model": no retrieval, or plain dense top-k? I'd include both. Want me to scaffold the code?
+
+=== USER (2026-11-11 03:59 UTC) ===
+okay so is that the way to doit
+BM25 -> top N. dense retrieval top k, rernker. then we can train those 2
+
+=== CLAUDE (2026-11-11 04:00 UTC) ===
+Yes, that order is right: BM25 → top N, then dense retrieval → top k, then the reranker. Training both models is a good call. It makes this a real deep learning project rather than plugging tools together.
+
+**What gets trained**
+
+| Stage | Model | Training | Cost on a T4 |
+|---|---|---|---|
+| BM25 | none | no training | n/a |
+| Dense retriever | `e5-small-v2` or `all-MiniLM-L6-v2` (bi-encoder) | Contrastive loss (MultipleNegativesRankingLoss in sentence-transformers) on (question, gold passage) pairs | about 30–60 min for 20k–50k pairs |
+| Reranker | `cross-encoder/ms-marco-MiniLM-L-6-v2` | Binary cross-entropy on (question, passage) → relevant or not | about 30–60 min |
+
+Train on the HotpotQA or NQ **train** split, tune on part of train held out for validation, and report on **dev**. Never tune on the set you report.
+
+**The part that makes training interesting: where the negatives come from**
+
+In a contrastive setup, a negative is a passage the model learns to push away from the question.
+- The dense retriever only ever sees passages that BM25 already let through. Train it on negatives taken from BM25's top N ("hard negatives"), not random passages. That way it learns to separate passages that look similar on keywords, which is its actual job in the cascade.
+- Do the same for the reranker, using negatives from the dense retriever's top k.
+
+You can call this cascade-aware training: each stage trains on the output of the stage before it. Compare it against random negatives as an ablation.
+
+**Results table**
+
+| Dense | Reranker | Negatives |
+|---|---|---|
+| pretrained | pretrained | n/a |
+| fine-tuned | pretrained | random |
+| fine-tuned | pretrained | BM25-hard |
+| fine-tuned | fine-tuned | cascade-hard |
+
+For each row, report recall@k at every stage, MRR, final EM/F1 and latency. Then add the N sweep and the reranker-score abstention test from before.
+
+**Things to expect**
+- The off-the-shelf reranker was trained on MS MARCO and is already strong, so fine-tuning may only help a little. That's fine; report it honestly.
+- Hard negatives can include passages that are actually relevant but unlabelled ("false negatives"), which can hurt training. Drop any negative that contains the answer string.
+
+Shall I write the code? I'd split it into `data_prep.py`, `bm25.py`, `train_dense.py`, `train_reranker.py`, `pipeline.py` and `eval.py`, plus a Colab notebook that runs them in order.
+
+=== USER (2026-11-11 04:01 UTC) ===
+how novel this score, what traning needs to be done. make it layman clear to 12 year old but no analogies
+
+=== CLAUDE (2026-11-11 04:01 UTC) ===
+## How novel is it?
+
+**Medium. I'd guess roughly 10–14 out of 20 for novelty.** That's my estimate, not something from the marking guide.
+
+- **Not new:** the three-step pipeline itself (keyword search, then a meaning-based search, then a reranker). Lots of companies already use this exact setup.
+- **Not new:** training the meaning-based search with tricky wrong passages taken from keyword search. A well-known 2020 paper (DPR, Karpukhin et al.) already did this.
+- **Somewhat new:** the experiments that measure where the pipeline breaks:
+  - how many right passages the keyword step throws away before the later steps ever see them
+  - whether that happens more when the question uses different words from the passage
+  - whether the reranker's score can tell you "none of these passages answer the question, so don't answer"
+  - how the pipeline behaves when the passages are missing, unrelated or contradict each other
+
+The markers care most about that last group. The pipeline alone gets few novelty marks. The experiments about when and why it fails are what earn them.
+
+## What training needs to be done
+
+Only **two models get trained**. The keyword search (BM25) does no learning. It just counts matching words.
+
+### Model 1: the meaning-based search (dense retriever)
+
+**What it does:** it turns every question and every passage into a list of numbers. Questions and passages with similar meaning get similar numbers. To search, it picks the passages whose numbers are closest to the question's numbers.
+
+**Why train it:** the downloaded version was trained on general text. It hasn't seen your type of questions.
+
+**How to train it:**
+1. Take a question from the training data.
+2. Take the correct passage for that question.
+3. Take some wrong passages that keyword search ranked highly. They share words with the question but don't answer it, which makes them hard to tell apart from the right one.
+4. Adjust the model so the question's numbers move closer to the correct passage and further from the wrong ones.
+5. Repeat for thousands of questions.
+
+### Model 2: the reranker
+
+**What it does:** it reads the question and one passage together and gives a score for how well the passage answers the question. It is slower than Model 1, so it only checks the few passages Model 1 picked.
+
+**Why train it:** same reason as Model 1. It was trained on a different kind of question.
+
+**How to train it:**
+1. Take a question.
+2. Pair it with its correct passage, labelled "yes".
+3. Pair it with wrong passages that Model 1 ranked highly, labelled "no".
+4. Adjust the model so it scores "yes" pairs high and "no" pairs low.
+5. Repeat for thousands of pairs.
+
+### Rules for training
+
+- Train on the **train** data only. Test on a separate set the models never saw.
+- Before training, drop any "wrong" passage that actually contains the answer. Otherwise the model learns that right passages are wrong.
+- Each model takes about 30–60 minutes on a free Colab GPU.
+
+### Then compare
+
+Run the whole pipeline four ways:
+1. Neither model trained
+2. Only Model 1 trained, using random wrong passages
+3. Only Model 1 trained, using tricky wrong passages from keyword search
+4. Both models trained, using tricky wrong passages
+
+That shows how much each piece of training actually helped.
+
+=== USER (2026-11-11 04:02 UTC) ===
+wats the other criteria
+
+=== CLAUDE (2026-11-11 04:02 UTC) ===
+The handout gives four marking criteria:
+
+| Criterion | Weight |
+|---|---|
+| Experiments and results | 40% |
+| Report presentation | 30% |
+| Novelty | 20% |
+| Peer review | 10% |
+
+The handout only gives these weights, not a detailed rubric. What follows is based on what the handout asks for elsewhere.
+
+### 1. Experiments and results (40%), the biggest part
+
+The handout asks for:
+- **A baseline.** For you: no retrieval, plain meaning-based search, and keyword search only.
+- **A clear change to test.** For you: the three-step pipeline and the training of the two models.
+- **Fair comparisons.** Change one thing at a time, which is what your four-way comparison table does.
+- **Test data kept separate.** Never tune or pick settings using the test set.
+- **Limitations and failure cases.** Show real examples where the pipeline gets it wrong, and explain why.
+- **Honest results.** A result where training didn't help still counts if you back it up.
+
+### 2. Report presentation (30%)
+
+- PDF, A4, one column, **Arial 10pt, at most 10 pages.** The cover, contents page, references and appendix don't count toward the limit, but all the main content must fit in the 10 pages.
+- The **front page** needs every member's name and the group number.
+- Required sections:
+  - Introduction
+  - Review of existing techniques (BM25, DPR, cross-encoder rerankers, RAG)
+  - Methods
+  - Experiments and results
+  - Discussion
+  - **AI Use Statement**
+- Clear tables and figures, such as a diagram of the pipeline and a chart of recall against N.
+- **The code goes in a ZIP**, with comments and instructions to reproduce the results: what to install, how to prepare the data, and which commands to run.
+
+### 3. Novelty (20%)
+
+Covered in my last message. Marks come from the experiments on where and why the pipeline fails, not from the pipeline itself. The handout states that a bigger model or a higher score alone doesn't count.
+
+### 4. Peer review (10%)
+
+Your teammates rate your contribution. The handout also says **every member must be able to explain the work**, so everyone should understand every part, not just the part they built.
+
+### Rules that cost marks if you miss them
+
+- **Missing AI Use Statement:** marks deducted. List the tools you used, what you used them for, how you checked their output, and what your team decided itself.
+- **Made-up content:** marks deducted. Check every reference and only report experiments you actually ran.
+- **Late submission:** minus 5% per day, for up to 3 days. The deadline is **16 Nov, 11:59 PM**.
+- **Uncredited code:** you must credit any existing code and pretrained models you use (sentence-transformers, the MS MARCO reranker, rank_bm25, and so on) and say clearly which parts are yours.
+
+=== USER (2026-11-11 04:03 UTC) ===
+but actually its not really about retrieval correctness leh. its more about: 
+
+<pasted_content id="df85">
+F.  Reliable Retrieval Augmented Generation 
+Investigate  how  a  language  model  answers  questions  using  external  documents  when  the  retrieved 
+evidence is incomplete, irrelevant, or contradictory. Develop and evaluate a method to improve evidence 
+selection, answer faithfulness, or the ability to abstain when evidence is insufficient.
+</pasted_content id="df85">
+
+. 1) evidence selection, 2) faithfulness in incomplete, irerlvenat or contradictory, and abstainence when evidence is incomplete. so that's there things, only the first one is what we talked about so far. is that correct?
+
+=== CLAUDE (2026-11-11 04:04 UTC) ===
+Mostly right, with one correction: **the handout says "or", so you don't have to improve all three.** Picking one is allowed. Here's how it breaks down:
+
+**Required:** look at how the language model answers when the passages it gets are:
+- **incomplete:** some needed information is missing
+- **irrelevant:** the passages don't relate to the question
+- **contradictory:** the passages disagree with each other
+
+This part isn't optional. Your current plan only checks whether the right passages were found, not what the model does with bad passages.
+
+**Pick at least one to improve:**
+1. **Evidence selection:** picking better passages. This is what your pipeline and the two trained models do.
+2. **Answer faithfulness:** the answer should only say what the passages support, without the model making things up from its own memory.
+3. **Abstaining:** saying "I don't know" when the passages aren't enough.
+
+**What we've covered so far**
+
+| | Status |
+|---|---|
+| Testing with incomplete, irrelevant or contradictory passages | Mentioned as test conditions, not yet central |
+| 1. Evidence selection | ✅ This is the main plan |
+| 2. Faithfulness | ❌ Not covered |
+| 3. Abstaining | ⚠️ Only the small reranker-score idea |
+
+**My suggestion:** keep evidence selection as your main method. Then make the three bad-passage situations the core of your testing, and measure the other two outcomes without building a whole new method for each:
+
+- **Build the bad-passage test sets yourself:** remove a correct passage (incomplete), swap in only unrelated passages (irrelevant), or add a copy with a changed answer (contradictory).
+- **Measure faithfulness:** after the model answers, check whether a passage it was given actually supports the answer. A simple check is whether the answer appears in the passages. A better check runs a small model trained to judge whether a passage supports a statement (an NLI model).
+- **Abstaining:** if the reranker's top score is low, the model says "I don't know". This adds about 10 lines, and it reuses the reranker you're already training.
+
+That way your story covers the whole topic. Better passage selection leads to more faithful answers, and the reranker's score shows when to stay quiet. You also test all of it under the three bad-passage situations the handout names.
+
+=== USER (2026-11-11 04:07 UTC) ===
+what options are there to improve faithfulness then? and abstainence, like we can js train a model on: 1) if unsure, say unsure, then on faithfulness say 1) dont make up facts. so fine tuning? thats like expected to work but not very novel, what dyu think about that? what other research techniques are there out there
+
+=== CLAUDE (2026-11-11 04:07 UTC) ===
+Fine-tuning the model to say "unsure" and to stick to the passages would very likely work, but you're right that it isn't novel. It's also the costliest option you have: you'd need training data with good refusals and faithful answers, LoRA training of a 3B model on a T4 takes hours, and a common side effect is that the model starts saying "unsure" too often, even when the answer is in the passages. Below are the main research approaches. Check every reference before citing it.
+
+## Ways to improve faithfulness
+
+| Technique | What it does | Training? | Effort |
+|---|---|---|---|
+| **Prompting** ("only use the passages", "quote then answer") | The instruction alone | No | Very low, use as a baseline |
+| **Context-aware decoding (CAD)**, Shi et al. 2023 | Gets the model's word probabilities with and without the passages, then boosts the words the passages pushed it towards. The answer leans on the passages instead of the model's memory | No | Low |
+| **Answer, then verify with NLI** | A small NLI model checks whether a passage supports the answer. If none does, retry or abstain | No (pretrained NLI) | Low |
+| **RAFT**, Zhang et al. 2024 | Fine-tunes the model on questions mixed with unrelated passages so it learns to ignore them and quote the relevant one | Yes, LoRA | High |
+| **Knowledge-conflict training**, Longpre et al. 2021 | Fine-tunes on passages with deliberately changed facts so the model follows the passage over its memory | Yes | High |
+| **Self-RAG**, Asai et al. 2023 | Trains the model to output special tokens rating each passage's relevance and whether its own answer is supported | Yes, heavy | Too much for 5 days |
+
+## Ways to improve abstaining
+
+| Technique | What it does | Training? | Effort |
+|---|---|---|---|
+| **Prompting** ("say unanswerable if…") | Baseline | No | Very low |
+| **Token-probability threshold** | Abstain when the model's probability for its own answer is low | No | Low |
+| **Self-consistency** | Generate the answer 5 times. If the answers disagree, abstain | No | Low, but 5× slower |
+| **Retrieval-quality gate**, as in CRAG (Yan et al. 2024) | A small separate model scores whether the passages are good enough. If not, abstain | Small model | Medium. **Your trained reranker already is this** |
+| **Sufficient context**, Joren et al. 2024/25 (Google) | Classifies whether the passages contain enough to answer, and combines that with model confidence to decide whether to abstain | Classifier | Medium |
+| **R-Tuning**, Zhang et al. 2023 | Fine-tunes the model to refuse questions it doesn't know | Yes | High. This is your fine-tuning idea |
+
+## What I think you should do
+
+Skip fine-tuning the language model. You're already training the retriever and the reranker, and that's enough training for 5 days. Use training-free methods for faithfulness and abstaining, and put the novelty in **how they interact with evidence selection**:
+
+1. **Does better evidence selection make the faithfulness method unnecessary?** If the reranker already removes irrelevant passages, CAD may add little. Test whether CAD helps with the naive retriever and not with your pipeline.
+2. **CAD on contradictory passages.** CAD boosts whatever the passages say. When two passages disagree, it may boost the wrong one. That's a testable failure case, and the handout asks for exactly this kind of finding.
+3. **Is the reranker score a good enough abstain signal?** Compare the reranker score, token probability and self-consistency for deciding when to abstain. Report how accuracy changes as the system answers more or fewer questions (a risk–coverage curve).
+
+**Final experiment grid:** 3 retrieval setups (naive / pipeline / pipeline with trained models) × 2 decoding methods (normal / CAD) × 4 evidence conditions (good / incomplete / irrelevant / contradictory). Measure accuracy, faithfulness with an NLI check, and abstention quality for every cell. This covers all three parts of topic F, and the methods can each be built in about a day.
+
+If you still want to fine-tune the model, keep it to one small LoRA run as an extra comparison ("we also tried R-Tuning-style fine-tuning: it helped X but caused Y"). Don't make it the main method.
+
+=== USER (2026-11-11 04:10 UTC) ===
+hmm can u remake this table but with the criteria's possibility as an column, like for instance, novetl: high low med, experiemntal resutls: easy to show, medium to show hard.
+
+=== CLAUDE (2026-11-11 04:10 UTC) ===
+Here are both tables combined, with columns for the marking criteria. These ratings are my own judgement, not the markers'.
+
+- **Novelty:** how new the idea would look to a marker if you just applied the technique.
+- **Results:** how easy it is to get a clear, measurable result in 5 days on a Colab T4.
+
+## Faithfulness
+
+| Technique | What it does | Training? | Effort | Novelty | Results |
+|---|---|---|---|---|---|
+| Prompting ("only use the passages") | Instruction only | No | Very low | Low | Easy (baseline) |
+| Context-aware decoding (CAD) | Boosts the words the passages pushed the model towards | No | Low | Low alone, **High combined with your pipeline and the contradictory test** | Easy |
+| NLI verify-then-answer | Checks whether a passage supports the answer, retries or abstains if not | No | Low | Low–Med | Easy |
+| RAFT | Fine-tunes the model to ignore unrelated passages | LoRA | High | Low (known method) | Hard (tight on time and GPU) |
+| Knowledge-conflict training | Fine-tunes the model to follow the passage over its memory | LoRA | High | Med | Hard |
+| Self-RAG | Trains the model to rate passages and check its own answers | Heavy | Very high | Low (known method) | Very hard |
+
+## Abstaining
+
+| Technique | What it does | Training? | Effort | Novelty | Results |
+|---|---|---|---|---|---|
+| Prompting ("say unanswerable") | Instruction only | No | Very low | Low | Easy (baseline) |
+| Token-probability threshold | Abstains when the model is unsure of its own answer | No | Low | Low | Easy |
+| Self-consistency | Abstains when 5 generated answers disagree | No | Low | Low | Medium (5× slower) |
+| **Reranker score gate** | Abstains when even the best passage scores low | Reuses your reranker | Low | **Med–High** (uses your trained model, and you compare it against the two above) | Easy |
+| Sufficient-context classifier | Trains a classifier for "enough to answer or not" | Small model | Medium | Low–Med (close to the Google paper) | Medium |
+| R-Tuning (fine-tune to refuse) | Fine-tunes the model to refuse | LoRA | High | Low | Medium (risk of refusing too often) |
+
+## The plan I suggested, rated the same way
+
+| Experiment | Novelty | Results |
+|---|---|---|
+| Does better evidence selection make CAD unnecessary? | Med–High | Easy |
+| Does CAD boost the wrong passage when passages contradict? | High | Medium (you need to build the contradictory set) |
+| Reranker score vs token probability vs self-consistency for abstaining | Med–High | Easy |
+| Training the retriever and reranker with tricky wrong passages | Low–Med | Medium |
+
+**Takeaway:** the cheap, training-free methods score low on novelty when used alone. They become novel when you use them to test questions like "when does this break?" and "does X still matter once Y is in place?". The fine-tuning options cost the most and score low on both novelty and ease of getting results in 5 days.
+
+=== USER (2026-11-11 04:12 UTC) ===
+oky but we need to develop and evalute sth...
+
+=== CLAUDE (2026-11-11 04:12 UTC) ===
+Agreed. The handout says "develop and evaluate a method", so you need one method that's yours, not just a comparison of existing ones. Here's a proposal that builds on everything we've discussed.
+
+## Your method: reranker-guided generation
+
+The core idea: **the reranker's score tells the language model how much to trust the passages.** None of the existing methods we covered connect those two things. Your method has three parts:
+
+**Part 1: Evidence selection (trained)**
+BM25 → top N → your fine-tuned dense retriever → top k → your fine-tuned reranker. Keep only passages that score above a set cut-off.
+
+**Part 2: Abstain gate**
+If even the best passage scores below a threshold τ, the model answers "I don't have enough evidence" and doesn't generate an answer.
+
+**Part 3: Adaptive CAD (your main change)**
+Standard CAD always boosts the passages by the same fixed amount (α). That hurts when the passages are weak or wrong. In your version, **α depends on the reranker score**: strong passages get a strong boost, borderline ones get a weak boost, and passages below τ have already been handled by Part 2.
+
+Optional extra for contradictions: an NLI model checks whether the top 2 passages contradict each other. If they do, the model either abstains or answers from the higher-scored passage, and you can test both choices.
+
+**What gets developed and trained**
+- Fine-tuning the dense retriever and reranker with tricky wrong passages
+- The rule linking the reranker score to α (for example, α = α_max × the reranker's score squashed into the 0–1 range)
+- τ and α_max, tuned on a **validation** set, not the test set
+
+## How you evaluate it
+
+**Baselines**
+1. Naive retriever + normal generation + abstain prompt
+2. Naive retriever + standard CAD with a fixed α
+3. Your pipeline + normal generation
+
+**Ablations** (remove one part at a time to show what each one contributes)
+- Without the abstain gate
+- Fixed α instead of adaptive α
+- Pretrained retriever and reranker instead of your fine-tuned ones
+- With or without the contradiction check
+
+**Test conditions:** good, incomplete, irrelevant and contradictory passages.
+
+**Metrics**
+- Accuracy (EM/F1) on answerable questions
+- Faithfulness: the share of answers supported by the passages, checked with NLI
+- Abstention precision and recall, plus a risk–coverage curve
+- Latency
+
+## How it scores
+
+| Criterion | Rating | Why |
+|---|---|---|
+| Novelty | Med–High | Linking reranker confidence to how strongly decoding follows the passages is a specific, justified change to CAD, not a bundle of tools |
+| Experiments and results | Medium | Everything except the two fine-tunes is training-free, and the ablations give you clean tables |
+| Covers topic F? | Yes, all three | Selection (Part 1), faithfulness (Part 3), abstaining (Part 2) |
+| Risk | Medium | Adaptive α may not beat fixed α. If so, report it as a negative result, which the handout says is fine |
+
+One technical constraint: CAD needs access to the model's word probabilities at each step. That works with any open model through Hugging Face `transformers`, but not through an API like ChatGPT, so stick with Qwen2.5-3B or Llama-3.2-3B.
+
+Want me to start writing the code? I'd begin with data prep and the bad-evidence test sets, since every other part depends on them.
+
+=== USER (2026-11-11 04:13 UTC) ===
+what does standard cad do?
+
+=== CLAUDE (2026-11-11 04:13 UTC) ===
+Standard CAD (context-aware decoding) is from Shi et al. 2023, *"Trusting Your Evidence: Hallucinate Less with Context-aware Decoding"*.
+
+## The problem it fixes
+
+A language model writes an answer one word at a time (strictly, one token at a time). At each step it gives a probability to every possible next word. Those probabilities come from two places:
+- **the passages** you gave it
+- **its memory**, meaning everything it learned in training
+
+When the two disagree, memory often wins, so the model ignores the passage and states what it "remembers". That's an unfaithful answer.
+
+## What CAD does
+
+At every word, CAD runs the model **twice**:
+1. **With** the passages and the question
+2. **Without** the passages, question only
+
+The second run shows what the model would say from memory alone. CAD then boosts the words whose probability went **up** because of the passages and cuts the words that come from memory alone.
+
+The formula, for each candidate word:
+
+> score = P(with passages)^(1+α) ÷ P(without passages)^α
+
+**α** sets how strongly it pushes towards the passages. α = 0 is normal generation, and larger α means a stronger push. The paper uses one fixed α for every question.
+
+## Worked example (α = 1)
+
+Question: "Who is the CEO of Company X?" The passage says **Alice**. The model's memory says **Bob**, from old training data.
+
+| Next word | P(with passages) | P(without passages) | Normal model picks | CAD score = P_with² ÷ P_without |
+|---|---|---|---|---|
+| Alice | 0.45 | 0.05 | | 0.2025 ÷ 0.05 = **4.05** |
+| Bob | 0.50 | 0.90 | ✅ Bob (0.50 > 0.45) | 0.25 ÷ 0.90 = **0.28** |
+
+- **Normal model:** says **Bob**, because memory slightly outweighs the passage.
+- **CAD:** says **Alice**. Alice's probability jumped from 0.05 to 0.45 when the passage was added, so CAD treats Alice as coming from the passage and boosts it.
+
+## Its weaknesses, which your method targets
+
+- **α is fixed.** CAD pushes towards the passages equally hard whether they're good, irrelevant or wrong.
+- **If the passage is wrong, CAD makes it worse.** If the passage wrongly says "Carol", CAD boosts Carol just as strongly.
+- **It never abstains.** It always produces an answer.
+- **It's slower.** It runs the model twice per word, so generation takes about 2× as long.
+
+Your adaptive version fixes the first three. The reranker score sets α, so trusted passages get a strong push, weak ones get a gentle push, and passages below the threshold lead to an abstention instead of an answer.
+
+=== USER (2026-11-11 04:15 UTC) ===
+okay so the reranker basically says hm this passgae is good that passage is bad etc ect
+
+=== CLAUDE (2026-11-11 04:15 UTC) ===
+Yes, mostly. The reranker reads the question together with one passage and gives back a score for how well that passage answers the question. It does this for each of the top-k passages:
+
+| Passage | Reranker score | Meaning |
+|---|---|---|
+| "Alice became CEO of Company X in 2023…" | 0.92 | Good |
+| "Company X makes phones…" | 0.31 | Related but doesn't answer |
+| "The weather in Paris…" | 0.02 | Irrelevant |
+
+Your method then uses those scores in three ways:
+- **Filter:** drop passages below a cut-off.
+- **Abstain:** if even the top score is low, say "not enough evidence".
+- **Set α:** a high top score means a strong CAD push towards the passages, and a borderline score means a gentle one.
+
+**One important limit:** the reranker judges whether a passage *looks like it answers the question*, not whether it's *true*. A passage that wrongly says "Carol became CEO of Company X in 2023…" would also score around 0.9. The reranker can't catch a passage that is on-topic but wrong. That's why:
+- the optional **contradiction check** (NLI between the top passages) exists, to catch the case where two high-scoring passages disagree
+- the **contradictory test condition** is your most interesting experiment, because it's where the reranker is expected to fail, and the handout asks you to analyse failure cases
+
+Also, the reranker's raw outputs aren't neat 0–1 numbers, so you squash them into 0–1 first. Then you tune the cut-off and threshold on the validation set.
+
+=== USER (2026-11-11 04:16 UTC) ===
+but basically our novetl add is a threshold given by the reranker, so the reranker decides if sth is truthy or no? wb two passages who direct ocntradicti one another how would the reranker do
+
+=== CLAUDE (2026-11-11 04:16 UTC) ===
+Not quite. Two corrections.
+
+## 1. The reranker doesn't decide what's true
+
+It decides **relevance**: does this passage look like it answers the question? It has no way to check facts, and nothing in your pipeline can tell which of two passages is true. So the novel part isn't "the reranker judges truth". It's this:
+
+> **The reranker's relevance score sets how strongly the model follows the passages (adaptive α), and when to abstain.**
+
+That deals with **incomplete** and **irrelevant** passages, which the reranker can detect. **Contradictory** passages need a separate check.
+
+## 2. What happens with two passages that contradict each other
+
+- Passage A: "Alice became CEO of Company X in 2023." → reranker **0.92**
+- Passage B: "Carol became CEO of Company X in 2023." → reranker **0.90**
+
+The reranker scores **each passage separately**, never side by side, so it never sees that they conflict. Both score high, both go to the model, and adaptive α gives a **strong** push towards the passages. The model then picks one, often depending on which passage comes first, or mixes them up, and it sounds confident. Your method makes this case **worse**, not better. That's expected, and it's a useful failure case to report.
+
+## Fixing it: a conflict check
+
+Add a separate step that looks at the high-scoring passages **together**. Two ways to do it:
+
+| Option | How it works | Pros and cons |
+|---|---|---|
+| **A. Answer-disagreement check** | Have the model answer from each top passage on its own. If the answers differ ("Alice" vs "Carol"), flag a conflict | Simple and reliable, but costs a few extra model runs |
+| **B. NLI check** | An NLI model compares the passages directly: contradiction, agreement or neutral | Fast, but weaker on long passages and often marks unrelated passages as "neutral" |
+
+I'd recommend **A**.
+
+**When a conflict is flagged**, test two behaviours:
+- **Abstain:** "The sources disagree."
+- **Report both:** "Sources disagree: one says Alice, another says Carol."
+
+Don't try to pick the "true" one. You can't check that, and a system that admits a conflict is more faithful than one that guesses.
+
+## How the full method handles each condition
+
+| Condition | Which part handles it |
+|---|---|
+| Good passages | Reranker scores high, strong α, normal answer |
+| Incomplete | Reranker scores medium, gentle α or abstain |
+| Irrelevant | Reranker scores low, abstain |
+| Contradictory | Reranker scores both high, so the **conflict check** catches it and the model abstains or reports both |
+
+This gives the report a clean story: relevance scores handle three of the four conditions, they fail on contradictions for a clear reason, and a cheap conflict check covers that gap. Measure each part with ablations.
+
+=== USER (2026-11-11 04:17 UTC) ===
+yeah actually this can be a good pointer of research, an evidence conflict checker, how about that
+
+=== CLAUDE (2026-11-11 04:17 UTC) ===
+Yes, I think that's a stronger research direction than what we had. It's narrower, it goes straight at the hardest of the handout's three conditions, and contradictions are exactly where the reranker idea fails.
+
+## How novel is it?
+
+**Already studied (check every reference before citing):**
+- Knowledge conflicts in RAG: Xie et al. 2023, *"Adaptive Chameleon or Stubborn Sloth"*, and Chen et al. 2022
+- Benchmarks of conflicting passages: **WikiContradict** (Hou et al. 2024) and **ConflictBank** (2024)
+
+**Less covered, and where you'd come in:** a **small, cheap trained detector** that flags conflicts between retrieved passages before the model answers, plus a controlled study of **what kinds of conflict it catches and misses**.
+
+## Proposed project
+
+**Research question:** Can a small trained conflict detector placed before the LLM catch conflicts between retrieved passages better than answer disagreement or off-the-shelf NLI, and does it make RAG answers more faithful when sources contradict each other?
+
+**What you develop:** a cross-encoder conflict classifier.
+- Input: (question, passage A, passage B)
+- Output: conflict or no conflict
+- Model: fine-tuned `deberta-v3-small` or `MiniLM`, which takes about 30–60 minutes on a T4
+
+**Training data (generated from HotpotQA or NQ):**
+
+| Pair type | How to make it | Label |
+|---|---|---|
+| Direct swap | Copy the gold passage and swap the answer for another answer of the same type | Conflict |
+| Paraphrased swap | Same, then have an LLM reword it so the wording differs | Conflict |
+| Same fact, different words | Gold passage + an LLM paraphrase that keeps the answer | No conflict |
+| Different aspect | Two gold passages from a HotpotQA pair (different facts, both true) | No conflict |
+| Unrelated | Gold passage + a distractor | No conflict |
+
+**Baselines**
+1. Answer disagreement: the LLM answers from each passage separately, and different answers mean a conflict.
+2. Off-the-shelf NLI (e.g. `roberta-large-mnli`) between passages.
+3. Simply asking the LLM: "Do these passages conflict?"
+
+**Response when a conflict is detected:** test abstaining ("sources disagree") against reporting both answers.
+
+## Evaluation
+
+**1. Detection quality:** precision, recall and F1 of the conflict flag.
+- **In-distribution:** held-out synthetic pairs
+- **Real conflicts:** WikiContradict, if it's usable. **The main experiment** is whether training on synthetic conflicts transfers to real ones.
+
+**2. End-to-end:** in the full RAG pipeline, compare answer accuracy, faithfulness (NLI check) and correct abstentions with and without the detector, across good, irrelevant and contradictory passages.
+
+**3. Failure analysis** (the handout asks for this):
+- **Time-based false alarms:** "CEO in 2019: Bob" vs "CEO in 2023: Alice" don't contradict each other. Does the detector wrongly flag them?
+- **Partial conflicts:** passages that agree on most things and differ on one detail
+- **Number conflicts:** "population 5.2M" vs "population 5.4M"
+- **False alarms on correct passages:** how often the detector wrongly flags a conflict, causing the model to refuse questions it could have answered
+
+## Ratings
+
+| Criterion | Rating | Why |
+|---|---|---|
+| Novelty | **High** | A trained detector, tested on whether synthetic training transfers to real conflicts, with a breakdown by conflict type, is a focused contribution of your own |
+| Experiments and results | **Medium** | Building the data takes the most work. Training and evaluation are fast |
+| Fit with topic F | Strong | Contradictory evidence + faithfulness + abstaining |
+| Risk | Medium | WikiContradict may be hard to adapt. Fallback: hand-label about 100 real conflict pairs for the test set |
+
+## Cutting scope (5 days left)
+
+Drop the retriever and reranker fine-tuning. Use the pretrained reranker as-is for evidence selection, which you can mention in one line. Spend the training time on the conflict detector instead: one trained model, one focused question, clear ablations.
+
+**Suggested schedule:**
+- **11–12 Nov:** generate the conflict dataset and get the baselines running
+- **13 Nov:** train the detector and run the detection results
+- **14 Nov:** end-to-end RAG tests and failure analysis
+- **15–16 Nov:** write the report
+
+Want me to start with the data generation script? It's the riskiest part and everything else depends on it.
+
+=== USER (2026-11-11 04:19 UTC) ===
+sounds like a shit ton of work tho but its clear, is there any precedent for this conflict detector, a small lm model trained on detect contradictions on two logical claims
+
+=== CLAUDE (2026-11-11 04:19 UTC) ===
+Yes, there's a lot of precedent. That's good news, because it means less work: you can build on existing models instead of starting from zero. Check each reference below before citing it.
+
+## Precedent
+
+**1. NLI (natural language inference): the direct ancestor**
+A small model reads two sentences and says whether they agree (entailment), contradict, or neither (neutral). That's exactly "detect contradictions between two claims".
+- Datasets: SNLI (Bowman et al. 2015), MultiNLI (Williams et al. 2018)
+- Ready-made models: `roberta-large-mnli` and `microsoft/deberta-v3-base-mnli` on Hugging Face. They work today without training.
+
+**2. Fact verification**
+- **FEVER** (Thorne et al. 2018): checks a claim against Wikipedia evidence and labels it supported, refuted, or not enough info.
+
+**3. Small models checking whether text agrees with a source.** This is the closest match to your idea:
+- **FactCC** (Kryściński et al. 2020): trained on **synthetic swaps** (changed entities, numbers, negations) to catch summaries that contradict their source. **That's the same data trick I suggested, so you can cite it as justification.**
+- **SummaC** (Laban et al. 2022): uses NLI sentence by sentence to catch inconsistencies.
+- **AlignScore** (Zha et al. 2023) and **MiniCheck** (Tang et al. 2024): small models that check whether a claim is supported by a document. MiniCheck matches much larger LLMs at a fraction of the cost.
+
+**4. Conflicts in RAG specifically**
+- **WikiContradict** (Hou et al. 2024) and **ConflictBank** (2024) test how LLMs handle contradicting passages, but they mostly *evaluate* LLMs. They don't train a small detector that runs before the LLM.
+
+## What that means for novelty
+
+- **Not new:** a small model that detects contradictions. NLI has done this for 10 years.
+- **Your angle:** a detector that compares **passage against passage, for a given question**, placed **inside a RAG pipeline before the LLM answers**, and tested on whether synthetic training transfers to real conflicts.
+
+The idea is still decent, but expect novelty around **Medium**, not High.
+
+## Cutting the workload
+
+Start from an existing NLI model instead of training from scratch:
+
+| Step | Work |
+|---|---|
+| **Baseline:** `deberta-v3-base-mnli` used as-is on passage pairs | Almost none, ready-made |
+| **Your model:** the same model fine-tuned on your question + passage-pair data | One training run, about 30–60 min |
+| **Data:** FactCC-style entity swaps with spaCy (find a name, date or number, swap it for another of the same type) | About half a day |
+| **Test:** held-out synthetic pairs + about 100 hand-checked real pairs (WikiContradict, or labelled yourselves) | About half a day |
+| **End-to-end:** pretrained reranker → detector → LLM abstains or reports both | About 1 day |
+
+**Can skip:** LLM-paraphrased swaps (keep only if you have time), the retriever and reranker fine-tuning, CAD and adaptive α.
+
+**Minimum version:** "Off-the-shelf NLI gets X% on conflicts between passages. Fine-tuning on question-aware synthetic conflicts gets Y%. Here's where both fail: time-based facts, numbers, partial conflicts. Here's the effect on RAG answers." That's one baseline, one change, controlled tests and a failure analysis, which covers what the handout asks for.
+
+=== USER (2026-11-11 04:20 UTC) ===
+okay lah so its clear our research is rag conflict detection resolution. how will this help the regenration model. if conflict detect, the regeneration model 1) compares against its memeory and selects the best one, 2) answers sources say 2 things, 3) claims idk
+
+=== CLAUDE (2026-11-11 04:20 UTC) ===
+Yes, those three are the natural options. Rather than choosing one, **compare all three**. That comparison becomes the "resolution" half of your project.
+
+## How the pipeline works
+
+```
+Question → retrieve → rerank → conflict detector
+                                 ├─ no conflict → answer normally
+                                 └─ conflict    → strategy 1 / 2 / 3
+```
+
+Each strategy is just a different prompt given to the LLM when the detector flags a conflict. There's no extra training, so all three are cheap to run.
+
+## The three strategies
+
+**1. Check against memory and pick one**
+*"The sources disagree. Use what you know to pick the more likely answer."*
+- **Pro:** gives a single answer, which is the most useful when it's right.
+- **Con:** the model's memory can be outdated or wrong, and the point of RAG is to override memory with current documents.
+- **⚠️ Trap in your data:** your conflicts come from swapping the answer in a real Wikipedia passage. The original, true answer is usually what the model memorised during training, so strategy 1 will look excellent on synthetic data, but only because memory already contains the answer.
+  - **Fix:** first ask every question with no passages (closed-book). Split the results into "model already knew the answer" vs "model didn't". Strategy 1 should only do well on the first group, and showing that is a good finding.
+
+**2. Report both answers**
+*"Sources disagree: one says Alice, another says Carol."*
+- **Pro:** the most faithful option. It only states what the passages say and doesn't guess.
+- **Con:** leaves the decision to the user.
+- **Scoring:** check that both answers are mentioned and that the model doesn't add a third one.
+
+**3. Say "I don't know"**
+- **Pro:** safest. It never states anything wrong.
+- **Con:** least useful.
+- **Hidden cost:** if the detector raises a false alarm, the model refuses a question it could have answered.
+
+## Evaluation
+
+Run each strategy on every test condition (good / irrelevant / contradictory), plus one "no detector" baseline:
+
+| Metric | What it shows |
+|---|---|
+| Accuracy | Right answer, where one answer is expected |
+| Faithfulness | Everything stated is supported by the passages (NLI check) |
+| Conflict acknowledged | When sources really disagree, does the answer say so? |
+| Unnecessary refusals or hedging | When there's no real conflict, does a false alarm make the answer worse? |
+
+**Splits:**
+- model knew the answer closed-book vs didn't (this mainly matters for strategy 1)
+- detector right vs detector wrong (shows how detector errors carry through to the final answer)
+
+## Expected findings
+
+- Strategy 1 looks best overall but only wins when memory is right, and actively hurts on facts the model doesn't know or remembers wrongly.
+- Strategy 2 is most faithful, at a small cost to usefulness.
+- Strategy 3 is safe but most exposed to the detector's false alarms.
+- Without any detector, the model quietly picks one passage, often the first, and sounds confident.
+
+Whatever the results, they tie straight back to the handout: **contradictory evidence → detection → faithful resolution or abstaining**, with failure cases.
+
+## Project summary
+
+1. **Develop:** a question-aware conflict detector, made by fine-tuning an NLI model on synthetic swaps.
+2. **Evaluate detection:** against off-the-shelf NLI and answer disagreement, on synthetic and real conflicts.
+3. **Evaluate resolution:** the three strategies vs no detector, split by memory and by whether the detector was right.
+4. **Failure analysis:** time-based facts, numbers, partial conflicts, false alarms.
+
+Shall I start on the code? I'd begin with the data generation script for the swapped-answer pairs.
+
+=== USER (2026-11-11 04:22 UTC) ===
+regardless the output is not really relevant the idea is: can we detect the conflict and have an experimetally empiric method to grade correctness higher? where wrong: opposite of correct ansewr, bad: unrelated facts, mid: idk, good: correct answer but extra facts, good: correct answer but missing facts, mid: corect answer but contradicting facts, best: correc answer only
+
+=== CLAUDE (2026-11-11 04:22 UTC) ===
+I've set your scale out as an ordered grading scale, with a few fixes, and then a way to grade answers automatically and check that the grader agrees with humans. Precedent to check before citing: **FActScore** (Min et al. 2023) splits answers into atomic facts and checks each one, **RAGAS** (Es et al. 2023) measures RAG faithfulness, and **ALCE** (Gao et al. 2023) checks whether answers are supported by the cited passages.
+
+## Your scale, tidied up
+
+| Score | Grade | Definition |
+|---|---|---|
+| 0 | **Wrong** | Core answer contradicts the correct answer |
+| 1 | **Bad** | Unrelated: doesn't address the question |
+| 2 | **Mid** | Abstains ("I don't know") |
+| 3 | **Mid+** | Correct core answer, but also states something that contradicts the evidence |
+| 4 | **Good** | Correct core answer, but missing required facts |
+| 4 | **Good** | Correct core answer, plus extra facts the evidence doesn't contain |
+| 5 | **Best** | Correct answer only, with every fact supported |
+
+**Four issues to settle as a team:**
+1. **Split "extra facts".** Extra facts that the passages *support* are harmless. Extra facts the passages *don't contain* are made up, even if they happen to be true. Suggestion: supported extras = 5, unsupported extras = 4.
+2. **A level for conflict cases is missing.** When the sources really disagree, "sources disagree: Alice or Carol" is arguably the best answer, but your scale has nowhere to put it. Either add a grade, "acknowledges conflict = 4 or 5, only when there's a real conflict", or keep conflict cases out of this scale.
+3. **Is "I don't know" really better than unrelated?** I agree it is, since abstaining is honest. Write the reason down in the report.
+4. **The numbers are arbitrary.** Gaps like 0→1 vs 4→5 are a judgement call. Report the **share of answers at each grade**, not just the average, and show your conclusions hold if you change the weights (a sensitivity check).
+
+## Grading automatically
+
+```
+Answer
+  → 1. split into atomic claims (one fact per sentence)
+  → 2. find the core answer claim and compare with the gold answer
+  → 3. check each other claim against the passages with NLI: supported / contradicted / not mentioned
+  → 4. check for missing required facts
+  → 5. fixed rules map the results to a score of 0–5
+```
+
+- **Step 1:** prompt a small LLM to rewrite the answer as one fact per line.
+- **Step 2:** exact match or token-F1 against the gold answer, with an NLI check as a fallback for paraphrases.
+- **Step 3:** run NLI on each claim against the passages, as in step 3 of the diagram above.
+- **Step 4:** HotpotQA already marks which sentences are needed to answer each question ("supporting facts"). If the answer leaves one out, it's missing a fact.
+- **Step 5:** for example, core answer wrong → 0. Core answer right with any contradicted claim → 3. Core answer right with a missing supporting fact → 4. And so on.
+
+## Showing the grader is reliable
+
+This is what lets you trust the grades:
+1. Two team members **each label the same ~100–150 answers by hand**, working separately, using the scale.
+2. **Human vs human:** measure agreement with Cohen's kappa. If two people can't agree, the scale needs clearer definitions.
+3. **Grader vs human:** if the automatic grader agrees with the humans about as often as they agree with each other, you can trust it on the whole test set.
+4. **Grader vs simple metrics:** show that exact match and F1 miss things your grader catches, such as a correct answer with a made-up extra fact.
+
+## The project now
+
+1. **Conflict detector:** detects when the retrieved passages disagree.
+2. **Graded scale with an automatic grader:** scores answers 0–5, checked against human labels.
+3. **Experiment:** do answers with the detector score higher on the scale than without it, in each condition (good / irrelevant / contradictory)?
+
+Part 2 is also a contribution in its own right: exact match only says right or wrong, while your scale separates correct-but-padded from correct-but-contradicting. One caution on workload: the hand-labelling step is about half a day for two people, but it's what makes the grading trustworthy, so don't skip it.
+
+=== USER (2026-11-11 04:23 UTC) ===
+yeah let' just use an exsiing framework rather than building our own correctness framework. honestly rag is pretty hard becos on top of that we also need access to a propreitary model
+
+=== CLAUDE (2026-11-11 04:24 UTC) ===
+Using an existing framework makes sense. And you don't need a proprietary model: everything below runs on free Colab.
+
+## No proprietary model needed
+
+| Role | Open model | Runs on a Colab T4 (16 GB)? |
+|---|---|---|
+| Generator (answers questions) | `Qwen2.5-3B-Instruct` or `Llama-3.2-3B-Instruct` | ✅ in fp16 |
+| Stronger generator | `Qwen2.5-7B-Instruct` in 4-bit (bitsandbytes) | ✅, slower |
+| Reranker | `cross-encoder/ms-marco-MiniLM-L-6-v2` | ✅, fast |
+| Conflict detector baseline | `microsoft/deberta-v3-base-mnli` (or similar) | ✅, fast |
+| Faithfulness grader | **MiniCheck** or **AlignScore** | ✅, small models |
+
+## Which grading framework to use
+
+| Framework | What it measures | Needs a big LLM? | Verdict |
+|---|---|---|---|
+| **RAGAS** | Faithfulness, answer relevancy, context precision | Yes. It uses an LLM as the judge, OpenAI by default, and a local 3B judge is unreliable | ❌ Skip unless you have API credits |
+| **FActScore** | Splits the answer into facts and checks each one | Yes, for splitting into facts | ⚠️ Heavy |
+| **MiniCheck** (Tang et al. 2024) | Is each sentence of the answer supported by the passages? | No. It's a small open model | ✅ **Use this** |
+| **AlignScore** (Zha et al. 2023) | Agreement score between answer and passages | No | ✅ Good alternative |
+| EM / token-F1 (standard QA metrics) | Is the core answer correct? | No | ✅ Always include |
+
+**Recommended metrics:**
+- **Correctness:** EM and F1 against the gold answer
+- **Faithfulness:** MiniCheck score of the answer against the passages
+- **Abstention:** precision and recall of "I don't know" or "sources disagree" responses
+- **Conflict detection:** precision, recall and F1 of the detector
+
+All of these are standard, cited and free, with nothing to hand-build or hand-label beyond a quick check of about 50 examples.
+
+## On "RAG is hard"
+
+The scope is now manageable:
+1. Build synthetic conflict pairs (spaCy entity swaps on HotpotQA).
+2. Fine-tune the NLI model into a conflict detector and compare it against the off-the-shelf version.
+3. Run the pipeline: pretrained reranker → detector → Qwen-3B answers, with and without the detector.
+4. Score everything with EM/F1, MiniCheck and abstention metrics.
+
+That's about 3 days of work. The heaviest part is making the data, and LLM inference is the slowest part (around 1–2 hours on a T4 for ~1,000 questions × the test conditions). Save results to Drive regularly, since Colab sessions disconnect.
+
+If it still feels like too much next to project J, say so and I'll compare how much work each one involves.
+
+=== USER (2026-11-11 04:24 UTC) ===
+does this need colab pro?
+
+=== CLAUDE (2026-11-11 04:24 UTC) ===
+No, the free tier should be enough if you plan around its limits.
+
+## Free Colab limits
+- A **T4 GPU** (16 GB), which is enough for everything in the plan.
+- Sessions drop if idle for about 90 minutes, and are cut off after a few hours at most.
+- **GPU access isn't guaranteed.** After heavy use, Google may refuse you a GPU for the rest of the day.
+
+## Estimated GPU time
+
+| Task | Time on a T4 |
+|---|---|
+| Fine-tune the conflict detector (~20k pairs) | ~30–60 min |
+| Detector + baselines on the test set | ~10 min |
+| Qwen-3B answers: ~500 questions × 3 conditions × 4 setups (no detector + 3 strategies) | ~2–4 hours with batching |
+| MiniCheck scoring | ~20–30 min |
+| **Total** | **~4–6 GPU hours**, plus re-runs |
+
+That fits in free Colab spread over 2–3 days. Most of it is the LLM answering questions.
+
+## Making free work
+1. **Split the work across your free accounts.** One person trains the detector while another runs LLM answering, so you each have your own GPU quota.
+2. **Save everything to Google Drive:** checkpoints, and generated answers every ~100 questions, so a disconnect doesn't lose your progress.
+3. **Use 500 test questions, not 1,000.** That's still plenty for the comparisons.
+4. **Kaggle Notebooks as a backup:** free GPUs with a weekly quota (around 30 hours), useful if Colab refuses you.
+5. **Course compute:** the handout says the course assigns resources. Check with your TA what's available.
+
+## When Pro is worth it
+If you hit "GPU unavailable" in the next day or two, one month of Pro for one person is cheap insurance with a deadline this close. You don't need to pay up front.
+
+=== USER (2026-11-11 04:25 UTC) ===
+okay thats the plane for rag okay, the rest is triival, the one to focus on: the conflict dtaset gerneation, the conflict model training, and the evaluation framework, that's the three novel and key parts of our research write that into a md file
+
+=== CLAUDE (2026-11-11 04:26 UTC) ===
+I've written the plan to `/Users/jeremyquek/Desktop/4001_GroupProject/rag_conflict_plan.md`. It covers the research question and the three parts in detail:
+
+1. **Conflict dataset generation:**
+   - Source data is HotpotQA, split by question ID before any pairs are made, so no question leaks into the test set.
+   - Conflicting pairs are made by swapping an entity, date or number in a real passage, found with spaCy.
+   - Non-conflicting pairs include tricky ones (two different true facts, and the same fact at different times) so the detector doesn't learn to flag everything.
+   - Every example is tagged with its conflict type, for the failure analysis later.
+   - Target sizes are ~20k / 2k / 2k for train / validation / test, plus a real-conflict test set from WikiContradict, or hand-labelled if that doesn't work out.
+2. **Conflict model:**
+   - A DeBERTa NLI model, fine-tuned with the question included in its input.
+   - Training settings, 3 seeds, and ablations: off-the-shelf with no fine-tuning, without the question, and without the tricky non-conflict pairs.
+   - Baselines: answer disagreement and asking the LLM directly.
+3. **Evaluation framework:**
+   - **Detection:** precision / recall / F1 and AUROC, results by conflict type, and how well training on synthetic conflicts carries over to real ones.
+   - **Effect on final answers:** EM/F1, MiniCheck faithfulness and abstention metrics, across three conditions (clean, irrelevant, contradictory) and the three resolution strategies.
+   - **Analysis splits:** whether the model already knew the answer, and whether the detector was right.
+   - **Fair-comparison rules:** everything is tuned on validation only.
+
+It also has the compute plan for free Colab, the day-by-day timeline, a planned repo layout and a list of references. The references are from memory, so check each one before it goes in the report.
+
+When you're ready, I'll start on `data_gen/make_conflicts.py`. It's the first step and everything else depends on its output.
+
+=== USER (2026-11-11 04:27 UTC) ===
+okay now switch tabs to project E, detection of hallucination inside vision language models
+
+=== CLAUDE (2026-11-11 04:27 UTC) ===
+Switching to E. Earlier the second project was J (AI-image detection), so I've noted that E replaces it. Below is a plan with the same three-part structure as the RAG project, so the two reports can share a shape.
+
+## Project E: hallucination detection in vision-language models
+
+**The problem:** a VLM describes an image and mentions things that aren't in it, for example "a dog on the sofa" when there's no dog.
+
+**Research question:** Can a small probe trained on the VLM's own hidden states detect, word by word, which objects in a caption are hallucinated, better than confidence-based signals? And does it still work on hallucinations of a different kind or from a different dataset?
+
+## Part 1: Hallucination dataset generation (labels come free)
+- **Images:** COCO val2014, which comes with human annotations of which objects are in each image.
+- **Generate:** have a small VLM write detailed captions for ~2,000 images.
+- **Label automatically:** extract every object word in each caption and map it to COCO's 80 object categories using the CHAIR synonym list (Rohrbach et al. 2018). An object that isn't in the image's annotations is **hallucinated**; otherwise it's **grounded**.
+- **Save the VLM's hidden states** at each object word during the same generation pass. That's the probe's input, so no extra GPU time is needed.
+- **Known issue:** COCO annotations sometimes miss real objects, so some "hallucinated" labels are wrong. Hand-check about 100 of them and report the noise rate.
+
+## Part 2: Hallucination detector
+- **VLM:** `Qwen2-VL-2B-Instruct`, which fits on a free T4 in fp16. `LLaVA-1.5-7B` in 4-bit is a slower alternative.
+- **Your model:** a small classifier (linear or 2-layer MLP) that predicts hallucinated vs grounded from the hidden state at each object word. Training takes seconds once the features are saved.
+- **Baselines:**
+  - the token probability or entropy of the object word (low confidence suggests hallucination)
+  - how much attention that word paid to the image
+  - an external object detector checking whether the object is there (OWL-ViT or Grounding DINO, in the style of Woodpecker by Yin et al. 2023)
+- **Ablations:** which layer works best (early vs middle vs late), linear vs MLP, and the amount of training data.
+
+## Part 3: Evaluation framework (existing metrics)
+- **Detection quality:** AUROC, precision, recall and F1 for each object mention.
+- **Generalisation, the key question:**
+  - trained on COCO → tested on another dataset, e.g. **AMBER** (Wang et al. 2023), which labels objects, attributes and relations
+  - trained on objects → tested on attributes and relations
+- **Effect on output:** remove the flagged objects from captions, or have the model say it's unsure, then measure:
+  - **CHAIR**, the share of captions or objects that are hallucinated
+  - **POPE** (Li et al. 2023), yes/no "Is there a ___ in the image?" questions in random, popular and adversarial splits
+  - **caption quality** (number of grounded objects kept, or a standard captioning score), to make sure removing objects doesn't wreck the captions
+- **Failure analysis:** objects that often appear together (e.g. "fork" in dining scenes), small or hidden objects, and cases where the probe and the external detector disagree.
+
+## How it scores
+
+| Criterion | Rating | Why |
+|---|---|---|
+| Novelty | **Medium** | Probing hidden states for hallucination has precedent, e.g. Azaria & Mitchell 2023 for text-only LLMs, and similar VLM work. Your angle is the generalisation tests and the comparison of internal vs external signals |
+| Experiments and results | **Easy–Medium** | Labels are automatic, the probe trains in seconds, and CHAIR and POPE are standard |
+| Compute | Light | ~1–2 h on a T4 to caption 2,000 images and save their features |
+| Risk | Low–Medium | Label noise from COCO, which you can measure and report |
+
+## Related work (check before citing)
+- **VCD** (Leng et al. 2024) compares the model's output on the clean image vs a noised image. It's the image version of the CAD idea from the RAG project.
+- **OPERA** (Huang et al. 2024) and **LURE** (Zhou et al. 2023) are other ways to reduce hallucination, which you can cover in the review section.
+
+This one is lighter than the RAG project, because no data needs building by hand and no LLM has to answer thousands of questions. Want me to write it into an md file like the RAG one?
+
+=== USER (2026-11-11 04:28 UTC) ===
+for this one we have to compare the text label of the generated image to the prompt for the generation isit
+
+=== CLAUDE (2026-11-11 04:29 UTC) ===
+No, it's the other way round. In project E:
+
+- **The image is real.** Nobody generates it. It's an ordinary photo from COCO.
+- **The text is what gets generated.** The VLM looks at the photo and writes a caption or answers a question about it.
+- **The check:** compare the objects mentioned in that text against COCO's **human annotations** of what's actually in the photo.
+
+```
+Real photo (COCO) ──► VLM ──► "A man holding a dog and a frisbee"
+        │                              │
+        ▼                              ▼
+Human annotations:              Objects mentioned:
+person, frisbee                 man → person ✅, dog ❌, frisbee ✅
+                                       dog = hallucinated
+```
+
+There's no prompt-vs-image comparison. The "ground truth" is the list of objects humans labelled in the photo.
+
+**What you described,** generating an image from a prompt and checking whether it matches the prompt, is a different task: text-to-image alignment. That's closer to project H (controllable image generation), and it's measured with tools like CLIPScore or TIFA.
+
+So for E: real image in, generated text out, and the text is checked against the image's annotations.
+
+=== USER (2026-11-11 04:29 UTC) ===
+what that's easy, just develop a method to ground the detection of hallucination by llm caption vs humn caption isit
+
+=== CLAUDE (2026-11-11 04:29 UTC) ===
+Partly. Comparing against human captions is how you **label** the data, and that part is easy. It's not the method, though, for two reasons.
+
+## 1. A detector can't rely on human captions
+
+In real use there's no human caption, just an image and the VLM's text. A method that needs a human caption to spot hallucinations only works on images that are already labelled, so it isn't useful in practice.
+
+So the project has two separate roles:
+
+| | Uses human labels? | Purpose |
+|---|---|---|
+| **Labelling** (VLM caption vs human captions + COCO object annotations) | Yes | Builds the training and test data: which objects are hallucinated |
+| **Your detector** (the probe on the VLM's hidden states) | **No**, only the VLM's internals | Spots hallucinations on a new image with no human caption |
+
+The labelling is the answer key. The detector has to get the answers right without seeing it.
+
+## 2. Human captions alone make poor labels
+
+Human captions are short and only mention 2–3 objects:
+
+> Human: "A man throwing a frisbee in a park."
+> VLM: "A man throwing a frisbee in a park, with **trees** and a **bench** in the background."
+
+If the trees and bench really are in the photo, comparing text with text wrongly marks them as hallucinated, just because the human didn't mention them. That's why CHAIR (Rohrbach et al. 2018) checks against **both** COCO's object annotations (every labelled object in the image) and the human captions, and counts an object as hallucinated only if it appears in **neither**.
+
+Even with both, some real objects are never labelled. That's the label noise I mentioned earlier: hand-check about 100 cases and report the rate.
+
+## In short
+- **Easy part:** labelling with CHAIR-style matching against annotations and captions. This is existing work, so cite it.
+- **Research part:** a detector that finds hallucinations **without** human labels, from the VLM's own signals, and the test of whether it carries over to other datasets and to attributes and relations.
+
+=== USER (2026-11-11 04:30 UTC) ===
+okay so the human captions is the golden dataset
+
+=== CLAUDE (2026-11-11 04:30 UTC) ===
+Close. The gold set is **COCO's object annotations plus the human captions together**, not the captions alone.
+
+| Source | What it gives | Weakness |
+|---|---|---|
+| **Object annotations** | Humans drew boxes around every object from 80 categories in each image | Objects outside those 80 categories are never labelled |
+| **Human captions** | 5 short descriptions per image | Only mention 2–3 main things |
+
+An object the VLM mentions counts as **real** if it's in either source, and **hallucinated** if it's in neither. This is the standard CHAIR method.
+
+Keep two things in mind:
+- **The gold set isn't perfect.** Some real objects are missing from both sources. Hand-check about 100 "hallucinated" labels and report how many are actually wrong.
+- **It's only used for labelling and scoring.** The detector never sees it at test time; it has to work from the VLM's hidden states alone.
+
+=== USER (2026-11-12 07:28 UTC) ===
+wait so explain again, using the language like im a 12 year old layman human being, what we're doing. use the succincity of a special needs human with a 5 minute attention span, and without any analogies
+
+=== CLAUDE (2026-11-12 07:28 UTC) ===
+## Project E: what we're doing
+
+**The problem:**
+An AI looks at a photo and writes what it sees. Sometimes it says something is there when it isn't. It writes "dog" and there is no dog. This is called a hallucination.
+
+**Our goal:**
+Build a small program that spots when the AI says something that isn't in the photo.
+
+**Steps:**
+
+1. **Get photos.** We use COCO, a big set of photos. People have already listed what's in each one.
+2. **Let the AI describe them.** About 2,000 photos.
+3. **Mark mistakes.** We compare each object the AI wrote with the people's list. If an object isn't on the list, it's a mistake.
+4. **Record what the AI was "thinking".** As the AI writes each word, it has a lot of numbers inside it. We save those numbers.
+5. **Train our program.** It learns from those numbers which words are mistakes.
+6. **Test it.** We give it new photos without the people's lists. Does it still find the mistakes?
+7. **Compare.** Is our program better than simpler ways of finding mistakes?
+
+**One sentence:**
+We teach a small program to read the AI's insides and tell when it is making things up.
+
+---
+
+Your project folder is now called `Desktop/4001proj`, not `4001_GroupProject`. I take it you renamed it. The RAG plan is still in it: `/Users/jeremyquek/Desktop/4001proj/rag_conflict_plan.md`.
+
+=== USER (2026-11-12 07:29 UTC) ===
+okay then how likely is this method to succeed (btoh as your own estimation + research precedent), how novel is this method, how easy isit to show experimental results
+
+=== CLAUDE (2026-11-12 07:29 UTC) ===
+Short answers: the method is very likely to work, its novelty is low to medium as it stands, and the results are easy to show. Details for each below. The percentages are my own guesses, not figures from papers.
+
+## 1. How likely is it to succeed?
+
+| Claim you'd test | My estimate |
+|---|---|
+| The probe detects hallucinated objects better than chance on COCO | **~85%** |
+| The probe beats the simple baselines (word probability, attention to the image) | **~70%** |
+| It still works on a different dataset (e.g. AMBER) | **~50%**, with a likely accuracy drop |
+| It carries over from objects to attributes and relations | **~30%**, likely weak |
+
+**Research precedent (check before citing):**
+- **Text-only LLMs:** probes on hidden states can tell when the model is producing false statements. Azaria & Mitchell 2023 ("The Internal State of an LLM Knows When It's Lying") is one example.
+- **VLMs:** **MetaToken** (Fieback et al. 2024) trains a lightweight classifier to detect hallucinated words in VLM output. That's very close to your idea, so it's both good support and a novelty risk.
+- Other work shows hallucinated objects get less attention to the image and look different inside the model.
+
+**Main risk:** `Qwen2-VL-2B` may not hallucinate often, which would leave few mistake examples to train on.
+- **Fix:** ask for long, detailed descriptions (more words, more hallucinations), and use more images (3,000–5,000).
+
+The two weaker generalisation results aren't a disaster. The handout says well-supported negative results count.
+
+## 2. How novel is it?
+
+**Low–Medium as described**, because MetaToken and the probing papers already do the core idea.
+
+Two ways to raise it:
+- **Early warning:** predict the hallucination **before** the word is written, from the hidden state one step earlier. If that works, the model could be stopped before it hallucinates, not just caught afterwards. I'm not aware of this being well tested on small VLMs, but check.
+- **Inside vs outside check:** compare the probe against an external object detector (OWL-ViT) on accuracy, speed, and *which* mistakes each one catches. The interesting cases are where they disagree.
+
+With either one added, novelty is about **Medium**.
+
+## 3. How easy is it to show results?
+
+**Easy.** It's the easiest of everything we've discussed.
+
+- **Labels are automatic:** CHAIR-style matching, with no hand-built data except checking about 100 labels for noise.
+- **Training is quick:** the probe trains in seconds once the hidden states are saved.
+- **Compute:** about 1–2 hours on a free T4 to generate captions and save features.
+- **The results make clear figures:**
+  - a line chart of probe accuracy (AUROC) at each layer
+  - the probe vs baselines, in a bar chart
+  - in-distribution vs new-dataset results, as a table
+  - CHAIR scores before and after removing flagged objects
+
+## Compared with the RAG project
+
+| | RAG conflict detection | VLM hallucination probe |
+|---|---|---|
+| Likely to work | ~75% | ~85% |
+| Novelty | Medium | Low–Medium, Medium with early warning |
+| Ease of showing results | Medium (data generation is the hard part) | Easy |
+
+=== USER (2026-11-12 07:30 UTC) ===
+but from"4. Record what the AI was "thinking". As the AI writes each word, it has a lot of numbers inside it. We save those numbers.
+5. Train our program. It learns from those numbers which words are mistakes.
+6. Test it. We give it new photos without the people's lists. Does it still find the mistakes?" here to here, we got those
+
+=== USER (2026-11-12 07:30 UTC) ===
+but from"4. Record what the AI was "thinking". As the AI writes each word, it has a lot of numbers inside it. We save those numbers.
+5. Train our program. It learns from those numbers which words are mistakes.
+6. Test it. We give it new photos without the people's lists. Does it still find the mistakes?" here to here, we got those "mistake numbers", are we retrainig the VLM or adding a small hallucination detector sanity checker for the VLM
+
+=== CLAUDE (2026-11-12 07:30 UTC) ===
+A small detector added alongside the VLM. **The VLM is not retrained.** It stays frozen and works exactly as before.
+
+```
+Photo → VLM (frozen) → writes caption
+              │
+              └─ hidden numbers at each object word ──► small detector ──► "real" or "made up"
+```
+
+**What gets trained:** only the small detector, a linear or 2-layer classifier with a few thousand settings. Training takes seconds.
+
+**What doesn't get trained:** the VLM, with its 2 billion settings.
+
+Keeping the VLM frozen is better here because:
+- it's cheap, with no big GPU training run
+- it's safe, because the VLM's normal behaviour doesn't change
+- the comparison is clean, since every method checks the same VLM output
+
+**What happens when the detector flags a word** is up to you, for example:
+- delete that object from the caption
+- add "(unsure)" next to it
+- have the VLM rewrite the caption without it
+
+You then measure with CHAIR whether the caption has fewer hallucinations afterwards.
+
+=== USER (2026-11-12 07:31 UTC) ===
+or refeed it back into the VLM, and says "xxx is hallucination" and rerun it to see if its better. basically this is detecting VLM hallucination
+
+=== CLAUDE (2026-11-12 07:31 UTC) ===
+Yes, that works. It's a **detect → feed back → regenerate** loop:
+
+```
+Photo → VLM → caption 1
+                 │
+           detector flags "dog"
+                 │
+Photo + "Your caption mentioned a dog, which is likely not in the image. Rewrite it." → VLM → caption 2
+                 │
+           detector checks caption 2 again (repeat at most 2–3 times)
+```
+
+**How it fits the project:**
+- **The main contribution is detection:** the small detector that spots VLM hallucinations.
+- **The feedback loop shows the detection is useful:** catching mistakes actually leads to better captions.
+
+**Precedent (check before citing):** **Woodpecker** (Yin et al. 2023) and **LURE** (Zhou et al. 2023) also detect hallucinations and then fix the caption. They use external tools or a separate trained model for the fix. Yours uses the VLM's own hidden states for detection, and the VLM itself for the fix.
+
+**Things to watch for:**
+- The VLM may **ignore the feedback** and mention the dog again. Small 2B models don't always follow instructions well.
+- It may **delete real objects** too, to be safe.
+- It may **hallucinate something new** in the rewrite.
+
+**What to measure:**
+
+| Metric | Shows |
+|---|---|
+| CHAIR, caption 1 vs caption 2 | Fewer hallucinations? |
+| Real objects lost | Did it remove true objects? |
+| New hallucinations introduced | Did the rewrite make up new things? |
+| Change over rounds 1, 2, 3 | Does repeating help or stop helping? |
+
+**What to compare:**
+1. No fixing
+2. Simply deleting the flagged words
+3. Feedback using **your probe's** flags
+4. Feedback using **random** flags, to check that it's the detector that helps and not just asking the VLM to rewrite
+5. Feedback using **perfect** flags from the human labels. This shows the best-case improvement if the detector were perfect.
+
+Comparisons 4 and 5 make the results convincing: your probe should land between random and perfect, and how close it gets to perfect is your headline number.
+
+=== USER (2026-11-12 07:32 UTC) ===
+okay, then in terms of novelty? in terms of the rest of the marking criteria?
+
+=== CLAUDE (2026-11-12 07:32 UTC) ===
+All of these ratings are my own estimates, not the markers'.
+
+## Novelty (20%): **Medium**
+
+| Part | Already done? | Novelty |
+|---|---|---|
+| Probe on hidden states to detect hallucinations | Yes (MetaToken, the probing papers) | Low |
+| Feedback loop to fix the caption | Partly (Woodpecker and LURE fix captions, but with external tools) | Low–Med |
+| **Probe flags fed back to the same VLM**, compared against random and perfect flags | Not that I know of. Check | **Medium** |
+| **Early warning:** predict the hallucination before the word is written | Not that I know of for small VLMs. Check | **Medium–High** |
+| Generalisation to a new dataset and to attributes/relations | Partly | Medium |
+
+None of these parts is new on its own, so the novelty comes from combining them and from the controlled comparisons. Adding early warning is the cheapest way to lift it: it's the same probe, read one word earlier.
+
+## Experiments and results (40%): **Strong**
+- Clear baselines: word probability, attention to the image, an external detector.
+- Strong controls: random flags vs probe flags vs perfect flags. This is the kind of controlled experiment the handout asks for.
+- Ablations: which layer, linear vs MLP, number of feedback rounds.
+- Test data kept separate: split by image, with nothing tuned on test.
+- Failure analysis comes naturally: objects that often appear together, small objects, the VLM ignoring feedback, and new hallucinations in the rewrite.
+- **Risk:** too few hallucinations to train on. Fix it with long, detailed captions and more images.
+
+## Report presentation (30%): **Easy to present well**
+The pipeline is easy to draw, and the results make clear figures:
+1. Pipeline diagram (photo → VLM → probe → feedback → new caption)
+2. Probe accuracy at each layer (line chart)
+3. Probe vs baselines (bar chart)
+4. CHAIR for no fix / delete / random / probe / perfect (bar chart)
+5. Example captions before and after, with flagged words highlighted
+
+The rest is up to your writing: keep it to 10 pages, in Arial 10pt, with all the required sections and the AI Use Statement.
+
+## Peer review (10%): **Depends on your team**
+The project splits cleanly into three parts:
+- **Person A:** caption generation, labelling, saving hidden states
+- **Person B:** probe training, baselines, early-warning test
+- **Person C:** feedback loop, CHAIR and POPE evaluation, figures
+
+Everyone still needs to be able to explain all of it.
+
+## Overall
+
+| Criterion | Weight | Rating |
+|---|---|---|
+| Experiments and results | 40% | Strong |
+| Report presentation | 30% | Easy to do well |
+| Novelty | 20% | Medium (Medium–High with early warning) |
+| Peer review | 10% | Depends on the team |
+
+This is a safer project than the RAG one: it's more likely to work, it's easier to show results, and its novelty is about the same.
+
+=== USER (2026-11-12 07:34 UTC) ===
+how does early warning work, how do we early warn, isit we stream the VLM's thinking, and have a stop when we see ahah match pattern for hallucination
+
+=== CLAUDE (2026-11-12 07:34 UTC) ===
+Yes, more or less. You watch the VLM as it writes, word by word, and step in before a made-up word goes into the caption.
+
+## How the VLM writes
+It writes one word at a time. For each next word, it:
+1. reads the photo plus everything written so far
+2. produces a set of internal numbers (the hidden state)
+3. uses those numbers to choose the next word
+
+```
+"A man with a"  → hidden state → picks "dog"
+```
+
+The numbers that **choose** "dog" exist **before** "dog" is written.
+
+## Normal detection vs early warning
+
+| | Which numbers the probe reads | When it knows |
+|---|---|---|
+| **Normal** (the earlier plan) | The numbers just after "dog" is written | After the mistake is made |
+| **Early warning** | The numbers that chose "dog" (one step earlier) | Before the mistake is shown |
+| **Earlier still** | The numbers 2–3 words before "dog" | Well before the word appears |
+
+## How it works while generating
+
+```
+VLM picks next word "dog"
+   ↓
+Is "dog" an object word? (check against the COCO word list)
+   ├─ no  → keep it, continue
+   └─ yes → run the probe on the numbers that chose it
+             ├─ probe says "real"      → keep "dog", continue
+             └─ probe says "made up"   → reject "dog", ban it, let the VLM pick another word
+```
+
+The probe is tiny, so running it at every step barely slows generation.
+
+**What to do when it says "made up":**
+- **Ban and re-pick:** block that word and let the VLM choose the next most likely one.
+- **Stop:** end the sentence there.
+- **Feedback:** your earlier loop, so the VLM rewrites with a note.
+
+## The research question this adds
+
+> How many words before a hallucination can the probe already see it coming?
+
+- **Train:** one probe per offset: 0, 1, 2 and 3 words before each object word.
+- **Plot:** probe accuracy (AUROC) against how many words early.
+  - If accuracy stays high at 2–3 words early, the model "knows" it's about to make something up before it does. That's a strong finding.
+  - If it drops to chance, the decision to hallucinate happens at the last moment. That's also a valid finding.
+
+## Compared with the feedback loop
+
+| | Feedback loop | Early warning |
+|---|---|---|
+| When it acts | After the whole caption is written | During writing |
+| Cost | The VLM writes the caption 2–3 times | One pass, plus a tiny probe check per word |
+| Risk | The VLM ignores the feedback | Banning a word may lead to an awkward sentence or another wrong word |
+
+You can test both and compare them with CHAIR, real objects lost, and speed.
+
+=== USER (2026-11-12 07:35 UTC) ===
+okay so stpes: 1) get the dataset, 2) get the VLM results, 3) extract which ones are hallucinated, 4) get the numbers while hallucining, 4) train our detector, 5) plug our detcetor after , 6) plug our detcteor during inference, 7) show results for both
+
+=== CLAUDE (2026-11-12 07:35 UTC) ===
+Yes, that's the right order. A few small fixes: your list has two step 4s, steps 2 and 4 happen in the same run, and a few pieces are missing (marked ➕).
+
+1. **Get the dataset.** COCO val2014 photos and their annotations (human captions + object labels).
+   - ➕ Split by photo now: 70% train, 15% validation, 15% test. Test photos are never used until the end.
+2. **Run the VLM and save the hidden numbers at the same time.** Qwen2-VL-2B writes detailed captions. In the same pass, save the hidden numbers at each word: at the object word itself and 1, 2 and 3 words before it, for early warning.
+3. **Mark which objects are hallucinated** with CHAIR-style matching against the annotations.
+   - ➕ Hand-check ~100 labels and report how many are wrong.
+4. **Train the detector** (a small probe) on the train split.
+   - One probe per position: at the word (0), and 1, 2 and 3 words before.
+   - ➕ Try several layers and pick the best one on validation.
+   - ➕ Baselines: word probability, attention to the image, an external detector (OWL-ViT).
+5. **Plug the detector in after generation** (the feedback loop). The caption is finished → the probe flags objects → the VLM rewrites with feedback.
+   - ➕ Compare: no fix / delete flagged words / random flags / probe flags / perfect flags.
+6. **Plug the detector in during generation** (early warning). The probe checks each object word as it's chosen and bans it if flagged.
+   - ➕ Tune the "made up" threshold on validation only.
+7. **Show results for both, on the test photos.**
+   - Detection: AUROC, precision, recall, F1. Probe vs baselines, and accuracy at 0, 1, 2 and 3 words early.
+   - Captions: CHAIR, POPE, real objects lost, new hallucinations introduced, speed.
+   - After vs during: which works better, and at what cost.
+   - ➕ Failure analysis: example cases where it goes wrong, and why.
+   - ➕ Generalisation (if time allows): test on AMBER.
+
+**Rough time:**
+
+| Steps | Time |
+|---|---|
+| 1–3 | ~1 day (GPU ~1–2 h) |
+| 4 | ~half a day |
+| 5–6 | ~1 day |
+| 7 | ~half a day + report |
+
+Want me to put this in an md file like the RAG one, in `/Users/jeremyquek/Desktop/4001proj/`?
+
+=== USER (2026-11-12 07:35 UTC) ===
+i think in terms of getting data this is much more trivial thna the rga one, wehere we would have to engineer the eivdence to deliberate be contradictory, so this is much more doable
+
+=== CLAUDE (2026-11-12 07:35 UTC) ===
+Yes, I agree. Getting the data is much simpler here:
+
+| | RAG conflict | VLM hallucination |
+|---|---|---|
+| Where the data comes from | You **build** it: swap entities, write the rules, balance the labels, make the tricky non-conflict pairs | It **already exists**: COCO photos and annotations |
+| Where the labels come from | Your own generation rules, which can introduce mistakes | Automatic, from matching against the annotations |
+| Realistic? | Synthetic, so you also need a real test set | Real hallucinations from a real model |
+| Main data work | ~1 day of engineering | ~a few hours |
+
+It isn't completely free of work, though. Watch for:
+- **Label noise:** COCO misses some real objects. Hand-check ~100 labels.
+- **Too few hallucinations:** the 2B model may rarely make things up. Ask for long, detailed captions and use more images.
+- **Matching words to categories:** "puppy" has to map to "dog". Use the existing CHAIR synonym list rather than writing your own.
+- **Storage:** saving hidden numbers for every word across several layers gets large. Save only object words, the 3 words before each, and a handful of layers.
+
+If you end up short on time and have to drop one project, drop RAG and keep this one. It's more likely to work, its results are easier to show, and the novelty is about the same.
+
+=== USER (2026-11-12 07:35 UTC) ===
+okay write the plan for this project, i think this is much more doable,
+
+=== CLAUDE (2026-11-12 07:37 UTC) ===
+I've written the plan to `/Users/jeremyquek/Desktop/4001proj/vlm_hallucination_plan.md`. The VLM stays frozen throughout; only the small probe is trained.
+
+1. **Data and labels:**
+   - About 4,000 COCO photos, split by photo into train / validation / test before anything else.
+   - Qwen2-VL-2B writes detailed captions, and the hidden states are saved in the same run.
+   - Hallucination labels are CHAIR-style, matched against both the object annotations and the human captions.
+   - Two of you each hand-check about 100 labels to measure how often they're wrong.
+2. **Detector:** a small classifier (linear or 2-layer) on the hidden states.
+   - It's tested at the object word itself and 1, 2 and 3 tokens before it, which gives the early-warning curve.
+   - It's compared against five baselines: word probability, entropy, attention to the image, OWL-ViT, and the VLM checking itself.
+3. **Correction:**
+   - **After generation:** the VLM rewrites the caption with feedback on the flagged words.
+   - **During generation:** a flagged word is banned and the VLM picks another.
+   - Both are compared against no correction, simple deletion, random flags, the best baseline's flags and perfect flags.
+4. **Evaluation:**
+   - Detection: AUROC and F1.
+   - Captions: CHAIR, real objects kept, new hallucinations introduced, caption length and speed.
+   - Optional: does the probe also work on POPE yes/no questions, or on AMBER?
+   - Failure analysis with example images.
+
+It also covers the compute plan for a free T4, a split of the work across three people, the figures to make, the repo layout and the references. Check the references before citing them, since I wrote them from memory.
+
+The timeline starts today, 12 Nov, with caption generation. It's the only long GPU job and everything else depends on it, so I'd suggest I write `generate/caption_and_dump.py` next.
+
+=== USER (2026-11-12 07:37 UTC) ===
+can u generate a claude artifact explaning thepipeline for my group presentation later, and then answer these questions: 1) link for dataset, 2) what VLM model, 3) what base model for detector, 4) any other external stuff we need. keep your responses brief and use simple sentences
+
+=== USER (2026-11-12 07:38 UTC) ===
+I MUST clarify a visual artifact like a pipeline/visual step by step simple, continue
+
+=== CLAUDE (2026-11-12 07:39 UTC) ===
+I made the pipeline page: https://claude.ai/artifact/DasdHn8nE1j8ukxg1FakGs
+
+It shows the 7 steps in order, with an example caption and the two ways to fix mistakes side by side. It's private for now. Use the page's Share menu so your group can open it.
+
+**1) Dataset links**
+- COCO page: https://cocodataset.org/#download
+- Labels (2014 train/val annotations): http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+- Photos: val2014 is about 6 GB. Don't download all of it. The labels file has a link to each photo, so download only the ~4,000 you need.
+
+**2) VLM**
+- Qwen2-VL-2B-Instruct: https://huggingface.co/Qwen/Qwen2-VL-2B-Instruct
+- It is not trained.
+
+**3) Detector base model**
+- There isn't one.
+- The detector is a small classifier we train from scratch, either logistic regression or a 2-layer MLP.
+- Its input is the VLM's saved internal numbers.
+
+**4) Other things we need**
+- The **CHAIR word list**, which turns words into object types ("puppy" becomes "dog"): https://github.com/LisaAnne/Hallucination. Check that this repo still has it.
+- **Python packages:** `torch`, `transformers`, `qwen-vl-utils`, `scikit-learn`, `pycocotools`, `nltk`.
+- **OWL-ViT** (`google/owlvit-base-patch32`). This object detector is only for comparing against ours.
+- **Compute:** a free Colab T4, plus Google Drive with a few GB free for the saved numbers.
+- **Optional:** POPE and AMBER, for the extra tests.
+
+=== USER (2026-11-12 07:42 UTC) ===
+<p class="lede">Goal: Build a small detector that spots hallucinations from AI's own intermediate token values. its not intermediate token vlaues right
+
+=== CLAUDE (2026-11-12 07:42 UTC) ===
+Close, but "intermediate token values" isn't the right term. The correct term is **hidden states**, also called internal activations.
+
+- A **token** is a word or piece of a word, like "dog".
+- A **hidden state** is the list of numbers the model computes for that token at each layer, before it picks the next word.
+
+The detector reads those numbers, not the tokens.
+
+Suggested line:
+
+> **Goal:** Build a small detector that spots hallucinations from the AI's own hidden states (the internal numbers it computes for each word).
+
+Want me to update the published page with that?
+
+=== USER (2026-11-12 07:43 UTC) ===
+more tehcnical term
+
+=== CLAUDE (2026-11-12 07:43 UTC) ===
+> **Goal:** Train a lightweight probe on the frozen VLM's per-token hidden-state activations to detect object hallucinations.
+
+These are the technical terms in it:
+- **Probe:** a small classifier trained on a model's internal representations.
+- **Frozen:** the VLM's weights are not updated.
+- **Per-token hidden-state activations:** the residual-stream vectors at each layer for each generated token. These are the exact inputs the probe reads.
+
+A shorter option:
+
+> **Goal:** Detect object hallucinations by probing the VLM's hidden states.
+
+=== USER (2026-11-12 07:43 UTC) ===
+<p class="lede">Goal: Build a small detector that spots hallucinations by observing AI's intermediate neural activations.</p>
+
+=== CLAUDE (2026-11-12 07:43 UTC) ===
+Yes, that's correct. "Intermediate neural activations" means the activations in the model's hidden layers, which is what the probe reads.
+
+Two small fixes:
+
+> **Goal:** Build a small detector that spots hallucinations by observing the VLM's intermediate neural activations.
+
+- Add **"the"** before the model name.
+- **"VLM"** is more precise than "AI", because it names the model being probed.
+
+Want me to put it on the published page?
+
+=== USER (2026-11-12 08:01 UTC) ===
+well ready to implement this app? don't do until i say START. tell me what prerequsit/external data we need, external deps
+
+=== CLAUDE (2026-11-12 08:01 UTC) ===
+Ready when you say **START**. I won't write any code before then. Here's what we need first.
+
+## External data
+| Item | Source | Size | Notes |
+|---|---|---|---|
+| COCO 2014 annotations | http://images.cocodataset.org/annotations/annotations_trainval2014.zip | ~240 MB zip | We use `instances_val2014.json` (object lists) and `captions_val2014.json` (human captions) |
+| COCO val2014 images | Downloaded one by one from the `coco_url` in the annotations | ~4,000 photos ≈ 650 MB | Skips the full 6 GB zip |
+| CHAIR synonym list | https://github.com/LisaAnne/Hallucination (`synonyms.txt`) | tiny | Maps words like "puppy" to "dog". Check that the file is still in the repo |
+| *Optional:* POPE questions | POPE GitHub repo | tiny | Only for the extra transfer test |
+
+## Pretrained models (from Hugging Face, no training)
+| Model | Role | Size |
+|---|---|---|
+| `Qwen/Qwen2-VL-2B-Instruct` | The VLM. Frozen | ~4.5 GB |
+| `google/owlvit-base-patch32` | Baseline object detector, for comparison only | ~600 MB |
+
+## Python packages
+```
+torch  transformers  accelerate  qwen-vl-utils
+scikit-learn  numpy  pandas  tqdm
+pycocotools  nltk  pillow  requests
+matplotlib
+```
+`nltk` also needs its `punkt`, `wordnet` and `averaged_perceptron_tagger` data. CHAIR uses them to find nouns.
+
+## Compute and storage
+- **GPU:** Colab T4 (free). The VLM needs CUDA, so a Mac isn't practical for the main runs.
+- **Google Drive:** about 5–8 GB free for the model cache, photos, captions and saved activations.
+- **Hugging Face account:** not needed. Both models are public.
+
+## Three decisions before START
+1. **Where the code goes:** `/Users/jeremyquek/Desktop/4001proj/vlm_halluc/`, and you run it on Colab through a notebook?
+2. **Format:** Python scripts plus one Colab notebook that calls them (my suggestion), or everything in one notebook?
+3. **First milestone:** I suggest steps 1–3 first (data, captions with saved activations, CHAIR labels), so you can start the long GPU run on Colab today.
+
+=== USER (2026-11-12 08:02 UTC) ===
+what if the qwen modle gets everything right lol
+
+=== CLAUDE (2026-11-12 08:02 UTC) ===
+It won't get everything right. Long, detailed captions are exactly where VLMs hallucinate most. But it might get *too much* right, leaving too few mistakes to train on, so here's how to check for that and what to do.
+
+## Check before the full run
+Run a **pilot on 100 photos** first (about 5 minutes) and count the hallucination rate.
+
+**How many mistakes we need:** roughly **500 or more hallucinated object mentions** in the training split for a stable probe.
+
+| Hallucination rate | Mentions (4,000 photos × ~10 objects) | Enough? |
+|---|---|---|
+| 10% | ~4,000 | ✅ plenty |
+| 5% | ~2,000 | ✅ fine |
+| 2% | ~800 | ⚠️ borderline, so use more photos |
+| <1% | <400 | ❌ use the options below |
+
+## If Qwen is too accurate (easiest first)
+1. **Longer captions:** ask it to "Describe every object in the image in detail" and raise `max_new_tokens` to 512. Hallucinations rise sharply in the later parts of long captions.
+2. **More photos:** go from 4,000 to 8,000. The cost is GPU time only.
+3. **Lower image resolution:** Qwen2-VL lets you cap the image size (`max_pixels`). Fewer image details lead to more guessing. Keep the setting fixed and report it.
+4. **Switch to a model that hallucinates more:** `llava-1.5-7b` in 4-bit is the standard VLM in hallucination papers. It's slower but reliable for producing mistakes.
+5. **Add POPE-style yes/no questions:** "Is there a fork in this image?" for objects that often appear in similar scenes but aren't in this photo. These trigger hallucinations on purpose.
+
+## If it still barely hallucinates
+That's a finding in itself ("a 2B VLM rarely hallucinates objects in COCO captions"), but it's a weak base for the project. Options 3 and 4 make that outcome very unlikely.
+
+I'll build the pilot into step 2: run 100 photos and print the hallucination rate, then decide whether to do the full run.
+
+=== USER (2026-11-12 08:02 UTC) ===
+whatis the code structure? idt its sound to dump everything into 1 jupyter notebook so what's the code structure
+
+=== CLAUDE (2026-11-12 08:02 UTC) ===
+Agreed: one notebook gets messy fast. Here's the structure I'd use. The code lives in normal Python files. Colab only installs the package and runs commands, so every stage can also run from a terminal.
+
+## Layout
+
+```
+vlm_halluc/
+├── README.md                  # setup, data download, commands to reproduce every result
+├── requirements.txt
+├── configs/
+│   └── default.yaml           # paths, model names, seeds, layers, splits, thresholds
+│
+├── halluc/                    # the importable package (all real logic lives here)
+│   ├── __init__.py
+│   ├── config.py              # loads the YAML into a typed config object
+│   ├── data/
+│   │   ├── coco.py            # load annotations, sample + split images, download photos
+│   │   └── chair.py           # synonym list, object-word extraction, hallucination labels
+│   ├── vlm/
+│   │   ├── model.py           # load Qwen2-VL (fp16, eager attention), build prompts
+│   │   ├── generate.py        # caption generation + activation capture at chosen layers/positions
+│   │   └── guided.py          # token-by-token generation with probe check + ban/re-pick
+│   ├── probe/
+│   │   ├── dataset.py         # load saved activations + labels into arrays
+│   │   ├── models.py          # logistic-regression and MLP probes
+│   │   └── train.py           # train per (layer, position), pick best on validation
+│   ├── baselines/
+│   │   ├── confidence.py      # token probability, entropy, attention-to-image
+│   │   ├── owlvit.py          # external object detector check
+│   │   └── selfcheck.py       # ask the VLM "Is there a X?"
+│   ├── correct/
+│   │   └── feedback.py        # after-generation feedback loop
+│   ├── eval/
+│   │   ├── detection.py       # AUROC, precision/recall/F1
+│   │   ├── chair_metrics.py   # CHAIR-i/s, object recall, new hallucinations, bootstrap CIs
+│   │   └── plots.py           # all report figures
+│   └── utils/
+│       ├── io.py              # sharded .npy / .jsonl read-write, resume-from-checkpoint
+│       └── seed.py
+│
+├── scripts/                   # one thin entry point per pipeline stage
+│   ├── 01_prepare_data.py
+│   ├── 02_generate_captions.py    # has --pilot 100 flag for the hallucination-rate check
+│   ├── 03_label.py
+│   ├── 04_train_probes.py
+│   ├── 05_run_baselines.py
+│   ├── 06_feedback_loop.py
+│   ├── 07_guided_generation.py
+│   └── 08_evaluate.py             # writes tables + figures for the report
+│
+├── notebooks/
+│   └── colab_runner.ipynb     # mount Drive, pip install, then `!python scripts/0X_...` cells
+│
+└── tests/
+    └── test_chair.py          # small checks on word→category matching and labels
+```
+
+## How the stages connect
+Each stage reads the previous stage's files and writes its own. You can rerun any stage without redoing the ones before it.
+
+| Stage | Reads | Writes (on Drive, under `runs/<run_name>/`) |
+|---|---|---|
+| 01 prepare | COCO annotations | `splits.json`, `images/` |
+| 02 generate | images | `captions.jsonl`, `acts/layer{L}_{pos}_{shard}.npy`, `token_stats.jsonl` |
+| 03 label | captions, annotations, synonyms | `labels.jsonl` (one row per object mention) |
+| 04 probes | acts, labels | `probes/*.pt`, `results/probe_scores.csv` |
+| 05 baselines | captions, token stats, images | `results/baseline_scores.csv` |
+| 06 feedback | images, best probe | `correction/feedback_*.jsonl` |
+| 07 guided | images, best probe | `correction/guided_*.jsonl` |
+| 08 evaluate | everything above | `tables/*.csv`, `figures/*.png` |
+
+## Design choices
+- **One config file:** every path, seed, layer and threshold is in `default.yaml`. Scripts take `--config` and small overrides, which makes runs reproducible, as the handout requires.
+- **Resumable:** stage 02, the long GPU job, writes in shards and skips photos it has already done, so a Colab disconnect only loses the current shard.
+- **Code in Git, outputs on Drive:** code is cloned into Colab, and large outputs go to `/content/drive/MyDrive/vlm_halluc_runs/`. The code ZIP for submission stays small.
+- **The notebook is only a launcher:** about 10 cells, so it's easy to follow and debug.
+- **Split by person:** A owns `data/` and stage 02, B owns `probe/` and `baselines/`, C owns `correct/` and `eval/`.
+
+It goes in `/Users/jeremyquek/Desktop/4001proj/vlm_halluc/`. Say **START** and I'll begin with stages 01–03 plus the pilot flag.
+
+=== USER (2026-11-12 08:03 UTC) ===
+okay spin up a subagent to check you if your code is legit or trolling, and report back to me. but beofer that answer this qns first: to run in coolab must we mount the tneir folder not just hte ipynb?
+
+=== CLAUDE (2026-11-12 08:03 UTC) ===
+**Yes. The notebook alone isn't enough.** Colab runs on a fresh machine that only has the `.ipynb`. The `halluc/` package and `scripts/` must also be on that machine. There are two ways to get them there:
+
+| Option | How | Pros and cons |
+|---|---|---|
+| **A. Git clone (recommended)** | First cell: `!git clone <repo>` then `!pip install -e .` | Fast, everyone gets the same code, and changes are tracked. A private repo needs a GitHub token |
+| **B. Folder on Google Drive** | Upload `vlm_halluc/` to Drive, mount it, `%cd /content/drive/MyDrive/vlm_halluc` | No GitHub needed. Edits on Drive show up straight away, but it's easy for teammates to overwrite each other's changes |
+
+**Either way, mount Drive** for the outputs (captions, activations, probes). The Colab machine is wiped when the session ends, so anything not on Drive is lost.
+
+Typical first cells:
+```python
+from google.colab import drive; drive.mount('/content/drive')
+!git clone https://github.com/<you>/vlm_halluc.git && cd vlm_halluc && pip install -e .
+```
+
+Now the review. There's no code yet, since you haven't said START, so the subagent will check the **plan and design** for technical mistakes: model details, dataset facts, references, the early-warning logic and the code structure.
+
+=== CLAUDE (2026-11-12 08:04 UTC) ===
+I've started the reviewer subagent in the background. It's checking:
+- dataset and model links
+- references, for any I might have made up
+- the early-warning logic, including off-by-one position errors and object names that span several tokens
+- label quality and the risk of test data leaking into training
+- whether the plan fits in Colab time and Drive storage
+- whether the design meets the handout, and whether the novelty claims are overstated
+
+I'll pass on its findings when it finishes, and I won't write any code until you say START.
+
+=== CLAUDE (2026-11-12 08:05 UTC) ===
+The reviewer's verdict: **mostly legit, with fixes.** It found no made-up links, models or references. It did find one real flaw in my design, which I accept.
+
+**The main flaw: the "during generation" fix won't work as I wrote it.**
+- The probe reads the hidden state *before* a word is chosen, so it gives the same score whichever word comes next.
+- When we ban "dog", the replacement word ("cat") gets the same score and is banned too, until the ban limit runs out.
+- **Fix:** check each candidate word properly, by feeding it in, probing the result, and undoing the step if it's flagged. Or, when the probe fires, skip the object entirely by ending the sentence there. The early-warning *detection* results still hold. Only the ban-and-re-pick part needed changing.
+
+**Other fixes it recommends:**
+1. **Two more baselines.** Late words and certain objects (e.g. dining table) are hallucinated more often. Add a "position only" baseline and an "object type only" baseline, to show the probe learns more than that.
+2. **Collect activations in a second pass.** Generate the caption first, then run it through the model once more to collect the activations. This avoids position bugs, including object names that span several tokens ("teddy bear", "cell phone").
+3. **Compute is too optimistic.** Use 200–300 test photos for the correction experiments and shorter captions (128 tokens). Make the "during generation" part and the generalisation tests optional.
+4. **Leakage:** POPE uses COCO val2014 photos, so exclude those photos from our training split.
+5. **Precision risk:** Qwen2-VL may produce broken output in fp16 on a T4. We check the pilot outputs, and switch to fp32 if needed (it still fits).
+6. **Novelty is overstated.** MetaToken, TruthPrInt (ICCV 2025) and DeCo are closer to our idea than I said. We should present the project as a controlled comparison on Qwen2-VL-2B: the early-warning curve plus the random-flag and perfect-flag controls. Cite all of them.
+7. **Smaller fixes:**
+   - Hand-check real labels too, not only the hallucinated ones.
+   - Use the official CHAIR code instead of writing our own.
+   - Pair the bootstrap resamples by photo.
+   - The folder name in the plan doesn't match the code structure (`vlm_halluc/` vs `halluc/`).
+
+**What it confirmed is right:** the COCO link, the CHAIR synonym file, all three model names, the `max_pixels` setting, the storage estimate (~4 GB), and that the plan meets the handout.
+
+I'll update `vlm_hallucination_plan.md` with these fixes when you say START, before writing any code. Or say so and I'll update the plan now.
+
+=== USER (2026-11-12 08:05 UTC) ===
+<task-notification>
+<task-id>af6b08074e883483e</task-id>
+<tool-use-id>toolu_01Nxys9K7mJSGDP7jyJxgMgX</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-jeremyquek-Desktop/906c4b0a-597d-4e2c-a003-0439f94b4f01/tasks/af6b08074e883483e.output</output-file>
+<status>completed</status>
+<summary>Agent "Audit VLM hallucination plan" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "af6b08074e883483e" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>57883</subagent_tokens><tool_uses>7</tool_uses><duration_ms>97722</duration_ms></usage>
+</task-notification>
+
+=== USER (2026-11-12 08:06 UTC) ===
+sure
+
+=== CLAUDE (2026-11-12 08:07 UTC) ===
+I've updated `/Users/jeremyquek/Desktop/4001proj/vlm_hallucination_plan.md` with every fix the reviewer raised:
+
+- **"During generation" redesigned and made optional.** The broken "ban the word and re-pick" step is replaced by two working options:
+  - check each candidate word, and undo the step if it's flagged
+  - or skip the object entirely by ending the sentence
+- **Two confound baselines added:** position only, and object type only. The probe has to beat both.
+- **Activations collected in a second pass** after the caption is generated, matched to words by character position. This handles "teddy bear" and "carpet" vs "car".
+- **Pilot step added:** 100 photos first, checking the hallucination rate and whether fp16 output is broken. Fall back to fp32 if it is.
+- **POPE photos excluded** before sampling, so they can't leak into training.
+- **Official CHAIR code** instead of our own, and the label check now covers real labels too, with Cohen's kappa.
+- **Compute made realistic:** 200–300 test photos for the correction experiments and 128-token captions. There's an order of what to cut if time runs out.
+- **Novelty reframed** as a controlled study. MetaToken, TruthPrInt, DeCo and CH-Wang are now in the references.
+- **Smaller fixes:** bootstrap paired by photo, same generation loop for the "no correction" runs, and a repo layout that matches the code structure.
+
+Your presentation page still describes the "during generation" fix as "block the word, pick another". That's still roughly right for the first option, so I left it.
+
+The plan's timeline still lists caption generation for today (12 Nov), and that's the long GPU job. Say **START** when you want me to write the code.
+
+=== USER (2026-11-12 08:09 UTC) ===
+can u convert the /Users/jeremyquek/Desktop/4001proj/Hallucination Probe Pipeline.html into a pdf/png so my project collaborators can easily view it, keep the orig html file
+
+=== CLAUDE (2026-11-12 08:11 UTC) ===
+The PNG is done. The PDF split across 3 pages and the last page is almost empty, so I'm re-rendering it as one long page.
+
+=== CLAUDE (2026-11-12 08:12 UTC) ===
+I made both files in `/Users/jeremyquek/Desktop/4001proj/`, next to the original HTML, which I didn't change:
+
+- **`Hallucination Probe Pipeline.pdf`**: one long page. I checked the output and it shows the whole pipeline, with nothing split across pages.
+- **`Hallucination Probe Pipeline.png`**: 1800 × 3800 px, at 2× resolution so it stays sharp when zoomed.
+
+Both came from your edited version, with the title "Catching AI hallucinations in picture captioning".
+
+=== USER (2026-11-12 08:12 UTC) ===
+can u make the pdf one page only?
+
+=== CLAUDE (2026-11-12 08:14 UTC) ===
+No response requested.
+
+=== USER (2026-11-12 08:14 UTC) ===
+okay now checkout a new brnach -jeremy branch and implement all the code under /src
+
+=== CLAUDE (2026-11-12 08:16 UTC) ===
+Both formats are confirmed. I'm setting up a local test environment in the background while I write the code.
+
+=== CLAUDE (2026-11-12 08:17 UTC) ===
+Writing the package now: config and utilities first, then the data and CHAIR modules.
+
+=== CLAUDE (2026-11-12 08:18 UTC) ===
+Data and CHAIR modules are done. Next is the VLM side: model loading, caption generation, and the teacher-forced activation pass.
+
+=== CLAUDE (2026-11-12 08:19 UTC) ===
+The test environment is ready. Next I'm writing the probe modules: dataset loading, the two probe models, and training.
+
+=== CLAUDE (2026-11-12 08:20 UTC) ===
+Next: the token-by-token generation loop used for the "during generation" experiments, and the feedback loop.
+
+=== CLAUDE (2026-11-12 08:21 UTC) ===
+Now the baselines (confidence, confounds, OWL-ViT, self-check) and the evaluation modules.
+
+=== CLAUDE (2026-11-12 08:22 UTC) ===
+All the library modules are written. Now the shared helpers and the nine stage scripts.
+
+=== CLAUDE (2026-11-12 08:24 UTC) ===
+Now I'm moving the pure token helpers into a module without torch, so they can be unit-tested without a GPU, then writing the tests.
+
+=== CLAUDE (2026-11-12 08:26 UTC) ===
+Running the test suite on CPU:
+
+=== USER (2026-11-12 08:26 UTC) ===
+oi why u running, static code done rt, run scipts all up ipynb?
+
+=== CLAUDE (2026-11-12 08:26 UTC) ===
+I was only going to run the unit tests on CPU, not the pipeline. I'll skip them. The code is written but not tested yet. Writing the Colab notebook and README now.
+
+=== USER (2026-11-12 08:27 UTC) ===
+so the coolab is the "main" entrypoint and everything else is the fraemwork/helper/lib code rt just answer yes or no no actions
+
+=== CLAUDE (2026-11-12 08:27 UTC) ===
+Yes. The Colab notebook is the entry point. It runs `scripts/01–09` in order, and those scripts call the library code in `halluc/`.
+
+=== USER (2026-11-12 08:27 UTC) ===
+okay wire it up, once ure done w the readme and coolab, enerate a claude artifact showing the code depednecy and like object/class structer in visual blocks diragrma
+
+=== CLAUDE (2026-11-12 08:28 UTC) ===
+The notebook and README are done. Now the code-structure diagram.
+
+=== CLAUDE (2026-11-12 08:30 UTC) ===
+All the code is now in `src/` on the `jeremy` branch. I didn't run any of it, including the unit tests, and I didn't commit.
+
+**Code structure diagram:** https://claude.ai/artifact/4qeUxYwuW6GnneTRTfsdAC
+It has three tiers: the notebook, then the scripts, then the `halluc` package. The package blocks show each class and function. The import chips are colour-coded by package. It's private until you share it.
+
+**Wired up:**
+- **`src/notebooks/colab_runner.ipynb`** is the entry point. It:
+  - mounts Drive
+  - clones the `jeremy` branch
+  - installs the package
+  - runs stages 01–09 in order, with the pilot check before the full caption run
+  - saves all outputs to `MyDrive/vlm_halluc/` on Drive
+- **`src/README.md`** covers the layout, dependencies, what each stage writes, the commands to reproduce results, and acknowledgements.
+
+**Before the first Colab run:**
+1. **Push the branch:** `git add src && git commit && git push -u origin jeremy`. Colab clones from GitHub, so it can't see local-only code.
+2. **If the repo is private,** the clone cell needs a GitHub token. There's a comment in that cell showing where it goes.
+3. **This is first-run code.** Expect a few bugs in the GPU stages (02, 04, 07, 08), since they depend on how `transformers==4.47.1` handles Qwen2-VL. Run the pilot first: it reaches stage 02 quickly and will surface problems early.
+
+**Two things that differ from the plan:**
+- The scripts run in a slightly different order. Labelling (03) now comes before activation extraction (04), because stage 04 needs to know where the object words are.
+- In the plan, "pre2/pre3 inside the prompt" are dropped. In the code, "pre1" on the first caption word is kept, because it's the hidden state that actually chose that word.
+
+=== USER (2026-11-12 08:31 UTC) ===
+can it make it more readbale the artefact, like a mermaid or relational diagram that just text with boxes
+
+=== CLAUDE (2026-11-12 08:31 UTC) ===
+I'll rebuild the page as plain Mermaid box diagrams.
+
+=== CLAUDE (2026-11-12 08:31 UTC) ===
+I've redone the page as plain box-and-arrow diagrams: https://claude.ai/artifact/4qeUxYwuW6GnneTRTfsdAC (same link as before).
+
+It now has five Mermaid diagrams:
+1. **Run order:** the notebook, then scripts 01 to 09, with the GPU stages marked.
+2. **Which script uses which package:** scripts on the left, the `halluc` packages on the right.
+3. **Modules inside the library:** which file imports which.
+4. **Classes:** `Config`, `Chair`, `Mention`, `SavedProbe`, `Standardizer`, `Flagger` and `OwlVitChecker`, with how they relate.
+5. **Files passed between stages:** from `images.json` through to the tables and figures.
+
+The diagrams leave out the core helpers (`config`, `common`, `utils`), because every script uses them and the arrows would clutter the page. A note at the top says so.
+
+=== USER (2026-11-12 08:33 UTC) ===
+ahh okay perfect! so halluc is the main library fuctions, can we renmae to lib
+
+=== CLAUDE (2026-11-12 08:33 UTC) ===
+The rename is done in the code. I'm also adding `__pycache__` and local data folders to `.gitignore`, and updating the diagram page to match.
+
+=== CLAUDE (2026-11-12 08:33 UTC) ===
+I renamed the package to `src/lib/`.
+
+- **Imports:** all 77 `from halluc.…` imports in the scripts and tests now read `from lib.…`. A search finds no old package references left.
+- **`pyproject.toml`:** the package include is now `lib*`. The install name is now `vlm-halluc`.
+- **README and notebook:** both now say `lib`.
+- **Diagram page:** updated to say `lib`, at the same link: https://claude.ai/artifact/4qeUxYwuW6GnneTRTfsdAC
+- **`.gitignore`:** now ignores `__pycache__/`, `*.egg-info/`, `src/data/` and `src/runs/`, so caches and downloaded data won't get committed.
+
+A `__pycache__` folder appeared inside `lib/`, so something imported the package outside this session. It's harmless and now ignored by git.
+
+This is still uncommitted on the `jeremy` branch. Remember to push before running the Colab notebook, since it clones from GitHub.
+
+=== USER (2026-11-12 08:36 UTC) ===
+commit msg?
+
+=== CLAUDE (2026-11-12 08:36 UTC) ===
+Commit message:
+
+```
+Add VLM hallucination probe pipeline (Project E)
+
+- lib/: config, COCO + CHAIR data handling, Qwen2-VL captioning and
+  teacher-forced activation capture, probes (logreg/MLP), baselines
+  (confidence, confounds, OWL-ViT, self-check), feedback-loop and
+  guided-generation correction, evaluation metrics and plots
+- scripts/01-09 + label_audit: one entry point per pipeline stage
+- notebooks/colab_runner.ipynb: Colab entry point that runs every stage
+- configs/default.yaml, README with reproduction steps, CPU unit tests
+- .gitignore: Python caches and local data/run folders
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+```
+
+Commands to commit and push:
+
+```
+git add .gitignore src
+git commit -F- <<'EOF'
+(paste the message above)
+EOF
+git push -u origin jeremy
+```
+
+=== USER (2026-11-12 08:37 UTC) ===
+okay then now to run the ipynb, why do we need both a pyproject.toml and requirmenets.txt arent htey overlapping
+
+=== CLAUDE (2026-11-12 08:37 UTC) ===
+They don't overlap right now. Each file does a different job:
+
+| File | What it does now |
+|---|---|
+| `pyproject.toml` | Makes `lib/` an installable package, so `pip install -e .` lets the scripts `import lib` from any folder. It lists **no** dependencies. |
+| `requirements.txt` | Lists the third-party packages (`transformers==4.47.1`, `torch`, `scikit-learn`, …). |
+
+You could merge them, though. Moving the dependency list into `pyproject.toml` under `[project] dependencies` would let one command, `pip install -e .`, install both the package and everything it needs. `requirements.txt` would then go away.
+
+Without `pyproject.toml`, every script would need a `sys.path` hack to find `lib/`, which is messier.
+
+I'd merge them into `pyproject.toml`. That's two small edits: move the list over and update the notebook's install cell. Want me to do it?
+
+=== USER (2026-11-12 08:37 UTC) ===
+okie perfect, and to run the ipynb after git cloning there is no extra step rt, does it auto setup a venv in the script
+
+=== CLAUDE (2026-11-12 08:37 UTC) ===
+I'll do the merge now, then answer your question.
+
+=== CLAUDE (2026-11-12 08:37 UTC) ===
+The merge is done. `requirements.txt` is gone, all the dependencies now live in `pyproject.toml`, and the notebook's install cell is just `pip install -q -e .`.
+
+**On your question: no venv is needed, and the notebook doesn't create one.** Each Colab session runs on a fresh, throwaway machine that only you use. `pip install` puts everything straight into that machine's Python, and it's wiped when the session ends. That's why the setup cells run again every session.
+
+**You also don't clone the repo yourself.** The notebook's setup cell does it. The steps are:
+1. **Push the `jeremy` branch** to GitHub.
+2. **Open the notebook in Colab:** File → Open notebook → GitHub tab → `JeremyQuek/4001Project`, branch `jeremy`, then `src/notebooks/colab_runner.ipynb`. Or upload the file.
+3. **Choose the GPU:** Runtime → Change runtime type → **T4 GPU**.
+4. **If the repo is private,** put a GitHub token into the `REPO` URL in the clone cell.
+5. **Run the cells top to bottom.** The setup cells mount Drive, clone the repo, install everything, and download the NLTK data.
+
+After a disconnect, rerun the setup cells, then the stage you were on. It picks up where it stopped.
+
+The only time you'd want a venv is running it locally, e.g. the CPU tests on your Mac: `python -m venv .venv && source .venv/bin/activate && pip install -e ".[test]"`.
+
+=== USER (2026-11-12 08:38 UTC) ===
+ohh but say we wnat to run it local i think there shld be a cell 0 for the vevn
+
+=== CLAUDE (2026-11-12 08:38 UTC) ===
+Good idea, with one catch. A notebook cell can create a venv, but the notebook can't switch itself into it: the kernel is already running in whatever Python started it. So the local venv has to be made in a terminal and then picked as the notebook's kernel. I'll add a local-setup cell 0 with those steps, and make the setup cells detect Colab vs local so the same notebook works in both.
+
+=== USER (2026-11-12 08:38 UTC) ===
+its fine thne js give me thte commi tmsg?
+
+=== CLAUDE (2026-11-12 08:38 UTC) ===
+I didn't change anything for the venv; the notebook is as it was.
+
+If you haven't committed yet, use this:
+
+```
+Add VLM hallucination probe pipeline (Project E)
+
+- lib/: config, COCO + CHAIR data handling, Qwen2-VL captioning and
+  teacher-forced activation capture, probes (logreg/MLP), baselines
+  (confidence, confounds, OWL-ViT, self-check), feedback-loop and
+  guided-generation correction, evaluation metrics and plots
+- scripts/01-09 + label_audit: one entry point per pipeline stage
+- notebooks/colab_runner.ipynb: Colab entry point that runs every stage
+- pyproject.toml: package + all dependencies (single `pip install -e .`)
+- configs/default.yaml, README with reproduction steps, CPU unit tests
+- .gitignore: Python caches and local data/run folders
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+```
+
+If you already committed the earlier message, this follow-up covers the new change:
+
+```
+Move dependencies into pyproject.toml, drop requirements.txt
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+```
+
+=== USER (2026-11-12 08:39 UTC) ===
+check teh git diff
+
+=== CLAUDE (2026-11-12 08:39 UTC) ===
+You already committed the main pipeline as `6a5e177`. The uncommitted changes are just the dependency merge:
+
+| File | Change |
+|---|---|
+| `src/pyproject.toml` | +20 lines: the full dependency list, plus a `[test]` extra for pytest |
+| `src/requirements.txt` | deleted |
+| `src/README.md` | install line is now `pip install -e .` |
+| `src/notebooks/colab_runner.ipynb` | only one real change: the `pip install -r requirements.txt` line is removed |
+
+The notebook diff shows 62 lines, but the rest is formatting only. When I rewrote the file, one-line source lists like `["!nvidia-smi"]` were spread over several lines. All 26 cells are the same apart from that one deleted line. The files are fine to commit as they are.
+
+Use the short follow-up message:
+
+```
+git add -A src
+git commit -m "Move dependencies into pyproject.toml, drop requirements.txt" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+git push -u origin jeremy
+```
+
+=== USER (2026-11-12 08:43 UTC) ===
+output the claude artifact for this chat into the /claude claude_conversation.txt
+
+=== USER (2026-11-12 08:43 UTC) ===
+dont ouput to /.calude but to /claude
