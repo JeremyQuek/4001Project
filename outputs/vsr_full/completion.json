@@ -1,0 +1,11 @@
+{
+  "ready_for_training": true,
+  "records": 941,
+  "scoring_observations": 3736,
+  "pilot_originals_verified": 100,
+  "hidden_vectors": 2823,
+  "loader_scenarios": 20,
+  "tests_passed": 27,
+  "peak_pytorch_vram_gib": 3.281,
+  "detector_trained": false
+}

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VSR — review spatial statements</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="page-header">
+    <div><h1>Review spatial statements</h1><p id="dataset-description">Loading your local dataset…</p></div>
+    <a class="button secondary" href="/api/export" download>Export backup</a>
+  </header>
+  <main>
+    <section class="progress-section" aria-label="Review progress">
+      <div class="progress-line"><strong id="progress-text">Loading…</strong><span id="save-state" role="status" aria-live="polite">Connecting to local storage</span></div>
+      <progress id="progress" value="0" max="941" aria-label="Statements reviewed"></progress>
+      <p id="counts" class="small"></p>
+    </section>
+    <details class="guide">
+      <summary>Review guide — read this before starting</summary>
+      <div class="guide-content">
+        <div><h2>Check each statement</h2><ol>
+          <li>Find both named objects. Check the supplied True/False label against the original image.</li>
+          <li>Read the converse: objects and relation are reversed. It should have the same truth as the original.</li>
+          <li>Compare the mirrored image with its statement. Left/right swap; above/below stay unchanged.</li>
+          <li>Check that the exclusive statement describes a genuinely incompatible relation between the same objects.</li>
+        </ol></div>
+        <div><h2>Use the same criteria throughout</h2>
+          <p>For left/right, check the viewer’s perspective. If only an object’s own perspective makes the source label sensible, choose <strong>Original only</strong> when the original is otherwise usable.</p>
+          <p>A false original does <strong>not</strong> make its opposite true. Do not change source labels. Set aside disputed labels, missing objects or unclear relations.</p>
+          <p>Use <strong>Approve all checks</strong> only when the original and proposed transformations are suitable. Model predictions and earlier agent flags are hidden.</p>
+        </div>
+      </div>
+    </details>
+    <section class="toolbar" aria-label="Review navigation">
+      <label>Batch<select id="batch"><option value="all">All batches</option></select></label>
+      <label>Status<select id="status"><option value="all">All decisions</option><option value="unreviewed">Unreviewed</option><option value="approve">Approved</option><option value="original_only">Original only</option><option value="set_aside">Set aside</option></select></label>
+      <label>Relation<select id="relation"><option value="all">All relations</option><option>above</option><option>below</option><option>left of</option><option>right of</option></select></label>
+      <label class="search">Find a statement or image<input id="search" type="search" placeholder="Search object names or image ID"></label>
+      <button id="next-unreviewed" class="secondary">Next unreviewed</button>
+    </section>
+    <div class="navigation">
+      <strong id="position"></strong><span id="current-status" class="status-label"></span>
+      <div class="navigation-buttons"><button id="previous" class="secondary">Previous</button><button id="next" class="secondary">Next</button></div>
+    </div>
+    <p id="error" class="error" role="alert" hidden></p>
+    <p id="empty" class="empty" hidden>No statements match these filters. Choose another batch or status.</p>
+    <div id="workspace" class="workspace" hidden>
+      <section class="image-area" aria-label="Image comparison">
+        <div class="image-toolbar"><span id="image-id" class="small"></span><label class="checkbox"><input type="checkbox" id="compare" checked> Show mirrored image</label></div>
+        <div id="image-pair" class="image-pair">
+          <figure><figcaption>Original image <a id="full-image" target="_blank" rel="noopener">Open full size</a></figcaption><img id="original-image" alt=""></figure>
+          <figure id="mirror-figure"><figcaption>Horizontally mirrored</figcaption><img id="mirrored-image" class="mirrored" alt=""></figure>
+        </div>
+        <p class="image-note">Images are shown in full, without cropping. Each statement needs its own decision, even when an image repeats.</p>
+      </section>
+      <section class="review-form" aria-label="Statement and decision">
+        <div class="source-line"><span>Original statement</span><strong id="truth-label"></strong></div>
+        <h2 id="statement"></h2>
+        <dl class="variants">
+          <dt>Converse <span>Same expected truth</span></dt><dd id="converse"></dd>
+          <dt>Exclusive <span>No assigned truth label</span></dt><dd id="exclusive"></dd>
+          <dt>Mirrored-image statement <span>Same expected truth</span></dt><dd id="mirror-statement"></dd>
+        </dl>
+        <fieldset id="reasons"><legend>Reason <span>required for Original only or Set aside</span></legend>
+          <label><input type="checkbox" value="objects_unclear"> Objects unclear or cropped</label>
+          <label><input type="checkbox" value="label_questionable"> Source label questionable</label>
+          <label><input type="checkbox" value="spatial_ambiguity"> Spatial relation ambiguous</label>
+          <label><input type="checkbox" value="reference_frame"> Perspective / reference frame</label>
+          <label><input type="checkbox" value="transformation"> Transformation unsuitable</label>
+          <label><input type="checkbox" value="other"> Other — explain below</label>
+        </fieldset>
+        <label class="notes-label">Review note <textarea id="note" rows="2" maxlength="2000" placeholder="Optional, unless you chose Other"></textarea></label>
+        <div class="decisions">
+          <button id="approve" class="approve">Approve all checks <kbd>A</kbd><small>Use original, grey image and consistency variants</small></button>
+          <button id="original-only" class="original-only">Original only <kbd>O</kbd><small>Keep original + grey image; skip consistency checks</small></button>
+          <button id="set-aside" class="set-aside">Set aside <kbd>S</kbd><small>Exclude from the reviewed extraction dataset</small></button>
+        </div>
+        <div class="minor-actions"><button id="save-note" class="text-button">Save note</button><button id="clear" class="text-button">Clear decision</button></div>
+        <p class="small">Decisions save before advancing. Use arrow keys to move between statements.</p>
+      </section>
+    </div>
+    <section class="greenlight-section" aria-label="Dataset greenlight">
+      <div><h2>Finish the review</h2><p id="greenlight-description">Review every statement before preparing the extraction dataset.</p></div>
+      <div class="reviewer-row"><label>Reviewer name<input id="reviewer" maxlength="100" autocomplete="name" placeholder="Enter your name"></label><button id="save-reviewer" class="secondary">Save name</button></div>
+      <label class="checkbox"><input id="acknowledge" type="checkbox"> I applied the same criteria throughout. Set-aside cases will stay excluded.</label>
+      <button id="greenlight" class="approve" disabled>Greenlight feature extraction</button>
+      <p class="small">This prepares reviewed manifests. It does not start a GPU run. Later changes require a new greenlight.</p>
+    </section>
+  </main>
+  <footer>Local VSR review · Your decisions are saved in the project folder · No model predictions are shown</footer>
+  <script src="/app.js"></script>
+</body>
+</html>

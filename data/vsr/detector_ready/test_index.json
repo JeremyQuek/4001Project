@@ -1,0 +1,940 @@
+[
+  {
+    "row": 0,
+    "example_id": "fa4d644f93df3806aa45",
+    "image_id": "000000001536",
+    "statement": "The oven is below the pizza.",
+    "consistency_basis": "explicit_human_review"
+  },
+  {
+    "row": 1,
+    "example_id": "675a9d170eb96e082ed5",
+    "image_id": "000000002570",
+    "statement": "The donut is above the laptop.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 2,
+    "example_id": "f6698dd65e76d67791d6",
+    "image_id": "000000005139",
+    "statement": "The tennis racket is below the person.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 3,
+    "example_id": "ee2083700472467db463",
+    "image_id": "000000008383",
+    "statement": "The laptop is below the person.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 4,
+    "example_id": "6d09a92c5c6f31ae682c",
+    "image_id": "000000008794",
+    "statement": "The bicycle is left of the person.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 5,
+    "example_id": "68e11e18559cc8f8340d",
+    "image_id": "000000010779",
+    "statement": "The couch is right of the person.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 6,
+    "example_id": "0c90d23dd994bf76f411",
+    "image_id": "000000014988",
+    "statement": "The book is above the bus.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 7,
+    "example_id": "99641e6580831c74bf6d",
+    "image_id": "000000021327",
+    "statement": "The pizza is above the tv.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 8,
+    "example_id": "37c440317a4a1d7e8c69",
+    "image_id": "000000022129",
+    "statement": "The bench is above the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 9,
+    "example_id": "f562ed13b796cb6a992a",
+    "image_id": "000000024081",
+    "statement": "The toaster is right of the person.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 10,
+    "example_id": "d632a397d2f72e81937f",
+    "image_id": "000000029994",
+    "statement": "The banana is left of the sandwich.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 11,
+    "example_id": "f8969d9529d082674419",
+    "image_id": "000000046378",
+    "statement": "The cat is above the bird.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 12,
+    "example_id": "2a2b798544c91c6c7899",
+    "image_id": "000000046686",
+    "statement": "The fire hydrant is below the tv.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 13,
+    "example_id": "206aee4a47feacf1bf90",
+    "image_id": "000000049942",
+    "statement": "The person is below the umbrella.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 14,
+    "example_id": "0eb664a6ff231b398da7",
+    "image_id": "000000051473",
+    "statement": "The bicycle is below the pizza.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 15,
+    "example_id": "748fc2d64fb50b4bcc57",
+    "image_id": "000000051473",
+    "statement": "The pizza is above the bicycle.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 16,
+    "example_id": "6dfa72214071ddf513ec",
+    "image_id": "000000053183",
+    "statement": "The pizza is above the dining table.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 17,
+    "example_id": "81487d6f785c66d0ff13",
+    "image_id": "000000063875",
+    "statement": "The giraffe is below the person.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 18,
+    "example_id": "b2289b119f7162663be7",
+    "image_id": "000000063875",
+    "statement": "The person is above the giraffe.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 19,
+    "example_id": "2abde2743b9e984f04aa",
+    "image_id": "000000069928",
+    "statement": "The potted plant is left of the elephant.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 20,
+    "example_id": "6eb5193b69674d809251",
+    "image_id": "000000069928",
+    "statement": "The potted plant is below the elephant.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 21,
+    "example_id": "f9b72c64a21155b43f0e",
+    "image_id": "000000069928",
+    "statement": "The elephant is right of the potted plant.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 22,
+    "example_id": "181abda0724c4fb67d63",
+    "image_id": "000000070459",
+    "statement": "The keyboard is below the umbrella.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 23,
+    "example_id": "2ce1e06c51c3dac48fe2",
+    "image_id": "000000073729",
+    "statement": "The keyboard is left of the cat.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 24,
+    "example_id": "4d69265421045e7a1142",
+    "image_id": "000000073729",
+    "statement": "The keyboard is below the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 25,
+    "example_id": "68fa5b7720981be7555e",
+    "image_id": "000000081485",
+    "statement": "The keyboard is below the apple.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 26,
+    "example_id": "d81d96099dc073a78d71",
+    "image_id": "000000081485",
+    "statement": "The keyboard is right of the apple.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 27,
+    "example_id": "5f25f2b8b05db8372354",
+    "image_id": "000000082794",
+    "statement": "The cup is left of the hot dog.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 28,
+    "example_id": "5dc6904080af59666fb5",
+    "image_id": "000000083663",
+    "statement": "The dog is below the bench.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 29,
+    "example_id": "fdb203bd3435ee90a68c",
+    "image_id": "000000087105",
+    "statement": "The book is below the couch.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 30,
+    "example_id": "3337aff9fda04a62a2b9",
+    "image_id": "000000087264",
+    "statement": "The clock is below the cow.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 31,
+    "example_id": "89ec731aeceee8a3d8d7",
+    "image_id": "000000087264",
+    "statement": "The cow is right of the clock.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 32,
+    "example_id": "d00bb64548749cfacdd7",
+    "image_id": "000000109924",
+    "statement": "The train is above the dining table.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 33,
+    "example_id": "d384649ab995b25eae95",
+    "image_id": "000000114421",
+    "statement": "The umbrella is above the bed.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 34,
+    "example_id": "314fcfc20dceef6afa3c",
+    "image_id": "000000116675",
+    "statement": "The elephant is left of the car.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 35,
+    "example_id": "90c73a484c380a145333",
+    "image_id": "000000116887",
+    "statement": "The person is above the suitcase.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 36,
+    "example_id": "dfcc6c86714f36c9c00a",
+    "image_id": "000000118465",
+    "statement": "The giraffe is above the person.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 37,
+    "example_id": "63403f86b13ea3c1e0d4",
+    "image_id": "000000124723",
+    "statement": "The dining table is left of the person.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 38,
+    "example_id": "318faeb494bfd87d8178",
+    "image_id": "000000134829",
+    "statement": "The person is below the frisbee.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 39,
+    "example_id": "73c9a7060e0e00db3537",
+    "image_id": "000000144436",
+    "statement": "The pizza is left of the person.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 40,
+    "example_id": "d846a149f617a5cd27d0",
+    "image_id": "000000145476",
+    "statement": "The umbrella is above the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 41,
+    "example_id": "38fd7fcdb69261dc09d7",
+    "image_id": "000000150703",
+    "statement": "The cup is left of the hot dog.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 42,
+    "example_id": "77d08f2b0d2ceac8f352",
+    "image_id": "000000158806",
+    "statement": "The dog is below the sandwich.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 43,
+    "example_id": "f3fc9a4455a23bc3f784",
+    "image_id": "000000160102",
+    "statement": "The tv is above the truck.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 44,
+    "example_id": "aa92ca77ea4b612d11bd",
+    "image_id": "000000160414",
+    "statement": "The person is above the cell phone.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 45,
+    "example_id": "42ef2139301cbcd727b4",
+    "image_id": "000000160556",
+    "statement": "The microwave is above the laptop.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 46,
+    "example_id": "426757954ca07889606e",
+    "image_id": "000000160653",
+    "statement": "The book is below the bird.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 47,
+    "example_id": "736500b32b7ddb785622",
+    "image_id": "000000160653",
+    "statement": "The bird is below the bowl.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 48,
+    "example_id": "52b38e7f0ca50384db1a",
+    "image_id": "000000168317",
+    "statement": "The dog is below the motorcycle.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 49,
+    "example_id": "55b6ce67b3f0b763e6e9",
+    "image_id": "000000180383",
+    "statement": "The clock is below the cow.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 50,
+    "example_id": "c77cc1a69a18849c549e",
+    "image_id": "000000184116",
+    "statement": "The cat is right of the dining table.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 51,
+    "example_id": "4420dd84d03f5590db00",
+    "image_id": "000000199962",
+    "statement": "The person is right of the dining table.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 52,
+    "example_id": "012aa4e5f26d03453759",
+    "image_id": "000000201925",
+    "statement": "The oven is below the cake.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 53,
+    "example_id": "22a90e265ff953f88a8b",
+    "image_id": "000000203673",
+    "statement": "The keyboard is below the apple.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 54,
+    "example_id": "2a9f1ee7fbe2e784943b",
+    "image_id": "000000204987",
+    "statement": "The person is right of the refrigerator.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 55,
+    "example_id": "9dc829f2e5915f955610",
+    "image_id": "000000212976",
+    "statement": "The cat is above the couch.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 56,
+    "example_id": "447822341ff87cc62c10",
+    "image_id": "000000236234",
+    "statement": "The cat is above the wine glass.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 57,
+    "example_id": "648ea1c7354d9c2b21ca",
+    "image_id": "000000236234",
+    "statement": "The teddy bear is below the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 58,
+    "example_id": "6d5fcc63f7f3d2c51283",
+    "image_id": "000000238217",
+    "statement": "The pizza is above the bicycle.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 59,
+    "example_id": "b6d2bb23fbac385f1619",
+    "image_id": "000000238217",
+    "statement": "The bicycle is below the pizza.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 60,
+    "example_id": "8b8f9adf32d6216c738b",
+    "image_id": "000000238795",
+    "statement": "The broccoli is left of the pizza.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 61,
+    "example_id": "a096467d97c3c679137c",
+    "image_id": "000000239395",
+    "statement": "The motorcycle is below the umbrella.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 62,
+    "example_id": "2afc75615d24b31b565a",
+    "image_id": "000000239536",
+    "statement": "The hot dog is below the couch.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 63,
+    "example_id": "99200e252ba45a13ac82",
+    "image_id": "000000239644",
+    "statement": "The bicycle is left of the person.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 64,
+    "example_id": "05f8a629e6e3838c731e",
+    "image_id": "000000251716",
+    "statement": "The dog is below the motorcycle.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 65,
+    "example_id": "f1011b55b2005d69454e",
+    "image_id": "000000259745",
+    "statement": "The keyboard is above the dining table.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 66,
+    "example_id": "9f9862fca3ae398591c0",
+    "image_id": "000000276590",
+    "statement": "The toilet is above the person.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 67,
+    "example_id": "640360a3c4bea7c6706d",
+    "image_id": "000000287094",
+    "statement": "The apple is left of the orange.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 68,
+    "example_id": "c7be9a5c33261151f0d1",
+    "image_id": "000000291822",
+    "statement": "The umbrella is above the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 69,
+    "example_id": "ac200b9a2e796a4f370f",
+    "image_id": "000000292101",
+    "statement": "The chair is above the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 70,
+    "example_id": "f7672267de57b6a55bb5",
+    "image_id": "000000313009",
+    "statement": "The tennis racket is below the person.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 71,
+    "example_id": "a75fbb6b9c42943950b0",
+    "image_id": "000000315018",
+    "statement": "The giraffe is above the person.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 72,
+    "example_id": "bf6101f92bfe02cd05da",
+    "image_id": "000000317173",
+    "statement": "The cat is above the bicycle.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 73,
+    "example_id": "f8079bd15468307e650a",
+    "image_id": "000000318497",
+    "statement": "The person is below the hair drier.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 74,
+    "example_id": "a5f25b7ccecda5d1e671",
+    "image_id": "000000319061",
+    "statement": "The bench is above the hot dog.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 75,
+    "example_id": "7e80877981775b22beb2",
+    "image_id": "000000323264",
+    "statement": "The bed is above the backpack.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 76,
+    "example_id": "b831e0a11c1651d8b0b8",
+    "image_id": "000000324483",
+    "statement": "The suitcase is below the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 77,
+    "example_id": "5881cd58e568784ffb0a",
+    "image_id": "000000326224",
+    "statement": "The dog is above the pizza.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 78,
+    "example_id": "70bb9e54ceb8ac767262",
+    "image_id": "000000326224",
+    "statement": "The pizza is above the dog.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 79,
+    "example_id": "dce3481bd660ead26d3f",
+    "image_id": "000000326224",
+    "statement": "The dog is left of the pizza.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 80,
+    "example_id": "f229190d4d84c6e3071e",
+    "image_id": "000000334215",
+    "statement": "The couch is left of the bed.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 81,
+    "example_id": "08fc8a45c17cc01f4beb",
+    "image_id": "000000346154",
+    "statement": "The pizza is above the couch.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 82,
+    "example_id": "e030485479c2ad4ad4f4",
+    "image_id": "000000355984",
+    "statement": "The umbrella is above the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 83,
+    "example_id": "6cd2ff689df356c6049c",
+    "image_id": "000000356153",
+    "statement": "The pizza is above the dining table.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 84,
+    "example_id": "0638f36fe5c4155c33c7",
+    "image_id": "000000362331",
+    "statement": "The cake is below the dog.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 85,
+    "example_id": "dd6126d493370b869ea0",
+    "image_id": "000000364517",
+    "statement": "The sandwich is right of the bowl.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 86,
+    "example_id": "f55575bb99a8c87409a6",
+    "image_id": "000000365600",
+    "statement": "The truck is below the boat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 87,
+    "example_id": "f1fc4f44933f6b5915ef",
+    "image_id": "000000371739",
+    "statement": "The bench is above the banana.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 88,
+    "example_id": "f14c2ed1dea84f356094",
+    "image_id": "000000375483",
+    "statement": "The hair drier is left of the person.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 89,
+    "example_id": "c1cbdb92784c9d176b9b",
+    "image_id": "000000394115",
+    "statement": "The cat is below the bottle.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 90,
+    "example_id": "e6cf7636213435e15240",
+    "image_id": "000000408946",
+    "statement": "The dining table is below the hot dog.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 91,
+    "example_id": "e7a31ca740c12efdc194",
+    "image_id": "000000410627",
+    "statement": "The person is above the toaster.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 92,
+    "example_id": "d7d707bc55c9faa6c492",
+    "image_id": "000000410805",
+    "statement": "The person is left of the refrigerator.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 93,
+    "example_id": "4fbd1768c27051ef2bac",
+    "image_id": "000000413046",
+    "statement": "The keyboard is right of the person.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 94,
+    "example_id": "ba40112ee196672f6bca",
+    "image_id": "000000420344",
+    "statement": "The keyboard is below the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 95,
+    "example_id": "49cbc76e7541a645c4bb",
+    "image_id": "000000429582",
+    "statement": "The person is left of the teddy bear.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 96,
+    "example_id": "e104b4f9243945c06543",
+    "image_id": "000000430002",
+    "statement": "The keyboard is left of the pizza.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 97,
+    "example_id": "82e42a172d3afe73a6ca",
+    "image_id": "000000434857",
+    "statement": "The umbrella is above the dining table.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 98,
+    "example_id": "c4e128e2495a723981cb",
+    "image_id": "000000435690",
+    "statement": "The bed is left of the chair.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 99,
+    "example_id": "a34d81561948fe8dc2b5",
+    "image_id": "000000439525",
+    "statement": "The person is above the cake.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 100,
+    "example_id": "63c02117a09c9025f746",
+    "image_id": "000000441258",
+    "statement": "The chair is left of the bed.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 101,
+    "example_id": "20f151e13cd8087bfc56",
+    "image_id": "000000447151",
+    "statement": "The dining table is right of the bed.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 102,
+    "example_id": "f7177aacded45ea68f63",
+    "image_id": "000000453907",
+    "statement": "The bowl is right of the hot dog.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 103,
+    "example_id": "5dd04983bc4e3decc33c",
+    "image_id": "000000457599",
+    "statement": "The pizza is above the oven.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 104,
+    "example_id": "7c3377c25e084f77ec4a",
+    "image_id": "000000459303",
+    "statement": "The train is below the clock.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 105,
+    "example_id": "59dee94761df93853133",
+    "image_id": "000000461340",
+    "statement": "The potted plant is above the couch.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 106,
+    "example_id": "b92055aac55a581f167f",
+    "image_id": "000000461340",
+    "statement": "The couch is above the laptop.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 107,
+    "example_id": "2cc36175cd1462fe3e55",
+    "image_id": "000000471407",
+    "statement": "The sink is left of the cat.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 108,
+    "example_id": "1805172897b965d74580",
+    "image_id": "000000472530",
+    "statement": "The refrigerator is below the cat.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 109,
+    "example_id": "64a027c6ce32ea93b1bb",
+    "image_id": "000000473779",
+    "statement": "The umbrella is left of the teddy bear.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 110,
+    "example_id": "9110c392a0fc4f6d6544",
+    "image_id": "000000473779",
+    "statement": "The teddy bear is right of the umbrella.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 111,
+    "example_id": "a5d3767865e63a3d9a5f",
+    "image_id": "000000473779",
+    "statement": "The teddy bear is below the umbrella.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 112,
+    "example_id": "5f906ce18897d6b1f84c",
+    "image_id": "000000477195",
+    "statement": "The pizza is above the dining table.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 113,
+    "example_id": "f853feb0591397ab2b9b",
+    "image_id": "000000477434",
+    "statement": "The bed is below the suitcase.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 114,
+    "example_id": "afa811710de47feeec2a",
+    "image_id": "000000482127",
+    "statement": "The bird is above the book.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 115,
+    "example_id": "005885d39f9d8a010828",
+    "image_id": "000000487061",
+    "statement": "The umbrella is above the dining table.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 116,
+    "example_id": "35b802cc622be9c5be94",
+    "image_id": "000000491932",
+    "statement": "The suitcase is above the bed.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 117,
+    "example_id": "79a14bcc570ac5c7f681",
+    "image_id": "000000495553",
+    "statement": "The wine glass is left of the sandwich.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 118,
+    "example_id": "bd3cc26aa015ee12b0d6",
+    "image_id": "000000501824",
+    "statement": "The train is below the potted plant.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 119,
+    "example_id": "4731d47f12790aacf72f",
+    "image_id": "000000509555",
+    "statement": "The bed is above the couch.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 120,
+    "example_id": "65cbaa93ece0c4b3d7d2",
+    "image_id": "000000511644",
+    "statement": "The keyboard is right of the apple.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 121,
+    "example_id": "4298f84a736b14de9615",
+    "image_id": "000000512147",
+    "statement": "The orange is right of the bird.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 122,
+    "example_id": "398196f6351801e3b440",
+    "image_id": "000000518592",
+    "statement": "The laptop is right of the cake.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 123,
+    "example_id": "8d51d00c4835e6a2dbd7",
+    "image_id": "000000519077",
+    "statement": "The book is left of the pizza.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 124,
+    "example_id": "de29086a6b17b1d35577",
+    "image_id": "000000524059",
+    "statement": "The elephant is below the person.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 125,
+    "example_id": "f61074f3bf6c10bf95ce",
+    "image_id": "000000534519",
+    "statement": "The hot dog is left of the broccoli.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 126,
+    "example_id": "0fd5f3743574dedee1ce",
+    "image_id": "000000544698",
+    "statement": "The remote is left of the cat.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 127,
+    "example_id": "b69b4655258b854b5348",
+    "image_id": "000000553862",
+    "statement": "The dining table is left of the bus.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 128,
+    "example_id": "115d7ebdb10041e87333",
+    "image_id": "000000557186",
+    "statement": "The bowl is right of the hot dog.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 129,
+    "example_id": "b6c394433a4193c540da",
+    "image_id": "000000557254",
+    "statement": "The bed is below the sheep.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 130,
+    "example_id": "6758fdea8c14cc59c276",
+    "image_id": "000000559490",
+    "statement": "The backpack is left of the cat.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 131,
+    "example_id": "b31ea041809e4aec1702",
+    "image_id": "000000562688",
+    "statement": "The banana is above the bird.",
+    "consistency_basis": "vertical_relation_rule_v1"
+  },
+  {
+    "row": 132,
+    "example_id": "43c54f3fbe23031e9ca8",
+    "image_id": "000000568005",
+    "statement": "The zebra is left of the horse.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  },
+  {
+    "row": 133,
+    "example_id": "3fd98dae9b1eb574e53d",
+    "image_id": "000000569333",
+    "statement": "The couch is left of the bed.",
+    "consistency_basis": "horizontal_or_reviewed_transform_not_certified"
+  }
+]

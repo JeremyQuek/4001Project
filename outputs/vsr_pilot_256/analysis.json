@@ -1,0 +1,714 @@
+{
+  "scope": "Training-only exploratory pilot; no verifier trained and no held-out performance claim.",
+  "all": {
+    "n": 100,
+    "correct": 82,
+    "errors": 18,
+    "accuracy": 0.82,
+    "accuracy_wilson95": [
+      0.7333264161369952,
+      0.8829977450105351
+    ],
+    "false_yes": 4,
+    "false_no": 14,
+    "true_statements": 52,
+    "false_statements": 48,
+    "predicted_yes": 42
+  },
+  "eligible": {
+    "n": 73,
+    "correct": 65,
+    "errors": 8,
+    "accuracy": 0.8904109589041096,
+    "accuracy_wilson95": [
+      0.7983737801279508,
+      0.9434132821531928
+    ],
+    "false_yes": 2,
+    "false_no": 6,
+    "true_statements": 43,
+    "false_statements": 30,
+    "predicted_yes": 39
+  },
+  "flagged": {
+    "n": 27,
+    "correct": 17,
+    "errors": 10,
+    "accuracy": 0.6296296296296297,
+    "accuracy_wilson95": [
+      0.4422923441210288,
+      0.7846748703903407
+    ],
+    "false_yes": 2,
+    "false_no": 8,
+    "true_statements": 9,
+    "false_statements": 18,
+    "predicted_yes": 3
+  },
+  "by_relation": {
+    "above": {
+      "n": 41,
+      "correct": 34,
+      "errors": 7,
+      "accuracy": 0.8292682926829268,
+      "accuracy_wilson95": [
+        0.6873738759959627,
+        0.9147474802240485
+      ],
+      "false_yes": 1,
+      "false_no": 6,
+      "true_statements": 21,
+      "false_statements": 20,
+      "predicted_yes": 16
+    },
+    "below": {
+      "n": 31,
+      "correct": 27,
+      "errors": 4,
+      "accuracy": 0.8709677419354839,
+      "accuracy_wilson95": [
+        0.711475937436941,
+        0.9486571562537074
+      ],
+      "false_yes": 1,
+      "false_no": 3,
+      "true_statements": 16,
+      "false_statements": 15,
+      "predicted_yes": 14
+    },
+    "left of": {
+      "n": 16,
+      "correct": 11,
+      "errors": 5,
+      "accuracy": 0.6875,
+      "accuracy_wilson95": [
+        0.44404355834741305,
+        0.8583535614521766
+      ],
+      "false_yes": 2,
+      "false_no": 3,
+      "true_statements": 8,
+      "false_statements": 8,
+      "predicted_yes": 7
+    },
+    "right of": {
+      "n": 12,
+      "correct": 10,
+      "errors": 2,
+      "accuracy": 0.8333333333333334,
+      "accuracy_wilson95": [
+        0.5519691377470349,
+        0.9530348578161448
+      ],
+      "false_yes": 0,
+      "false_no": 2,
+      "true_statements": 7,
+      "false_statements": 5,
+      "predicted_yes": 5
+    }
+  },
+  "eligible_by_relation": {
+    "above": {
+      "n": 33,
+      "correct": 28,
+      "errors": 5,
+      "accuracy": 0.8484848484848485,
+      "accuracy_wilson95": [
+        0.690801241195584,
+        0.9334954271839229
+      ],
+      "false_yes": 1,
+      "false_no": 4,
+      "true_statements": 19,
+      "false_statements": 14,
+      "predicted_yes": 16
+    },
+    "below": {
+      "n": 23,
+      "correct": 21,
+      "errors": 2,
+      "accuracy": 0.9130434782608695,
+      "accuracy_wilson95": [
+        0.7320401892425696,
+        0.9758199955157789
+      ],
+      "false_yes": 0,
+      "false_no": 2,
+      "true_statements": 15,
+      "false_statements": 8,
+      "predicted_yes": 13
+    },
+    "left of": {
+      "n": 9,
+      "correct": 8,
+      "errors": 1,
+      "accuracy": 0.8888888888888888,
+      "accuracy_wilson95": [
+        0.5650002944233536,
+        0.9801091123614543
+      ],
+      "false_yes": 1,
+      "false_no": 0,
+      "true_statements": 4,
+      "false_statements": 5,
+      "predicted_yes": 5
+    },
+    "right of": {
+      "n": 8,
+      "correct": 8,
+      "errors": 0,
+      "accuracy": 1.0,
+      "accuracy_wilson95": [
+        0.6755924351161318,
+        1.0
+      ],
+      "false_yes": 0,
+      "false_no": 0,
+      "true_statements": 5,
+      "false_statements": 3,
+      "predicted_yes": 5
+    }
+  },
+  "blind_accuracy_all": 0.47,
+  "blind_yes_count": 1,
+  "original_blind_answer_agreement": 0.57,
+  "high_confidence": {
+    "0.9": {
+      "n": 29,
+      "errors": 2
+    },
+    "0.95": {
+      "n": 13,
+      "errors": 1
+    },
+    "0.99": {
+      "n": 0,
+      "errors": 0
+    }
+  },
+  "scoring_checks": {
+    "all_scores_finite": true,
+    "yes_no_mass_min": 0.9980160593986511,
+    "yes_no_mass_median": 0.9988331198692322,
+    "originals_mass_below_half": 0
+  },
+  "runtime": {
+    "scored_variants": 419,
+    "wall_seconds": 274.246,
+    "load_seconds": 23.422,
+    "mean_forward_seconds": 0.5736658711217184,
+    "median_forward_seconds": 0.461,
+    "mean_example_wall_seconds": 2.50245,
+    "peak_allocated_vram_gib": 3.281
+  },
+  "detection_all": {
+    "n": 100,
+    "errors": 18,
+    "error_prevalence": 0.18,
+    "signals": {
+      "confidence_uncertainty": {
+        "auroc": 0.720189701897019,
+        "average_precision": 0.34236548433085034,
+        "auroc_image_bootstrap95": [
+          0.5785084555502418,
+          0.8441894766566266
+        ],
+        "delta_vs_confidence": 0.0,
+        "delta_vs_confidence_image_bootstrap95": [
+          0.0,
+          0.0
+        ],
+        "bootstrap_samples": 1000
+      },
+      "visual_independence": {
+        "auroc": 0.7422086720867208,
+        "average_precision": 0.4016162932369177,
+        "auroc_image_bootstrap95": [
+          0.6406735885642136,
+          0.8426948226579788
+        ],
+        "delta_vs_confidence": 0.02201897018970178,
+        "delta_vs_confidence_image_bootstrap95": [
+          -0.1063399448649659,
+          0.15173525047594144
+        ],
+        "bootstrap_samples": 1000
+      },
+      "blind_support": {
+        "auroc": 0.6266937669376694,
+        "average_precision": 0.24240591041785017,
+        "auroc_image_bootstrap95": [
+          0.5060159232469359,
+          0.7404223428409251
+        ],
+        "delta_vs_confidence": -0.0934959349593496,
+        "delta_vs_confidence_image_bootstrap95": [
+          -0.2722330198537095,
+          0.1022227990033222
+        ],
+        "bootstrap_samples": 1000
+      }
+    }
+  },
+  "detection_eligible": {
+    "n": 73,
+    "errors": 8,
+    "error_prevalence": 0.1095890410958904,
+    "signals": {
+      "confidence_uncertainty": {
+        "auroc": 0.8076923076923076,
+        "average_precision": 0.2999669312169312,
+        "auroc_image_bootstrap95": [
+          0.6693498234633286,
+          0.9199302902979374
+        ],
+        "delta_vs_confidence": 0.0,
+        "delta_vs_confidence_image_bootstrap95": [
+          0.0,
+          0.0
+        ],
+        "bootstrap_samples": 1000
+      },
+      "visual_independence": {
+        "auroc": 0.7875,
+        "average_precision": 0.2747017787458964,
+        "auroc_image_bootstrap95": [
+          0.651022455601093,
+          0.8942788461538461
+        ],
+        "delta_vs_confidence": -0.02019230769230762,
+        "delta_vs_confidence_image_bootstrap95": [
+          -0.19235576923076922,
+          0.15586805555555547
+        ],
+        "bootstrap_samples": 1000
+      },
+      "blind_support": {
+        "auroc": 0.7490384615384615,
+        "average_precision": 0.25366573119862595,
+        "auroc_image_bootstrap95": [
+          0.5534589281851611,
+          0.9079967012762276
+        ],
+        "delta_vs_confidence": -0.058653846153846056,
+        "delta_vs_confidence_image_bootstrap95": [
+          -0.29362562189054725,
+          0.17789179104477604
+        ],
+        "bootstrap_samples": 1000
+      },
+      "converse_disagreement": {
+        "auroc": 0.8413461538461539,
+        "average_precision": 0.49905913978494626,
+        "auroc_image_bootstrap95": [
+          0.6740671641791045,
+          0.9761974789915966
+        ],
+        "delta_vs_confidence": 0.033653846153846256,
+        "delta_vs_confidence_image_bootstrap95": [
+          -0.15911796536796544,
+          0.22545902014652006
+        ],
+        "bootstrap_samples": 1000
+      },
+      "exclusive_violation": {
+        "auroc": 0.4788461538461538,
+        "average_precision": 0.24885844748858446,
+        "auroc_image_bootstrap95": [
+          0.28673844537815124,
+          0.7357293887704335
+        ],
+        "delta_vs_confidence": -0.3288461538461538,
+        "delta_vs_confidence_image_bootstrap95": [
+          -0.5677145403615992,
+          -0.05735140931372551
+        ],
+        "bootstrap_samples": 1000
+      },
+      "mirror_disagreement": {
+        "auroc": 0.6259615384615385,
+        "average_precision": 0.23748604985298047,
+        "auroc_image_bootstrap95": [
+          0.43525408149866507,
+          0.8115625
+        ],
+        "delta_vs_confidence": -0.18173076923076914,
+        "delta_vs_confidence_image_bootstrap95": [
+          -0.32723880597014926,
+          -0.023802521008403393
+        ],
+        "bootstrap_samples": 1000
+      },
+      "consistency_mean": {
+        "auroc": 0.7961538461538462,
+        "average_precision": 0.4339285714285714,
+        "auroc_image_bootstrap95": [
+          0.6067216003316749,
+          0.9529457720588236
+        ],
+        "delta_vs_confidence": -0.011538461538461386,
+        "delta_vs_confidence_image_bootstrap95": [
+          -0.21854891076665273,
+          0.15873917748917749
+        ],
+        "bootstrap_samples": 1000
+      }
+    }
+  },
+  "diagnostics": {
+    "converse": {
+      "flagged": 6,
+      "original_errors_among_flagged": 3,
+      "original_correct_among_flagged": 3
+    },
+    "mirrored_equivalent": {
+      "flagged": 3,
+      "original_errors_among_flagged": 2,
+      "original_correct_among_flagged": 1
+    },
+    "exclusive": {
+      "flagged": 3,
+      "original_errors_among_flagged": 2,
+      "original_correct_among_flagged": 1
+    }
+  },
+  "coverage_eligible": {
+    "confidence_uncertainty": {
+      "1.0": {
+        "answered": 73,
+        "coverage": 1.0,
+        "errors": 8,
+        "accuracy": 0.8904109589041096
+      },
+      "0.9": {
+        "answered": 66,
+        "coverage": 0.9041095890410958,
+        "errors": 6,
+        "accuracy": 0.9090909090909091
+      },
+      "0.8": {
+        "answered": 59,
+        "coverage": 0.8082191780821918,
+        "errors": 4,
+        "accuracy": 0.9322033898305084
+      },
+      "0.5": {
+        "answered": 37,
+        "coverage": 0.5068493150684932,
+        "errors": 1,
+        "accuracy": 0.972972972972973
+      }
+    },
+    "consistency_mean": {
+      "1.0": {
+        "answered": 73,
+        "coverage": 1.0,
+        "errors": 8,
+        "accuracy": 0.8904109589041096
+      },
+      "0.9": {
+        "answered": 66,
+        "coverage": 0.9041095890410958,
+        "errors": 5,
+        "accuracy": 0.9242424242424242
+      },
+      "0.8": {
+        "answered": 59,
+        "coverage": 0.8082191780821918,
+        "errors": 4,
+        "accuracy": 0.9322033898305084
+      },
+      "0.5": {
+        "answered": 37,
+        "coverage": 0.5068493150684932,
+        "errors": 1,
+        "accuracy": 0.972972972972973
+      }
+    },
+    "visual_independence": {
+      "1.0": {
+        "answered": 73,
+        "coverage": 1.0,
+        "errors": 8,
+        "accuracy": 0.8904109589041096
+      },
+      "0.9": {
+        "answered": 66,
+        "coverage": 0.9041095890410958,
+        "errors": 7,
+        "accuracy": 0.8939393939393939
+      },
+      "0.8": {
+        "answered": 59,
+        "coverage": 0.8082191780821918,
+        "errors": 5,
+        "accuracy": 0.9152542372881356
+      },
+      "0.5": {
+        "answered": 37,
+        "coverage": 0.5068493150684932,
+        "errors": 1,
+        "accuracy": 0.972972972972973
+      }
+    }
+  },
+  "examples": {
+    "confident_errors": [
+      {
+        "audit_index": 96,
+        "statement": "The bird is below the umbrella.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.9706877693533897,
+        "consistency_eligible": false,
+        "features": {
+          "p_original": 0.02931223064661026,
+          "confidence": 0.9706877693533897,
+          "p_blind": 0.29421496391296387,
+          "image_sensitivity": 0.2649027332663536,
+          "blind_support_for_original_answer": 0.7057850360870361
+        }
+      },
+      {
+        "audit_index": 27,
+        "statement": "The cup is left of the person.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.9046505391597748,
+        "consistency_eligible": false,
+        "features": {
+          "p_original": 0.09534946084022522,
+          "confidence": 0.9046505391597748,
+          "p_blind": 0.3775406777858734,
+          "image_sensitivity": 0.2821912169456482,
+          "blind_support_for_original_answer": 0.6224593222141266
+        }
+      },
+      {
+        "audit_index": 55,
+        "statement": "The couch is above the snowboard.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.867035761475563,
+        "consistency_eligible": false,
+        "features": {
+          "p_original": 0.13296423852443695,
+          "confidence": 0.867035761475563,
+          "p_blind": 0.3486451506614685,
+          "image_sensitivity": 0.21568091213703156,
+          "blind_support_for_original_answer": 0.6513548493385315
+        }
+      },
+      {
+        "audit_index": 53,
+        "statement": "The laptop is above the chair.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.8354835510253906,
+        "consistency_eligible": true,
+        "features": {
+          "p_original": 0.16451644897460938,
+          "confidence": 0.8354835510253906,
+          "p_blind": 0.2689414322376251,
+          "image_sensitivity": 0.10442498326301575,
+          "blind_support_for_original_answer": 0.7310585677623749,
+          "p_converse": 0.43782350420951843,
+          "p_exclusive": 0.18242551386356354,
+          "p_mirrored": 0.14804719388484955,
+          "converse_disagreement": 0.27330705523490906,
+          "exclusive_violation": 0.0,
+          "mirror_disagreement": 0.016469255089759827
+        }
+      },
+      {
+        "audit_index": 33,
+        "statement": "The pizza is left of the dog.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.7981867790222168,
+        "consistency_eligible": false,
+        "features": {
+          "p_original": 0.2018132209777832,
+          "confidence": 0.7981867790222168,
+          "p_blind": 0.3486451506614685,
+          "image_sensitivity": 0.1468319296836853,
+          "blind_support_for_original_answer": 0.6513548493385315
+        }
+      },
+      {
+        "audit_index": 17,
+        "statement": "The dining table is above the dog.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.7310585677623749,
+        "consistency_eligible": false,
+        "features": {
+          "p_original": 0.2689414322376251,
+          "confidence": 0.7310585677623749,
+          "p_blind": 0.3775406777858734,
+          "image_sensitivity": 0.10859924554824829,
+          "blind_support_for_original_answer": 0.6224593222141266
+        }
+      },
+      {
+        "audit_index": 63,
+        "statement": "The umbrella is above the cat.",
+        "truth_label": 0,
+        "prediction": 1,
+        "confidence": 0.7310585379600525,
+        "consistency_eligible": true,
+        "features": {
+          "p_original": 0.7310585379600525,
+          "confidence": 0.7310585379600525,
+          "p_blind": 0.3775406777858734,
+          "image_sensitivity": 0.3535178601741791,
+          "blind_support_for_original_answer": 0.3775406777858734,
+          "p_converse": 0.5926666259765625,
+          "p_exclusive": 0.9046505093574524,
+          "p_mirrored": 0.7772998809814453,
+          "converse_disagreement": 0.13839191198349,
+          "exclusive_violation": 0.6357090473175049,
+          "mirror_disagreement": 0.04624134302139282
+        }
+      },
+      {
+        "audit_index": 25,
+        "statement": "The motorcycle is right of the bus.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.6791786849498749,
+        "consistency_eligible": false,
+        "features": {
+          "p_original": 0.3208213150501251,
+          "confidence": 0.6791786849498749,
+          "p_blind": 0.3486451506614685,
+          "image_sensitivity": 0.027823835611343384,
+          "blind_support_for_original_answer": 0.6513548493385315
+        }
+      },
+      {
+        "audit_index": 41,
+        "statement": "The laptop is right of the cat.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.6791786849498749,
+        "consistency_eligible": false,
+        "features": {
+          "p_original": 0.3208213150501251,
+          "confidence": 0.6791786849498749,
+          "p_blind": 0.3208213150501251,
+          "image_sensitivity": 0.0,
+          "blind_support_for_original_answer": 0.6791786849498749
+        }
+      },
+      {
+        "audit_index": 99,
+        "statement": "The hot dog is above the chair.",
+        "truth_label": 1,
+        "prediction": 0,
+        "confidence": 0.6791786849498749,
+        "consistency_eligible": true,
+        "features": {
+          "p_original": 0.3208213150501251,
+          "confidence": 0.6791786849498749,
+          "p_blind": 0.3208213150501251,
+          "image_sensitivity": 0.0,
+          "blind_support_for_original_answer": 0.6791786849498749,
+          "p_converse": 0.06008664518594742,
+          "p_exclusive": 0.43782350420951843,
+          "p_mirrored": 0.09534946084022522,
+          "converse_disagreement": 0.2607346698641777,
+          "exclusive_violation": 0.0,
+          "mirror_disagreement": 0.2254718542098999
+        }
+      }
+    ],
+    "correct_with_large_consistency_disagreement": [
+      {
+        "audit_index": 89,
+        "statement": "The dining table is below the hot dog.",
+        "features": {
+          "p_original": 0.622459352016449,
+          "confidence": 0.622459352016449,
+          "p_blind": 0.22270014882087708,
+          "image_sensitivity": 0.3997592031955719,
+          "blind_support_for_original_answer": 0.22270014882087708,
+          "p_converse": 0.22270014882087708,
+          "p_exclusive": 0.11920291930437088,
+          "p_mirrored": 0.7981867790222168,
+          "converse_disagreement": 0.3997592031955719,
+          "exclusive_violation": 0.0,
+          "mirror_disagreement": 0.17572742700576782
+        }
+      },
+      {
+        "audit_index": 72,
+        "statement": "The chair is below the teddy bear.",
+        "features": {
+          "p_original": 0.5926666259765625,
+          "confidence": 0.5926666259765625,
+          "p_blind": 0.29421496391296387,
+          "image_sensitivity": 0.29845166206359863,
+          "blind_support_for_original_answer": 0.29421496391296387,
+          "p_converse": 0.07585817575454712,
+          "p_exclusive": 0.022977370768785477,
+          "p_mirrored": 0.5926666259765625,
+          "converse_disagreement": 0.5168084502220154,
+          "exclusive_violation": 0.0,
+          "mirror_disagreement": 0.0
+        }
+      },
+      {
+        "audit_index": 45,
+        "statement": "The cat is below the tv.",
+        "features": {
+          "p_original": 0.7981867790222168,
+          "confidence": 0.7981867790222168,
+          "p_blind": 0.18242551386356354,
+          "image_sensitivity": 0.6157612651586533,
+          "blind_support_for_original_answer": 0.18242551386356354,
+          "p_converse": 0.6513549089431763,
+          "p_exclusive": 0.11920291930437088,
+          "p_mirrored": 0.531209409236908,
+          "converse_disagreement": 0.14683187007904053,
+          "exclusive_violation": 0.0,
+          "mirror_disagreement": 0.26697736978530884
+        }
+      },
+      {
+        "audit_index": 30,
+        "statement": "The microwave is above the laptop.",
+        "features": {
+          "p_original": 0.5926666259765625,
+          "confidence": 0.5926666259765625,
+          "p_blind": 0.3486451506614685,
+          "image_sensitivity": 0.244021475315094,
+          "blind_support_for_original_answer": 0.3486451506614685,
+          "p_converse": 0.6513549089431763,
+          "p_exclusive": 0.10669060051441193,
+          "p_mirrored": 0.9324532747268677,
+          "converse_disagreement": 0.05868828296661377,
+          "exclusive_violation": 0.0,
+          "mirror_disagreement": 0.3397866487503052
+        }
+      },
+      {
+        "audit_index": 8,
+        "statement": "The umbrella is above the cat.",
+        "features": {
+          "p_original": 0.8807970285415649,
+          "confidence": 0.8807970285415649,
+          "p_blind": 0.4073334336280823,
+          "image_sensitivity": 0.47346359491348267,
+          "blind_support_for_original_answer": 0.4073334336280823,
+          "p_converse": 0.5926666259765625,
+          "p_exclusive": 0.3775406777858734,
+          "p_mirrored": 0.9626730680465698,
+          "converse_disagreement": 0.28813040256500244,
+          "exclusive_violation": 0.25833770632743835,
+          "mirror_disagreement": 0.08187603950500488
+        }
+      }
+    ]
+  }
+}

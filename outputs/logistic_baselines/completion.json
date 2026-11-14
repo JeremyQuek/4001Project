@@ -1,0 +1,10 @@
+{
+  "trained_detectors": 8,
+  "candidate_fits": 80,
+  "selected_models_converged": true,
+  "saved_model_roundtrips_passed": true,
+  "automated_tests_passed": 32,
+  "scalers_fit_on_train_only": true,
+  "test_opened": false,
+  "stage": "Logistic-regression baselines trained and validated; ready for MLP comparison."
+}

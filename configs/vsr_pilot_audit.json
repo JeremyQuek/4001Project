@@ -1,0 +1,708 @@
+{
+  "reviewer": "Codex visual inspection",
+  "method": "Viewed all 10 contact sheets covering 100 statements; inspected original images 17, 25, 86, 96 and four original/mirror comparisons at full displayed resolution. No VLM predictions were used.",
+  "source_manifest_sha256": "40f052538ea9a4bf572e66d9641fb0a5752717e159c539fa94e76cd5e557f4b2",
+  "label_policy": "Preserve every VSR truth label. Flags indicate uncertainty, not established annotation errors.",
+  "reviews": [
+    {
+      "audit_index": 1,
+      "example_id": "ef6f880d23db77cc22fe",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 2,
+      "example_id": "ea2dd601000dcc542440",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 3,
+      "example_id": "d7cb029e4f71fa08a178",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 4,
+      "example_id": "5c9d053fe1e7fb273ba0",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 5,
+      "example_id": "3e028d9b5d335c6d4785",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 6,
+      "example_id": "5c4d943035290b4b51ab",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 7,
+      "example_id": "76839b9c0079bc4bdb90",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 8,
+      "example_id": "68328911fc3e67cdbb80",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 9,
+      "example_id": "193dc55b1b2e8cf5cda0",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 10,
+      "example_id": "531e6aea8d1878ce2dc1",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 11,
+      "example_id": "f887acfdfe843faae2b9",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 12,
+      "example_id": "21b0f9e25aa433bc207b",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 13,
+      "example_id": "cf3463b7fd36f7ec6c02",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 14,
+      "example_id": "6bc19f18836a942acea4",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 15,
+      "example_id": "b593c4daf93cef746042",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "The cat is on the bench seat, while the backrest extends above it. The reference part of the bench is ambiguous."
+    },
+    {
+      "audit_index": 16,
+      "example_id": "7741319b4575552ddca5",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 17,
+      "example_id": "bc7939372645a7c4f56b",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "Only part of a white dog is visible at the far right edge beside the person; full object grounding is difficult."
+    },
+    {
+      "audit_index": 18,
+      "example_id": "f763ec71f0e03ab729fa",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 19,
+      "example_id": "604f0e27c1527d909a50",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 20,
+      "example_id": "fe997a16d5a8edae2193",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 21,
+      "example_id": "87a0094bf9c00a9feccc",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 22,
+      "example_id": "eb23db63a398e881e66d",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "The apparent book is partly hidden behind the cup in the background; verify the intended book referent."
+    },
+    {
+      "audit_index": 23,
+      "example_id": "fb3a85c82f810a7a23d7",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 24,
+      "example_id": "6364e16eb9130ea42a69",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 25,
+      "example_id": "cdf394e508b31ca4f1a0",
+      "status": "needs_review",
+      "category": "object_identity",
+      "notes": "The cycles on the right of the bus appear to be bicycles; a motorcycle is visible at the left edge. Verify the intended motorcycle."
+    },
+    {
+      "audit_index": 26,
+      "example_id": "81852b2ff9b8287786be",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 27,
+      "example_id": "a4f10152690a0b724054",
+      "status": "needs_review",
+      "category": "reference_frame",
+      "notes": "The cup is on the viewer-right of the person, although VSR labels left-of as true. A person-intrinsic reading is plausible; swapped-object equivalence is unsafe."
+    },
+    {
+      "audit_index": 28,
+      "example_id": "bca0a7df80afacdb6fc3",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 29,
+      "example_id": "a3df3ff8d2e92513061a",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 30,
+      "example_id": "8fd4657e0c5382d72383",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 31,
+      "example_id": "0fae72e80428134e2e8e",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 32,
+      "example_id": "8e72502ed313f1e2a2dd",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 33,
+      "example_id": "004131d0cbc28f36a400",
+      "status": "needs_review",
+      "category": "reference_frame",
+      "notes": "Pizza is in front of/below the dog, with substantial horizontal overlap. Source reference_frame is 0.0; viewer-relative converse assumptions need review."
+    },
+    {
+      "audit_index": 34,
+      "example_id": "ceb091c58b974c3c1e8b",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "The cat and foreground cactus branches overlap; the potted plant is partly outside the image and its horizontal referent is unclear."
+    },
+    {
+      "audit_index": 35,
+      "example_id": "b87421627bab626f6006",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "The foreground pizza appears partly viewer-left of the refrigerator despite the False label. Depth and horizontal overlap make interpretation uncertain."
+    },
+    {
+      "audit_index": 36,
+      "example_id": "24f3c48f5a1f10a27d0c",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "The suitcase is on a chair beside the bed. Image height and physical height yield different intuitions about above."
+    },
+    {
+      "audit_index": 37,
+      "example_id": "51eb6b660f0126fd708b",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 38,
+      "example_id": "85cf7e797084ffc9ccd8",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 39,
+      "example_id": "55e6a52678ea96693f9c",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "Only a hand/arm of the person is visible; the vertical position of the whole person cannot be established reliably."
+    },
+    {
+      "audit_index": 40,
+      "example_id": "e493ab73d9f12008178c",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "The car is behind the parking meter; their vertical extents overlap. Below depends on the chosen object reference point."
+    },
+    {
+      "audit_index": 41,
+      "example_id": "64a464fb7a43161d751a",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "Only the cat paw is visible on the laptop; the whole cat position is not established."
+    },
+    {
+      "audit_index": 42,
+      "example_id": "38e5e7d5ddc3ff485fd2",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 43,
+      "example_id": "4fc24b61d86b73bcbbfb",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 44,
+      "example_id": "da4f8e1032c68e47ca5a",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 45,
+      "example_id": "de28e5c569763e6fe917",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 46,
+      "example_id": "0690f4c1507f7830c600",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 47,
+      "example_id": "17f5edd2fdee7a6479a6",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 48,
+      "example_id": "1b4ca8dfd86eea1495ff",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 49,
+      "example_id": "d9937e220af881df4c65",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "A person is not clearly identifiable in the bedroom image at the inspected resolution. Verify the intended referent."
+    },
+    {
+      "audit_index": 50,
+      "example_id": "1a70f014af76ecb0e893",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 51,
+      "example_id": "be71b411e4bea1391ebf",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 52,
+      "example_id": "209868d532d33f236fdb",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 53,
+      "example_id": "00c45f75ccdb7d7116cc",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 54,
+      "example_id": "942b488da52fa0064dc9",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 55,
+      "example_id": "06c9c8a3585eb3de476b",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "The presumed snowboard is mostly cropped at the lower edge. Confirm that this object is a snowboard."
+    },
+    {
+      "audit_index": 56,
+      "example_id": "b57ff6bdfb15894d35c1",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 57,
+      "example_id": "31dc01ea25e3e7a07816",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 58,
+      "example_id": "0a308fa098c90e9de1f4",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 59,
+      "example_id": "86375ba92e1230c1defc",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "The zebra and elephant are partially occluded/cropped in a display; horizontal object reference points are unclear."
+    },
+    {
+      "audit_index": 60,
+      "example_id": "e641eeab8ab15eb51971",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 61,
+      "example_id": "c6dd9876ec97e81d62c5",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 62,
+      "example_id": "4ebed206ab86171f7c8e",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 63,
+      "example_id": "6841f8d90eabc7b527d8",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 64,
+      "example_id": "c590829839cd85d390ab",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 65,
+      "example_id": "5014867be14ea69c9eba",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 66,
+      "example_id": "109102b886413a219ed4",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 67,
+      "example_id": "222ad0ffdfce939e315c",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 68,
+      "example_id": "41703d5de1ceee7c416b",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "Same image as audit 55; presumed snowboard is mostly cropped at the lower edge and needs object identification."
+    },
+    {
+      "audit_index": 69,
+      "example_id": "983f3098002d9caebf12",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 70,
+      "example_id": "37b788bdaea2f6046f2f",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 71,
+      "example_id": "3a78dd8a8f7ebb4205de",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 72,
+      "example_id": "85c5ffc65573149f8e5d",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 73,
+      "example_id": "93967886c7587d3823de",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 74,
+      "example_id": "bb173d259a0db790b21c",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 75,
+      "example_id": "eef3c97339ab34df4793",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "Only a small bicycle wheel segment is visible at the right edge; the full bicycle referent requires confirmation."
+    },
+    {
+      "audit_index": 76,
+      "example_id": "481be879f8b6d68cc42b",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 77,
+      "example_id": "2378bb6ca11cca209bd5",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 78,
+      "example_id": "fb648d3a7b275ae21f43",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "Two bunk-bed levels are visible. Above can differ depending on which bed is intended."
+    },
+    {
+      "audit_index": 79,
+      "example_id": "8b6dfdb488d2a872bd1d",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "The laptop dominates the foreground; the alleged TV is blurred in the background and cannot be reliably located."
+    },
+    {
+      "audit_index": 80,
+      "example_id": "96ec86be0e06fc7955f7",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 81,
+      "example_id": "e0b4a94d6154bb55214f",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 82,
+      "example_id": "5e338c0a17e0498a4cb9",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "Only hands/forearms of the person are visible beside the table; whole-person horizontal location is uncertain."
+    },
+    {
+      "audit_index": 83,
+      "example_id": "98258985384dc25359b7",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 84,
+      "example_id": "7465e5dea05e38956ca6",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 85,
+      "example_id": "50649269ca9d41099d51",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 86,
+      "example_id": "226bd3b0345dab00af0a",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "I cannot confidently identify the banana in the kitchen image; the person obscures part of the left background."
+    },
+    {
+      "audit_index": 87,
+      "example_id": "d8782d528eb537379a77",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "Broccoli is in the foreground below the visible torso, despite the False label. The person is cropped and physical versus projected height is uncertain."
+    },
+    {
+      "audit_index": 88,
+      "example_id": "bc04f818014c25a674c8",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 89,
+      "example_id": "32edf45bcf213a640e9b",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 90,
+      "example_id": "f7100e2d2d49a05f8d70",
+      "status": "needs_review",
+      "category": "object_identity",
+      "notes": "The visible food looks like sandwiches and fries; I cannot identify an apple or banana. The False label may be valid as an absent-object negative, but this is not a clean spatial example."
+    },
+    {
+      "audit_index": 91,
+      "example_id": "f9fa6a60663944111213",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 92,
+      "example_id": "e2303ab73615e1620e8a",
+      "status": "needs_review",
+      "category": "object_identity",
+      "notes": "The prominent sign is a speed display; a small distant red sign may be the stop sign. Verify object identity and position."
+    },
+    {
+      "audit_index": 93,
+      "example_id": "723bb7ec26b80c99d3af",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 94,
+      "example_id": "7c3d46a04346558b3cd0",
+      "status": "needs_review",
+      "category": "referent_visibility",
+      "notes": "The handbag fills most of the image; the bed is not clearly identifiable, making right-of difficult to validate."
+    },
+    {
+      "audit_index": 95,
+      "example_id": "f22679d99d3cb677cddd",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 96,
+      "example_id": "79375e37fbf5691ffa82",
+      "status": "needs_review",
+      "category": "object_identity",
+      "notes": "A dark bird-like shape overlaps the umbrella fabric and branches. Both bird identity and a clean below relation need confirmation."
+    },
+    {
+      "audit_index": 97,
+      "example_id": "e2fd23032c80aa3c6b52",
+      "status": "needs_review",
+      "category": "spatial_ambiguity",
+      "notes": "The dog and teddy bear overlap closely; head position and whole-body position give different vertical readings."
+    },
+    {
+      "audit_index": 98,
+      "example_id": "d8e8a529f880bff1080f",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 99,
+      "example_id": "dfb65112017296addc18",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    },
+    {
+      "audit_index": 100,
+      "example_id": "3522eb70ca2c5562eb28",
+      "status": "no_issue_found",
+      "category": "none",
+      "notes": "No immediate issue found in first-pass visual inspection; this is not an independent human adjudication."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Frozen experiment manifests hash exact file bytes. Preserve line endings on
+# Windows and other platforms rather than silently rewriting hashed artifacts.
+/scripts/** -text
+/configs/** -text
+/data/** -text
+/outputs/** -text
+*.pdf binary
+*.png binary
+*.jpg binary
+*.pt binary
+*.npz binary
+*.joblib binary

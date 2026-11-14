@@ -1,0 +1,108 @@
+{
+  "ready_for_training": true,
+  "total_rows": 941,
+  "total_images": 855,
+  "splits": {
+    "train": {
+      "rows": 659,
+      "images": 596,
+      "consistency_rows": 436,
+      "core_shape": [
+        659,
+        4
+      ],
+      "hidden_shape_per_layer": [
+        659,
+        2048
+      ],
+      "both_error_classes_present": true,
+      "error_label_counts": {
+        "0": 536,
+        "1": 123
+      }
+    },
+    "validation": {
+      "rows": 148,
+      "images": 140,
+      "consistency_rows": 95,
+      "core_shape": [
+        148,
+        4
+      ],
+      "hidden_shape_per_layer": [
+        148,
+        2048
+      ],
+      "both_error_classes_present": true
+    },
+    "test": {
+      "rows": 134,
+      "images": 119,
+      "consistency_rows": 87,
+      "core_shape": [
+        134,
+        4
+      ],
+      "hidden_shape_per_layer": [
+        134,
+        2048
+      ],
+      "both_error_classes_present": true
+    }
+  },
+  "core_feature_names": [
+    "p_original",
+    "confidence",
+    "p_blind",
+    "image_sensitivity"
+  ],
+  "behavior_feature_names": [
+    "p_original",
+    "confidence",
+    "p_blind",
+    "image_sensitivity",
+    "converse_disagreement",
+    "exclusive_violation",
+    "mirror_disagreement"
+  ],
+  "hidden_layers": [
+    9,
+    18,
+    36
+  ],
+  "hidden_size": 2048,
+  "hidden_position": "final prompt token, before answering",
+  "target": "y_error = int(vlm_prediction != truth_label); 1 means incorrect",
+  "truth_labels_changed": 0,
+  "preprocessing_fitted": false,
+  "detector_trained": false,
+  "consistency_policy": "All originals retained. Vertical consistency rules plus explicit human approvals; other auxiliary features unavailable. No numeric reference-frame codes inferred.",
+  "manifest_sha256": "a6ff6165c9a39249079cc9c30024c4b5faf88e9cb7437c84648c7522415d06fe",
+  "config": {
+    "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+    "quantization": "4-bit NF4 double quantization; visual and lm_head excluded",
+    "compute_dtype": "torch.bfloat16",
+    "attention": "sdpa",
+    "batch_size": 1,
+    "max_pixels": 200704,
+    "processor_use_fast": true,
+    "min_pixels": 3136,
+    "prompt_version": "run_vlm_statement_yes_no_v1",
+    "score_definition": "Softmax of canonical Yes/No token logits only",
+    "split_seed": 42,
+    "selection_basis": "Training pilot: 256 and 512 token caps both achieved 82/100; retain smaller budget.",
+    "note": "A run configuration record; the runner shares the loader in scripts/run_vlm.py."
+  },
+  "checksums": {
+    "test.npz": "132290642d22b4d5c6582a4f936eeb870fe850205ea86af038d9d55780c1952f",
+    "test_features.csv": "9fd892bc9752675a5028069e0e6fd537215ba69b0656d471e3721874393f28f1",
+    "test_index.json": "d2d1e786b8792f94ca49fafa2ab36da3ef7ab85ea08b37005451c82df89e1ccd",
+    "train.npz": "2afcce81e384fd2e7b9da1aeb70acc43f57f592736e5ba4bacdbb361fc119059",
+    "train_features.csv": "af05a06cfa3a64ac8c505beb35227e578d855798f5c19d9f1d1fe97dc0b2b1bd",
+    "train_index.json": "e9c6b40bb14caf93ee61803ba044e6c0e1fdd334f44fff3c6dc7de14a1d50be6",
+    "validation.npz": "0d84135c3d0c7a5bf73bf0d92dc41deb0f8c4f084aad12b85c224530ce49450f",
+    "validation_features.csv": "8498c86fde96eedb22b35d40f0f7322d45043c78496e16f194d0026b811d5ccc",
+    "validation_index.json": "d686d3c09d4c1695c32f7521938a28adfff152ea999d7e5b34dad866dfcec42a"
+  }
+}

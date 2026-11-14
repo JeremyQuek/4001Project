@@ -1,0 +1,16 @@
+{
+  "started_utc": "2026-11-14T03:37:48.366833+00:00",
+  "protocol": {
+    "frozen_comparison_sha256": "1aba1214966c56db44dfa6f80ba996908c3ca28320d93a25a28d8cc4757fa5d5",
+    "evaluator_sha256": "911cc1232a125d31e42d85aa049a8594642bd5965ea83c644a626f5edb7f4c2f",
+    "primary_seed": 42,
+    "primary_experiments": [
+      "all_core",
+      "consistency_behavior"
+    ],
+    "test_thresholds": "Apply unchanged validation thresholds; actual test coverage can differ from 80%.",
+    "bootstrap_repetitions": 2000,
+    "test_use": "Final evaluation only; no model/seed/threshold selection.",
+    "other_seeds": "Separate stability runs, not an ensemble or seed search."
+  }
+}

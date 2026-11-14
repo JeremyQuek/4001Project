@@ -1,0 +1,498 @@
+{
+  "stage": "Training and validation only; test reserved.",
+  "models_trained": 8,
+  "candidate_fits": 80,
+  "test_opened": false,
+  "interval_note": "Image-bootstrap intervals condition on the selected models. Validation also selected hyperparameters, so intervals do not remove selection optimism.",
+  "cohorts": {
+    "all": {
+      "training_rows": 659,
+      "validation_rows": 148,
+      "validation_errors": 30,
+      "validation_error_prevalence": 0.20270270270270271,
+      "unfiltered_vlm_accuracy": 0.7972972972972973,
+      "models": {
+        "heuristic_confidence": {
+          "name": "heuristic_confidence",
+          "trained": false,
+          "auroc": 0.7163841807909606,
+          "average_precision": 0.4159115734820338,
+          "brier_score": 0.1459304243326187,
+          "coverage80": {
+            "threshold": 0.3486451506614685,
+            "target_coverage": 0.8,
+            "answered": 116,
+            "coverage": 0.7837837837837838,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.8620689655172413,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "auroc_image_bootstrap95": [
+            0.6084922130745344,
+            0.822539821013151
+          ],
+          "paired_delta_vs_heuristic95": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_samples": 1000
+        },
+        "all_confidence": {
+          "name": "all_confidence",
+          "trained": true,
+          "feature_set": "confidence",
+          "cohort": "all",
+          "layer": 18,
+          "input_dimensions": 2,
+          "training_rows": 659,
+          "training_errors": 123,
+          "validation_rows": 148,
+          "C": 10.0,
+          "class_weight": null,
+          "auroc": 0.742231638418079,
+          "average_precision": 0.4302603778354907,
+          "brier_score": 0.1408286988735199,
+          "coverage80": {
+            "threshold": 0.30074337124824524,
+            "target_coverage": 0.8,
+            "answered": 117,
+            "coverage": 0.7905405405405406,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.8632478632478633,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "model_file": "outputs\\logistic_baselines\\models\\all_confidence.joblib",
+          "model_sha256": "0515b0d406f4ddd5cea6adf5158003eb01a17ee0e198cb737c9f9dee696a9868",
+          "converged": true,
+          "scaler_training_rows": 659,
+          "iterations": [
+            9
+          ],
+          "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+          "standardized_coefficients": [
+            -0.44814741611480713,
+            -1.0377342700958252
+          ],
+          "intercept": [
+            -1.8432599306106567
+          ],
+          "auroc_image_bootstrap95": [
+            0.637625851393189,
+            0.8392757686836635
+          ],
+          "paired_delta_vs_heuristic95": [
+            -0.010575142534784279,
+            0.06145380631609428
+          ],
+          "bootstrap_samples": 1000,
+          "input_feature_names": [
+            "p_original",
+            "confidence"
+          ],
+          "uses_hidden_state": false
+        },
+        "all_core": {
+          "name": "all_core",
+          "trained": true,
+          "feature_set": "core",
+          "cohort": "all",
+          "layer": 18,
+          "input_dimensions": 4,
+          "training_rows": 659,
+          "training_errors": 123,
+          "validation_rows": 148,
+          "C": 10.0,
+          "class_weight": null,
+          "auroc": 0.7439265536723164,
+          "average_precision": 0.4473072719962694,
+          "brier_score": 0.1410541981458664,
+          "coverage80": {
+            "threshold": 0.3368561863899231,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.864406779661017,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "model_file": "outputs\\logistic_baselines\\models\\all_core.joblib",
+          "model_sha256": "f8b3ce92556820976603a4d1b94078d98ed97ecf4604cfaacd4d9115327e0ca2",
+          "converged": true,
+          "scaler_training_rows": 659,
+          "iterations": [
+            12
+          ],
+          "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+          "standardized_coefficients": [
+            -0.1488277167081833,
+            -0.9114874601364136,
+            -0.08745326101779938,
+            -0.31375622749328613
+          ],
+          "intercept": [
+            -1.8501118421554565
+          ],
+          "auroc_image_bootstrap95": [
+            0.6389352888490819,
+            0.8436198102616866
+          ],
+          "paired_delta_vs_heuristic95": [
+            -0.01060206251797434,
+            0.06697508766803036
+          ],
+          "bootstrap_samples": 1000,
+          "input_feature_names": [
+            "p_original",
+            "confidence",
+            "p_blind",
+            "image_sensitivity"
+          ],
+          "uses_hidden_state": false
+        },
+        "all_hidden9": {
+          "name": "all_hidden9",
+          "trained": true,
+          "feature_set": "hidden",
+          "cohort": "all",
+          "layer": 9,
+          "input_dimensions": 2048,
+          "training_rows": 659,
+          "training_errors": 123,
+          "validation_rows": 148,
+          "C": 0.01,
+          "class_weight": null,
+          "auroc": 0.5692090395480226,
+          "average_precision": 0.24691916253654195,
+          "brier_score": 0.1704135537147522,
+          "coverage80": {
+            "threshold": 0.2719414532184601,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 22,
+            "retained_vlm_accuracy": 0.8135593220338984,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "model_file": "outputs\\logistic_baselines\\models\\all_hidden9.joblib",
+          "model_sha256": "9c98e61c3605d8758c1b62ce537dfc1ffa4c7dbe27ab6bb059ba1632e3abc7be",
+          "converged": true,
+          "scaler_training_rows": 659,
+          "iterations": [
+            69
+          ],
+          "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+          "auroc_image_bootstrap95": [
+            0.44242421676936317,
+            0.6818196197672687
+          ],
+          "paired_delta_vs_heuristic95": [
+            -0.3059676001082251,
+            0.012649420045281723
+          ],
+          "bootstrap_samples": 1000,
+          "input_feature_names": null,
+          "uses_hidden_state": true
+        },
+        "all_hidden18": {
+          "name": "all_hidden18",
+          "trained": true,
+          "feature_set": "hidden",
+          "cohort": "all",
+          "layer": 18,
+          "input_dimensions": 2048,
+          "training_rows": 659,
+          "training_errors": 123,
+          "validation_rows": 148,
+          "C": 0.001,
+          "class_weight": "balanced",
+          "auroc": 0.5748587570621468,
+          "average_precision": 0.23586302670777393,
+          "brier_score": 0.243753120303154,
+          "coverage80": {
+            "threshold": 0.5790771842002869,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 23,
+            "retained_vlm_accuracy": 0.8050847457627118,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "model_file": "outputs\\logistic_baselines\\models\\all_hidden18.joblib",
+          "model_sha256": "d429cf510a11e8132ff82f2ee5b92f8d22080cd6552520746ced820465f7f0b4",
+          "converged": true,
+          "scaler_training_rows": 659,
+          "iterations": [
+            42
+          ],
+          "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+          "auroc_image_bootstrap95": [
+            0.46373145737569327,
+            0.6765018187830688
+          ],
+          "paired_delta_vs_heuristic95": [
+            -0.2880355769230769,
+            0.012701179029303775
+          ],
+          "bootstrap_samples": 1000,
+          "input_feature_names": null,
+          "uses_hidden_state": true
+        },
+        "all_hidden36": {
+          "name": "all_hidden36",
+          "trained": true,
+          "feature_set": "hidden",
+          "cohort": "all",
+          "layer": 36,
+          "input_dimensions": 2048,
+          "training_rows": 659,
+          "training_errors": 123,
+          "validation_rows": 148,
+          "C": 0.01,
+          "class_weight": null,
+          "auroc": 0.7163841807909604,
+          "average_precision": 0.33451452050004116,
+          "brier_score": 0.15775266289710999,
+          "coverage80": {
+            "threshold": 0.3587651550769806,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 18,
+            "retained_vlm_accuracy": 0.847457627118644,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "model_file": "outputs\\logistic_baselines\\models\\all_hidden36.joblib",
+          "model_sha256": "e76b7d4b8f67af47fe4812ed95d986bdaf172bc3f7429462ffd42a40fcbfd607",
+          "converged": true,
+          "scaler_training_rows": 659,
+          "iterations": [
+            76
+          ],
+          "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+          "auroc_image_bootstrap95": [
+            0.6229166666666667,
+            0.809799510859663
+          ],
+          "paired_delta_vs_heuristic95": [
+            -0.08555010206442012,
+            0.09132950742967333
+          ],
+          "bootstrap_samples": 1000,
+          "input_feature_names": null,
+          "uses_hidden_state": true
+        }
+      }
+    },
+    "consistency": {
+      "training_rows": 436,
+      "validation_rows": 95,
+      "validation_errors": 21,
+      "validation_error_prevalence": 0.22105263157894736,
+      "unfiltered_vlm_accuracy": 0.7789473684210526,
+      "models": {
+        "heuristic_confidence": {
+          "name": "heuristic_confidence",
+          "trained": false,
+          "auroc": 0.7602960102960102,
+          "average_precision": 0.4621969163772949,
+          "brier_score": 0.14735010266304016,
+          "coverage80": {
+            "threshold": 0.3486451506614685,
+            "target_coverage": 0.8,
+            "answered": 74,
+            "coverage": 0.7789473684210526,
+            "retained_errors": 10,
+            "retained_vlm_accuracy": 0.8648648648648649,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "auroc_image_bootstrap95": [
+            0.6318066878019323,
+            0.8646674836601307
+          ],
+          "paired_delta_vs_heuristic95": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_samples": 1000
+        },
+        "consistency_confidence": {
+          "name": "consistency_confidence",
+          "trained": true,
+          "feature_set": "confidence",
+          "cohort": "consistency",
+          "layer": 18,
+          "input_dimensions": 2,
+          "training_rows": 436,
+          "training_errors": 81,
+          "validation_rows": 95,
+          "C": 0.1,
+          "class_weight": "balanced",
+          "auroc": 0.786036036036036,
+          "average_precision": 0.48333038293443925,
+          "brier_score": 0.1886463761329651,
+          "coverage80": {
+            "threshold": 0.617290735244751,
+            "target_coverage": 0.8,
+            "answered": 75,
+            "coverage": 0.7894736842105263,
+            "retained_errors": 10,
+            "retained_vlm_accuracy": 0.8666666666666667,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "model_file": "outputs\\logistic_baselines\\models\\consistency_confidence.joblib",
+          "model_sha256": "e4ed9be416cb74ad41cbcb2e680b7f2c74f09ab1b22224d1b097441532fe3a6d",
+          "converged": true,
+          "scaler_training_rows": 436,
+          "iterations": [
+            6
+          ],
+          "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+          "standardized_coefficients": [
+            -0.4870758056640625,
+            -1.0216825008392334
+          ],
+          "intercept": [
+            -0.3904784619808197
+          ],
+          "auroc_image_bootstrap95": [
+            0.6718469158496732,
+            0.8811794367339948
+          ],
+          "paired_delta_vs_heuristic95": [
+            -0.02928763070996152,
+            0.07481631161236432
+          ],
+          "bootstrap_samples": 1000,
+          "input_feature_names": [
+            "p_original",
+            "confidence"
+          ],
+          "uses_hidden_state": false
+        },
+        "consistency_core": {
+          "name": "consistency_core",
+          "trained": true,
+          "feature_set": "core",
+          "cohort": "consistency",
+          "layer": 18,
+          "input_dimensions": 4,
+          "training_rows": 436,
+          "training_errors": 81,
+          "validation_rows": 95,
+          "C": 10.0,
+          "class_weight": "balanced",
+          "auroc": 0.7915057915057915,
+          "average_precision": 0.4931463725111972,
+          "brier_score": 0.18602590262889862,
+          "coverage80": {
+            "threshold": 0.6676757335662842,
+            "target_coverage": 0.8,
+            "answered": 76,
+            "coverage": 0.8,
+            "retained_errors": 11,
+            "retained_vlm_accuracy": 0.8552631578947368,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "model_file": "outputs\\logistic_baselines\\models\\consistency_core.joblib",
+          "model_sha256": "6ddb1f5ee578d5b13295eaf0ccf51c0ac1d3000b6541f899e01e40845c7e8be3",
+          "converged": true,
+          "scaler_training_rows": 436,
+          "iterations": [
+            13
+          ],
+          "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+          "standardized_coefficients": [
+            -0.251836359500885,
+            -1.032069206237793,
+            -0.10643362253904343,
+            -0.40870386362075806
+          ],
+          "intercept": [
+            -0.49616822600364685
+          ],
+          "auroc_image_bootstrap95": [
+            0.6801946510297483,
+            0.8823739495798318
+          ],
+          "paired_delta_vs_heuristic95": [
+            -0.03477720883534135,
+            0.09190205063680668
+          ],
+          "bootstrap_samples": 1000,
+          "input_feature_names": [
+            "p_original",
+            "confidence",
+            "p_blind",
+            "image_sensitivity"
+          ],
+          "uses_hidden_state": false
+        },
+        "consistency_behavior": {
+          "name": "consistency_behavior",
+          "trained": true,
+          "feature_set": "behavior",
+          "cohort": "consistency",
+          "layer": 18,
+          "input_dimensions": 7,
+          "training_rows": 436,
+          "training_errors": 81,
+          "validation_rows": 95,
+          "C": 10.0,
+          "class_weight": "balanced",
+          "auroc": 0.7863577863577863,
+          "average_precision": 0.5295194451424194,
+          "brier_score": 0.1851055920124054,
+          "coverage80": {
+            "threshold": 0.664043664932251,
+            "target_coverage": 0.8,
+            "answered": 76,
+            "coverage": 0.8,
+            "retained_errors": 12,
+            "retained_vlm_accuracy": 0.8421052631578947,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          },
+          "model_file": "outputs\\logistic_baselines\\models\\consistency_behavior.joblib",
+          "model_sha256": "4397231bd33ae7ca639065407610c8e3a5c1c87a91fb49a249cbb1fc9951b0a7",
+          "converged": true,
+          "scaler_training_rows": 436,
+          "iterations": [
+            14
+          ],
+          "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+          "standardized_coefficients": [
+            -0.33802589774131775,
+            -1.0028340816497803,
+            -0.09039318561553955,
+            -0.3472682237625122,
+            0.23790110647678375,
+            0.0324062742292881,
+            0.11879550665616989
+          ],
+          "intercept": [
+            -0.5318413972854614
+          ],
+          "auroc_image_bootstrap95": [
+            0.6737465389351032,
+            0.8854713138771683
+          ],
+          "paired_delta_vs_heuristic95": [
+            -0.05729687499999996,
+            0.10197646103896107
+          ],
+          "bootstrap_samples": 1000,
+          "input_feature_names": [
+            "p_original",
+            "confidence",
+            "p_blind",
+            "image_sensitivity",
+            "converse_disagreement",
+            "exclusive_violation",
+            "mirror_disagreement"
+          ],
+          "uses_hidden_state": false
+        }
+      }
+    }
+  },
+  "wall_seconds": 14.394
+}

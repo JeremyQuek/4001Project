@@ -1,0 +1,21 @@
+{
+  "seed": 42,
+  "C_grid": [0.001, 0.01, 0.1, 1.0, 10.0],
+  "class_weight_grid": [null, "balanced"],
+  "solver": "lbfgs",
+  "max_iter": 5000,
+  "tol": 0.000001,
+  "selection": "validation AUROC, then average precision, then smaller C, then unweighted",
+  "target_validation_coverage": 0.8,
+  "bootstrap_repetitions": 1000,
+  "experiments": [
+    {"name": "all_confidence", "feature_set": "confidence", "cohort": "all", "layer": 18},
+    {"name": "all_core", "feature_set": "core", "cohort": "all", "layer": 18},
+    {"name": "all_hidden9", "feature_set": "hidden", "cohort": "all", "layer": 9},
+    {"name": "all_hidden18", "feature_set": "hidden", "cohort": "all", "layer": 18},
+    {"name": "all_hidden36", "feature_set": "hidden", "cohort": "all", "layer": 36},
+    {"name": "consistency_confidence", "feature_set": "confidence", "cohort": "consistency", "layer": 18},
+    {"name": "consistency_core", "feature_set": "core", "cohort": "consistency", "layer": 18},
+    {"name": "consistency_behavior", "feature_set": "behavior", "cohort": "consistency", "layer": 18}
+  ]
+}

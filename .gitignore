@@ -1,2 +1,35 @@
 .DS_Store
 .claude/settings.local.json
+.venv/
+.cache/
+__pycache__/
+*.pyc
+
+# Keep source data metadata, prepared features and completed research artifacts.
+# External images, the VLM cache and the environment are reconstructed locally.
+data/*
+!data/vsr/
+data/vsr/*
+!data/vsr/raw/
+!data/vsr/processed/
+!data/vsr/extraction/
+!data/vsr/detector_ready/
+!data/vsr/review/
+
+outputs/*
+!outputs/logistic_baselines/
+!outputs/mlp_comparison/
+!outputs/vsr_audit/
+!outputs/vsr_full/
+!outputs/vsr_pilot_256/
+!outputs/vsr_pilot_512_original/
+!outputs/pilot_image_download.json
+!outputs/directional_image_download.json
+!outputs/detector_tests.log
+
+# Local credentials and incomplete downloads are never research artifacts.
+.env
+.env.*
+!.env.example
+*.part
+*.tmp

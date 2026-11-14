@@ -1,0 +1,18 @@
+{
+  "all_core_minus_all_confidence": {
+    "delta": 0.0016949152542373724,
+    "image_bootstrap95": [
+      -0.010874777145157735,
+      0.01542067307692299
+    ],
+    "note": "Conditional on validation-selected models; not an independent test estimate."
+  },
+  "consistency_behavior_minus_consistency_core": {
+    "delta": -0.005148005148005175,
+    "image_bootstrap95": [
+      -0.038021574205784704,
+      0.03278553921568639
+    ],
+    "note": "Conditional on validation-selected models; not an independent test estimate."
+  }
+}

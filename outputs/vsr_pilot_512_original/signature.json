@@ -1,0 +1,8 @@
+{
+  "manifest_sha256": "67c602d8cd058d944e69eababbb70cb59e9c4ceaf1427e6c07999acc25ecd8de",
+  "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+  "max_pixels": 401408,
+  "save_hidden": false,
+  "original_only": true,
+  "prompt_version": "run_vlm_statement_yes_no_v1"
+}

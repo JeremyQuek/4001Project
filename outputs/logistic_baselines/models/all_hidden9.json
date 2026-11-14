@@ -1,0 +1,44 @@
+{
+  "name": "all_hidden9",
+  "trained": true,
+  "feature_set": "hidden",
+  "cohort": "all",
+  "layer": 9,
+  "input_dimensions": 2048,
+  "training_rows": 659,
+  "training_errors": 123,
+  "validation_rows": 148,
+  "C": 0.01,
+  "class_weight": null,
+  "auroc": 0.5692090395480226,
+  "average_precision": 0.24691916253654195,
+  "brier_score": 0.1704135537147522,
+  "coverage80": {
+    "threshold": 0.2719414532184601,
+    "target_coverage": 0.8,
+    "answered": 118,
+    "coverage": 0.7972972972972973,
+    "retained_errors": 22,
+    "retained_vlm_accuracy": 0.8135593220338984,
+    "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+  },
+  "model_file": "outputs\\logistic_baselines\\models\\all_hidden9.joblib",
+  "model_sha256": "9c98e61c3605d8758c1b62ce537dfc1ffa4c7dbe27ab6bb059ba1632e3abc7be",
+  "converged": true,
+  "scaler_training_rows": 659,
+  "iterations": [
+    69
+  ],
+  "risk_note": "Ranking score; especially with class weighting, not assumed calibrated probability.",
+  "auroc_image_bootstrap95": [
+    0.44242421676936317,
+    0.6818196197672687
+  ],
+  "paired_delta_vs_heuristic95": [
+    -0.3059676001082251,
+    0.012649420045281723
+  ],
+  "bootstrap_samples": 1000,
+  "input_feature_names": null,
+  "uses_hidden_state": true
+}

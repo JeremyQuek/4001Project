@@ -1,0 +1,51 @@
+Batch 1/11 | train | total 107/941 | 0 new calls, 0 reused | 0.0s
+Loading Qwen/Qwen2.5-VL-3B-Instruct in 4-bit NF4 on NVIDIA GeForce RTX 4060 Laptop GPU...
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|#####     | 1/2 [00:04<00:04,  4.59s/it]
+Loading checkpoint shards: 100%|##########| 2/2 [00:08<00:00,  4.33s/it]
+Loading checkpoint shards: 100%|##########| 2/2 [00:08<00:00,  4.37s/it]
+Progress 132/941 | train | 43s
+Progress 157/941 | train | 80s
+Progress 182/941 | train | 124s
+Batch 2/11 | train | total 200/941 | 303 new calls, 42 reused | 150.9s
+Progress 207/941 | train | 163s
+Progress 232/941 | train | 218s
+Progress 257/941 | train | 260s
+Progress 282/941 | train | 309s
+Batch 3/11 | train | total 300/941 | 666 new calls, 86 reused | 343.0s
+Progress 307/941 | train | 363s
+Progress 332/941 | train | 411s
+Progress 357/941 | train | 454s
+Progress 382/941 | train | 511s
+Batch 4/11 | train | total 400/941 | 1008 new calls, 136 reused | 538.6s
+Progress 407/941 | train | 558s
+Progress 432/941 | train | 602s
+Progress 457/941 | train | 654s
+Progress 482/941 | train | 702s
+Batch 5/11 | train | total 500/941 | 1353 new calls, 195 reused | 745.0s
+Progress 507/941 | train | 758s
+Progress 532/941 | train | 800s
+Progress 557/941 | train | 851s
+Progress 582/941 | train | 900s
+Batch 6/11 | train | total 600/941 | 1679 new calls, 258 reused | 928.2s
+Progress 607/941 | train | 943s
+Progress 632/941 | train | 993s
+Progress 657/941 | train | 1048s
+Batch 7/11 | train | total 659/941 | 1886 new calls, 304 reused | 1053.0s
+Progress 682/941 | validation | 1103s
+Progress 707/941 | validation | 1165s
+Progress 732/941 | validation | 1220s
+Progress 757/941 | validation | 1280s
+Batch 8/11 | validation | total 759/941 | 2278 new calls, 304 reused | 1283.8s
+Progress 782/941 | validation | 1336s
+Progress 807/941 | validation | 1392s
+Batch 9/11 | validation | total 807/941 | 2467 new calls, 304 reused | 1391.5s
+Progress 832/941 | test | 1450s
+Progress 857/941 | test | 1509s
+Progress 882/941 | test | 1576s
+Progress 907/941 | test | 1635s
+Batch 10/11 | test | total 907/941 | 2880 new calls, 304 reused | 1635.2s
+Progress 932/941 | test | 1687s
+Batch 11/11 | test | total 941/941 | 2996 new calls, 304 reused | 1703.0s
+{"started_unix": 1794563082.6725852, "wall_seconds": 1702.962, "new_records": 834, "new_calls": 2996, "reused_calls": 304, "reused_hidden": 80, "complete": true, "completed": 941, "model": {"model_id": "Qwen/Qwen2.5-VL-3B-Instruct", "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3", "quantization": "4-bit NF4 double quantization; visual and lm_head excluded", "compute_dtype": "torch.bfloat16", "attention": "sdpa", "batch_size": 1, "max_pixels": 200704, "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU", "processor_use_fast": true, "min_pixels": 3136, "python": "3.12.5", "torch": "2.9.1+cu126", "cuda_runtime": "12.6", "packages": {"transformers": "4.57.6", "accelerate": "1.12.0", "bitsandbytes": "0.49.2", "huggingface-hub": "0.36.2"}, "model_load_seconds": 11.822}}

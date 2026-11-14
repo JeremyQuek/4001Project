@@ -1,0 +1,154 @@
+{
+  "revision": "b27a0af0ee1462d2b6b92c8c83e869d9254a241a",
+  "split_seed": 42,
+  "split_method": "70/15/15 of shuffled unique images globally; inherited by subsets",
+  "original_split_shared_images": 1400,
+  "duplicate_statements_removed": 0,
+  "all": {
+    "statements": 10972,
+    "unique_images": 6259,
+    "truth_labels": {
+      "0": 5351,
+      "1": 5621
+    },
+    "relations": {
+      "above": 341,
+      "across": 14,
+      "across from": 94,
+      "adjacent to": 77,
+      "against": 46,
+      "ahead of": 39,
+      "along": 6,
+      "alongside": 55,
+      "among": 1,
+      "around": 7,
+      "at": 5,
+      "at the back of": 94,
+      "at the edge of": 211,
+      "at the left side of": 421,
+      "at the right side of": 480,
+      "at the side of": 58,
+      "attached to": 56,
+      "away from": 155,
+      "behind": 709,
+      "below": 277,
+      "beneath": 341,
+      "beside": 188,
+      "between": 5,
+      "beyond": 20,
+      "by": 52,
+      "close to": 93,
+      "congruent": 1,
+      "connected to": 37,
+      "consists of": 35,
+      "contains": 343,
+      "detached from": 13,
+      "down": 2,
+      "down from": 13,
+      "enclosed by": 21,
+      "facing": 306,
+      "facing away from": 180,
+      "far away from": 232,
+      "far from": 145,
+      "has as a part": 28,
+      "in": 276,
+      "in front of": 737,
+      "in the middle of": 92,
+      "inside": 240,
+      "into": 29,
+      "left of": 210,
+      "near": 110,
+      "next to": 309,
+      "off": 74,
+      "on": 585,
+      "on top of": 505,
+      "opposite to": 36,
+      "out of": 11,
+      "outside": 32,
+      "over": 84,
+      "parallel to": 90,
+      "part of": 113,
+      "past": 5,
+      "perpendicular to": 71,
+      "right of": 113,
+      "surrounding": 90,
+      "through": 1,
+      "touching": 1281,
+      "toward": 36,
+      "under": 589,
+      "with": 19,
+      "within": 33
+    },
+    "splits": {
+      "train": {
+        "statements": 7728,
+        "images": 4381
+      },
+      "validation": {
+        "statements": 1610,
+        "images": 938
+      },
+      "test": {
+        "statements": 1634,
+        "images": 940
+      }
+    }
+  },
+  "directional_candidates": {
+    "statements": 941,
+    "unique_images": 855,
+    "truth_labels": {
+      "1": 501,
+      "0": 440
+    },
+    "relations": {
+      "above": 341,
+      "below": 277,
+      "left of": 210,
+      "right of": 113
+    },
+    "splits": {
+      "train": {
+        "statements": 659,
+        "images": 596
+      },
+      "validation": {
+        "statements": 148,
+        "images": 140
+      },
+      "test": {
+        "statements": 134,
+        "images": 119
+      }
+    }
+  },
+  "pilot_candidates": {
+    "statements": 100,
+    "unique_images": 98,
+    "truth_labels": {
+      "1": 52,
+      "0": 48
+    },
+    "relations": {
+      "above": 41,
+      "below": 31,
+      "left of": 16,
+      "right of": 12
+    },
+    "splits": {
+      "train": {
+        "statements": 100,
+        "images": 98
+      },
+      "validation": {
+        "statements": 0,
+        "images": 0
+      },
+      "test": {
+        "statements": 0,
+        "images": 0
+      }
+    }
+  },
+  "status": "Metadata candidates only. No images downloaded; directional semantics require visual audit."
+}

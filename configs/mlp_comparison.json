@@ -1,0 +1,19 @@
+{
+  "hidden_units": 32,
+  "dropout": 0.2,
+  "learning_rate": 0.001,
+  "batch_size": 32,
+  "max_epochs": 200,
+  "patience": 15,
+  "min_delta": 0.00001,
+  "weight_decay_grid": [0.0001, 0.01],
+  "class_weight_grid": [null, "balanced"],
+  "seeds": [42, 43, 44],
+  "primary_seed": 42,
+  "primary_experiments": ["all_core", "consistency_behavior"],
+  "selection": "Mean validation AUROC across all three seeds, then mean average precision, then larger weight decay, then unweighted",
+  "checkpoint_selection": "Minimum validation BCE under fixed early-stopping rule; training-derived class weights",
+  "target_validation_coverage": 0.8,
+  "bootstrap_repetitions": 2000,
+  "test_policy": "Freeze selected checkpoints and validation thresholds before opening test. Primary comparison uses seed 42, not the best seed. Other seeds describe training variability; no ensemble. No changes after test results."
+}

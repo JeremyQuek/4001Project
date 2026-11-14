@@ -1,0 +1,94 @@
+{
+  "config": {
+    "seed": 42,
+    "C_grid": [
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "class_weight_grid": [
+      null,
+      "balanced"
+    ],
+    "solver": "lbfgs",
+    "max_iter": 5000,
+    "tol": 1e-06,
+    "selection": "validation AUROC, then average precision, then smaller C, then unweighted",
+    "target_validation_coverage": 0.8,
+    "bootstrap_repetitions": 1000,
+    "experiments": [
+      {
+        "name": "all_confidence",
+        "feature_set": "confidence",
+        "cohort": "all",
+        "layer": 18
+      },
+      {
+        "name": "all_core",
+        "feature_set": "core",
+        "cohort": "all",
+        "layer": 18
+      },
+      {
+        "name": "all_hidden9",
+        "feature_set": "hidden",
+        "cohort": "all",
+        "layer": 9
+      },
+      {
+        "name": "all_hidden18",
+        "feature_set": "hidden",
+        "cohort": "all",
+        "layer": 18
+      },
+      {
+        "name": "all_hidden36",
+        "feature_set": "hidden",
+        "cohort": "all",
+        "layer": 36
+      },
+      {
+        "name": "consistency_confidence",
+        "feature_set": "confidence",
+        "cohort": "consistency",
+        "layer": 18
+      },
+      {
+        "name": "consistency_core",
+        "feature_set": "core",
+        "cohort": "consistency",
+        "layer": 18
+      },
+      {
+        "name": "consistency_behavior",
+        "feature_set": "behavior",
+        "cohort": "consistency",
+        "layer": 18
+      }
+    ]
+  },
+  "config_sha256": "a6ab9e3537829daa6abfeb951cefc0653002108ff32b7e3020834cdcb6bf326a",
+  "data_checksums": {
+    "train.npz": "2afcce81e384fd2e7b9da1aeb70acc43f57f592736e5ba4bacdbb361fc119059",
+    "validation.npz": "0d84135c3d0c7a5bf73bf0d92dc41deb0f8c4f084aad12b85c224530ce49450f"
+  },
+  "target": "1 = original VLM answer incorrect; 0 = correct",
+  "training_splits_opened": [
+    "train",
+    "validation"
+  ],
+  "test_opened": false,
+  "scaler_fit": "train only",
+  "model_fit": "train only",
+  "hyperparameter_selection": "validation only",
+  "threshold_selection": "validation only; target 80% coverage",
+  "test_policy": "Reserved for final comparison after MLP/model selection is frozen.",
+  "versions": {
+    "scikit-learn": "1.9.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0"
+  }
+}

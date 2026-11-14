@@ -1,0 +1,16 @@
+{
+  "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+  "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+  "quantization": "4-bit NF4 double quantization; visual and lm_head excluded",
+  "compute_dtype": "torch.bfloat16",
+  "attention": "sdpa",
+  "batch_size": 1,
+  "max_pixels": 200704,
+  "processor_use_fast": true,
+  "min_pixels": 3136,
+  "prompt_version": "run_vlm_statement_yes_no_v1",
+  "score_definition": "Softmax of canonical Yes/No token logits only",
+  "split_seed": 42,
+  "selection_basis": "Training pilot: 256 and 512 token caps both achieved 82/100; retain smaller budget.",
+  "note": "A run configuration record; the runner shares the loader in scripts/run_vlm.py."
+}

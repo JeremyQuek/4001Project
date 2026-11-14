@@ -1,0 +1,98 @@
+{
+  "config": {
+    "hidden_units": 32,
+    "dropout": 0.2,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "max_epochs": 200,
+    "patience": 15,
+    "min_delta": 1e-05,
+    "weight_decay_grid": [
+      0.0001,
+      0.01
+    ],
+    "class_weight_grid": [
+      null,
+      "balanced"
+    ],
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "primary_seed": 42,
+    "primary_experiments": [
+      "all_core",
+      "consistency_behavior"
+    ],
+    "selection": "Mean validation AUROC across all three seeds, then mean average precision, then larger weight decay, then unweighted",
+    "checkpoint_selection": "Minimum validation BCE under fixed early-stopping rule; training-derived class weights",
+    "target_validation_coverage": 0.8,
+    "bootstrap_repetitions": 2000,
+    "test_policy": "Freeze selected checkpoints and validation thresholds before opening test. Primary comparison uses seed 42, not the best seed. Other seeds describe training variability; no ensemble. No changes after test results."
+  },
+  "config_sha256": "8911331c35f70a4f70e97299e14ca066657ff6eb342479764aebb9a069b11350",
+  "experiments": [
+    {
+      "name": "all_confidence",
+      "feature_set": "confidence",
+      "cohort": "all",
+      "layer": 18
+    },
+    {
+      "name": "all_core",
+      "feature_set": "core",
+      "cohort": "all",
+      "layer": 18
+    },
+    {
+      "name": "all_hidden9",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 9
+    },
+    {
+      "name": "all_hidden18",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 18
+    },
+    {
+      "name": "all_hidden36",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 36
+    },
+    {
+      "name": "consistency_confidence",
+      "feature_set": "confidence",
+      "cohort": "consistency",
+      "layer": 18
+    },
+    {
+      "name": "consistency_core",
+      "feature_set": "core",
+      "cohort": "consistency",
+      "layer": 18
+    },
+    {
+      "name": "consistency_behavior",
+      "feature_set": "behavior",
+      "cohort": "consistency",
+      "layer": 18
+    }
+  ],
+  "data_checksums": {
+    "train.npz": "2afcce81e384fd2e7b9da1aeb70acc43f57f592736e5ba4bacdbb361fc119059",
+    "validation.npz": "0d84135c3d0c7a5bf73bf0d92dc41deb0f8c4f084aad12b85c224530ce49450f"
+  },
+  "fit_splits": [
+    "train"
+  ],
+  "selection_split": "validation",
+  "test_opened": false,
+  "device": "CPU",
+  "torch_version": "2.9.1+cu126",
+  "numerical_threads": 1,
+  "ensemble": false
+}

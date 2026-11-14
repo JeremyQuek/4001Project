@@ -1,0 +1,27 @@
+{
+  "reviewer": "Codex visual inspection",
+  "method": "Viewed all 10 contact sheets covering 100 statements; inspected original images 17, 25, 86, 96 and four original/mirror comparisons at full displayed resolution. No VLM predictions were used.",
+  "source_manifest_sha256": "40f052538ea9a4bf572e66d9641fb0a5752717e159c539fa94e76cd5e557f4b2",
+  "reviewed": 100,
+  "consistency_ready": 73,
+  "flagged": 27,
+  "flag_categories": {
+    "spatial_ambiguity": 9,
+    "referent_visibility": 12,
+    "object_identity": 4,
+    "reference_frame": 2
+  },
+  "ready_relations": {
+    "right of": 8,
+    "above": 33,
+    "below": 23,
+    "left of": 9
+  },
+  "ready_truth_labels": {
+    "1": 43,
+    "0": 30
+  },
+  "truth_labels_changed": 0,
+  "all_training_split": true,
+  "vlm_predictions_used_for_review": false
+}

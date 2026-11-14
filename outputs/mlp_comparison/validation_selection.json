@@ -1,0 +1,923 @@
+{
+  "models": {
+    "all_confidence": {
+      "name": "all_confidence",
+      "feature_set": "confidence",
+      "cohort": "all",
+      "layer": 18,
+      "input_dim": 2,
+      "train_rows": 659,
+      "validation_rows": 148,
+      "selected_weight_decay": 0.01,
+      "selected_class_weight": null,
+      "selection_metrics": {
+        "experiment": "all_confidence",
+        "weight_decay": 0.01,
+        "class_weight": "None",
+        "mean_validation_auroc": 0.7399246704331449,
+        "std_validation_auroc": 0.001060106426478115,
+        "mean_validation_average_precision": 0.4274071411204557,
+        "seed42_auroc": 0.7405367231638418,
+        "seed42_best_epoch": 67,
+        "seed43_auroc": 0.7405367231638418,
+        "seed43_best_epoch": 101,
+        "seed44_auroc": 0.7387005649717514,
+        "seed44_best_epoch": 71
+      },
+      "scaler_file": "outputs\\mlp_comparison\\models\\all_confidence_scaler.joblib",
+      "scaler_sha256": "5132405d88d38d990e8cb39a3773370e26f382b2ca822874d74ac8025a50aa19",
+      "seeds": {
+        "42": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_confidence_seed42.pt",
+          "checkpoint_sha256": "08fbe597d4a53623137c2dd4b23e48fb562bf2095ef6546471cba83c297f3157",
+          "best_epoch": 67,
+          "epochs_run": 82,
+          "training_metrics": {
+            "auroc": 0.7691420944060187,
+            "average_precision": 0.4037039768250555,
+            "brier_score": 0.12991458177566528
+          },
+          "validation_metrics": {
+            "auroc": 0.7405367231638418,
+            "average_precision": 0.42781416850261084,
+            "brier_score": 0.14192461967468262
+          },
+          "coverage80": {
+            "threshold": 0.3168553411960602,
+            "target_coverage": 0.8,
+            "answered": 113,
+            "coverage": 0.7635135135135135,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.8584070796460177,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "43": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_confidence_seed43.pt",
+          "checkpoint_sha256": "07577b1f6759f575afad2ae6723e6fd4f15e7a44238c361e440d0589435d3728",
+          "best_epoch": 101,
+          "epochs_run": 116,
+          "training_metrics": {
+            "auroc": 0.7693544472758161,
+            "average_precision": 0.4038374520221652,
+            "brier_score": 0.12997624278068542
+          },
+          "validation_metrics": {
+            "auroc": 0.7405367231638418,
+            "average_precision": 0.42781416850261084,
+            "brier_score": 0.14208994805812836
+          },
+          "coverage80": {
+            "threshold": 0.3140018582344055,
+            "target_coverage": 0.8,
+            "answered": 113,
+            "coverage": 0.7635135135135135,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.8584070796460177,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "44": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_confidence_seed44.pt",
+          "checkpoint_sha256": "ca539e0d8193f037b3cfa94dec20fab78cc10c5a8f4d2a62f27c4fbb66f72cb5",
+          "best_epoch": 71,
+          "epochs_run": 86,
+          "training_metrics": {
+            "auroc": 0.769908081543502,
+            "average_precision": 0.4028734158745717,
+            "brier_score": 0.13002467155456543
+          },
+          "validation_metrics": {
+            "auroc": 0.7387005649717514,
+            "average_precision": 0.4265930863561454,
+            "brier_score": 0.14207938313484192
+          },
+          "coverage80": {
+            "threshold": 0.30824166536331177,
+            "target_coverage": 0.8,
+            "answered": 113,
+            "coverage": 0.7635135135135135,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.8584070796460177,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        }
+      }
+    },
+    "all_core": {
+      "name": "all_core",
+      "feature_set": "core",
+      "cohort": "all",
+      "layer": 18,
+      "input_dim": 4,
+      "train_rows": 659,
+      "validation_rows": 148,
+      "selected_weight_decay": 0.0001,
+      "selected_class_weight": null,
+      "selection_metrics": {
+        "experiment": "all_core",
+        "weight_decay": 0.0001,
+        "class_weight": "None",
+        "mean_validation_auroc": 0.7473163841807909,
+        "std_validation_auroc": 0.0012945129081795713,
+        "mean_validation_average_precision": 0.4764808089163281,
+        "seed42_auroc": 0.7459039548022599,
+        "seed42_best_epoch": 17,
+        "seed43_auroc": 0.7484463276836157,
+        "seed43_best_epoch": 14,
+        "seed44_auroc": 0.7475988700564972,
+        "seed44_best_epoch": 20
+      },
+      "scaler_file": "outputs\\mlp_comparison\\models\\all_core_scaler.joblib",
+      "scaler_sha256": "6bc3d24d610098f9517a3e84705830d1e1c46cce81372f90e9694f44d0874f8f",
+      "seeds": {
+        "42": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_core_seed42.pt",
+          "checkpoint_sha256": "2d6126c5fdc5d9eb50e1866ee8b2edfbdc0b60c1b2a500ac1321ca83e089cf16",
+          "best_epoch": 17,
+          "epochs_run": 32,
+          "training_metrics": {
+            "auroc": 0.7749514622011892,
+            "average_precision": 0.41081868386808007,
+            "brier_score": 0.13004350662231445
+          },
+          "validation_metrics": {
+            "auroc": 0.7459039548022599,
+            "average_precision": 0.46546317895306005,
+            "brier_score": 0.14068210124969482
+          },
+          "coverage80": {
+            "threshold": 0.31573036313056946,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.864406779661017,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "43": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_core_seed43.pt",
+          "checkpoint_sha256": "8acb43ce4b872ac8d67757efdffe484aa0d1459047536dfc12b0a0ef649d0e5b",
+          "best_epoch": 14,
+          "epochs_run": 29,
+          "training_metrics": {
+            "auroc": 0.769946001698823,
+            "average_precision": 0.410819086590365,
+            "brier_score": 0.13096821308135986
+          },
+          "validation_metrics": {
+            "auroc": 0.7484463276836157,
+            "average_precision": 0.5050038031019355,
+            "brier_score": 0.14129580557346344
+          },
+          "coverage80": {
+            "threshold": 0.32950177788734436,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.864406779661017,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "44": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_core_seed44.pt",
+          "checkpoint_sha256": "b0df474c065815bdddcb3571c8038ad47877162c73bffd7bfee8369b788e3901",
+          "best_epoch": 20,
+          "epochs_run": 35,
+          "training_metrics": {
+            "auroc": 0.7750879747603446,
+            "average_precision": 0.4133163155437452,
+            "brier_score": 0.1295510083436966
+          },
+          "validation_metrics": {
+            "auroc": 0.7475988700564972,
+            "average_precision": 0.4589754446939886,
+            "brier_score": 0.14122825860977173
+          },
+          "coverage80": {
+            "threshold": 0.30911946296691895,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.864406779661017,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        }
+      }
+    },
+    "all_hidden9": {
+      "name": "all_hidden9",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 9,
+      "input_dim": 2048,
+      "train_rows": 659,
+      "validation_rows": 148,
+      "selected_weight_decay": 0.01,
+      "selected_class_weight": null,
+      "selection_metrics": {
+        "experiment": "all_hidden9",
+        "weight_decay": 0.01,
+        "class_weight": "None",
+        "mean_validation_auroc": 0.5761770244821093,
+        "std_validation_auroc": 0.024628707832364104,
+        "mean_validation_average_precision": 0.271129546523033,
+        "seed42_auroc": 0.5901129943502825,
+        "seed42_best_epoch": 11,
+        "seed43_auroc": 0.5906779661016949,
+        "seed43_best_epoch": 8,
+        "seed44_auroc": 0.5477401129943502,
+        "seed44_best_epoch": 4
+      },
+      "scaler_file": "outputs\\mlp_comparison\\models\\all_hidden9_scaler.joblib",
+      "scaler_sha256": "edbbba6aec447fa164348c61211a0b5121f5a6f55bdfb4da754a78b9a3a23c0a",
+      "seeds": {
+        "42": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden9_seed42.pt",
+          "checkpoint_sha256": "fbad760498c232b52913897df538d0550fbb6ca0c0cfcba8b9a3503ee76755b1",
+          "best_epoch": 11,
+          "epochs_run": 26,
+          "training_metrics": {
+            "auroc": 0.9401164907171461,
+            "average_precision": 0.813153009997492,
+            "brier_score": 0.08476771414279938
+          },
+          "validation_metrics": {
+            "auroc": 0.5901129943502825,
+            "average_precision": 0.26688822354510655,
+            "brier_score": 0.1708318293094635
+          },
+          "coverage80": {
+            "threshold": 0.31881892681121826,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 23,
+            "retained_vlm_accuracy": 0.8050847457627118,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "43": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden9_seed43.pt",
+          "checkpoint_sha256": "2726fb7717fff8e59064ee439f1be1498317e9b16091a875fdf324e36e2f4b83",
+          "best_epoch": 8,
+          "epochs_run": 23,
+          "training_metrics": {
+            "auroc": 0.8609847105933746,
+            "average_precision": 0.6866804391224012,
+            "brier_score": 0.10441207140684128
+          },
+          "validation_metrics": {
+            "auroc": 0.5906779661016949,
+            "average_precision": 0.31828338958919333,
+            "brier_score": 0.16910803318023682
+          },
+          "coverage80": {
+            "threshold": 0.34618842601776123,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 22,
+            "retained_vlm_accuracy": 0.8135593220338984,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "44": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden9_seed44.pt",
+          "checkpoint_sha256": "bf48ebf2261107bf7fe3198aaae06a31ffb34c233a70d1b4a72e2bcc26498c18",
+          "best_epoch": 4,
+          "epochs_run": 19,
+          "training_metrics": {
+            "auroc": 0.8014804028637302,
+            "average_precision": 0.5168671519998077,
+            "brier_score": 0.12246308475732803
+          },
+          "validation_metrics": {
+            "auroc": 0.5477401129943502,
+            "average_precision": 0.2282170264347992,
+            "brier_score": 0.17582300305366516
+          },
+          "coverage80": {
+            "threshold": 0.3278166949748993,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 24,
+            "retained_vlm_accuracy": 0.7966101694915254,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        }
+      }
+    },
+    "all_hidden18": {
+      "name": "all_hidden18",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 18,
+      "input_dim": 2048,
+      "train_rows": 659,
+      "validation_rows": 148,
+      "selected_weight_decay": 0.0001,
+      "selected_class_weight": null,
+      "selection_metrics": {
+        "experiment": "all_hidden18",
+        "weight_decay": 0.0001,
+        "class_weight": "None",
+        "mean_validation_auroc": 0.6181732580037664,
+        "std_validation_auroc": 0.011162065169670329,
+        "mean_validation_average_precision": 0.25895967864933567,
+        "seed42_auroc": 0.6161016949152542,
+        "seed42_best_epoch": 5,
+        "seed43_auroc": 0.6081920903954803,
+        "seed43_best_epoch": 7,
+        "seed44_auroc": 0.6302259887005649,
+        "seed44_best_epoch": 7
+      },
+      "scaler_file": "outputs\\mlp_comparison\\models\\all_hidden18_scaler.joblib",
+      "scaler_sha256": "e8ff911c75e5a2e5d400e6c14b2dfe869956b03aa9a06a9ab4895bda32bee7de",
+      "seeds": {
+        "42": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden18_seed42.pt",
+          "checkpoint_sha256": "dfa4c18113c49f50ee512235701ee0b0dc395cae966bb9ce3e5422429b0cc10f",
+          "best_epoch": 5,
+          "epochs_run": 20,
+          "training_metrics": {
+            "auroc": 0.8661873559034098,
+            "average_precision": 0.6532530515245737,
+            "brier_score": 0.10752049088478088
+          },
+          "validation_metrics": {
+            "auroc": 0.6161016949152542,
+            "average_precision": 0.27033826161116253,
+            "brier_score": 0.17149244248867035
+          },
+          "coverage80": {
+            "threshold": 0.35556864738464355,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 21,
+            "retained_vlm_accuracy": 0.8220338983050848,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "43": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden18_seed43.pt",
+          "checkpoint_sha256": "e64ff5a6578e7d3e736bee2121eb112ef619c1577e7cc800e8b8aba985006d0f",
+          "best_epoch": 7,
+          "epochs_run": 22,
+          "training_metrics": {
+            "auroc": 0.8866035675282126,
+            "average_precision": 0.6747312348798271,
+            "brier_score": 0.09999778866767883
+          },
+          "validation_metrics": {
+            "auroc": 0.6081920903954803,
+            "average_precision": 0.24749178054151463,
+            "brier_score": 0.17612618207931519
+          },
+          "coverage80": {
+            "threshold": 0.31066083908081055,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 24,
+            "retained_vlm_accuracy": 0.7966101694915254,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "44": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden18_seed44.pt",
+          "checkpoint_sha256": "dcddbc692c70a685450f107e4b96a224a12d59138334cd4af48b4ce790e63023",
+          "best_epoch": 7,
+          "epochs_run": 22,
+          "training_metrics": {
+            "auroc": 0.9231282611333576,
+            "average_precision": 0.764687326358558,
+            "brier_score": 0.09110821038484573
+          },
+          "validation_metrics": {
+            "auroc": 0.6302259887005649,
+            "average_precision": 0.25904899379532986,
+            "brier_score": 0.17316091060638428
+          },
+          "coverage80": {
+            "threshold": 0.3310675323009491,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 23,
+            "retained_vlm_accuracy": 0.8050847457627118,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        }
+      }
+    },
+    "all_hidden36": {
+      "name": "all_hidden36",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 36,
+      "input_dim": 2048,
+      "train_rows": 659,
+      "validation_rows": 148,
+      "selected_weight_decay": 0.01,
+      "selected_class_weight": null,
+      "selection_metrics": {
+        "experiment": "all_hidden36",
+        "weight_decay": 0.01,
+        "class_weight": "None",
+        "mean_validation_auroc": 0.7528248587570622,
+        "std_validation_auroc": 0.012225471756148206,
+        "mean_validation_average_precision": 0.4299142257468658,
+        "seed42_auroc": 0.7435028248587571,
+        "seed42_best_epoch": 3,
+        "seed43_auroc": 0.7666666666666666,
+        "seed43_best_epoch": 2,
+        "seed44_auroc": 0.7483050847457627,
+        "seed44_best_epoch": 4
+      },
+      "scaler_file": "outputs\\mlp_comparison\\models\\all_hidden36_scaler.joblib",
+      "scaler_sha256": "1c3ce4b47c9a132b08ce121df84fd5278984bbcd0aacd297e26d4aa44f0cafeb",
+      "seeds": {
+        "42": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden36_seed42.pt",
+          "checkpoint_sha256": "a4d593572dfbfbae7301bfe48b2da58dd2ca1139a7020d1b53851bd2e2062fc3",
+          "best_epoch": 3,
+          "epochs_run": 18,
+          "training_metrics": {
+            "auroc": 0.882735711685475,
+            "average_precision": 0.7163251844562906,
+            "brier_score": 0.10078955441713333
+          },
+          "validation_metrics": {
+            "auroc": 0.7435028248587571,
+            "average_precision": 0.4141366186749931,
+            "brier_score": 0.14560580253601074
+          },
+          "coverage80": {
+            "threshold": 0.377014696598053,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 18,
+            "retained_vlm_accuracy": 0.847457627118644,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "43": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden36_seed43.pt",
+          "checkpoint_sha256": "f866caefcdf8241bb224987b7d8622c5857f51c4f8086df439f7c9a0f5406b68",
+          "best_epoch": 2,
+          "epochs_run": 17,
+          "training_metrics": {
+            "auroc": 0.8528242931683048,
+            "average_precision": 0.6350292752258846,
+            "brier_score": 0.11062264442443848
+          },
+          "validation_metrics": {
+            "auroc": 0.7666666666666666,
+            "average_precision": 0.42948040482854943,
+            "brier_score": 0.14103397727012634
+          },
+          "coverage80": {
+            "threshold": 0.3114706873893738,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.864406779661017,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "44": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\all_hidden36_seed44.pt",
+          "checkpoint_sha256": "bd6a6b616ee54245cf96c9854ebddf26299a6d860771869dd67332d3b5a8ab63",
+          "best_epoch": 4,
+          "epochs_run": 19,
+          "training_metrics": {
+            "auroc": 0.9084607450552118,
+            "average_precision": 0.7552490955872232,
+            "brier_score": 0.09613718092441559
+          },
+          "validation_metrics": {
+            "auroc": 0.7483050847457627,
+            "average_precision": 0.44612565373705476,
+            "brier_score": 0.1430014669895172
+          },
+          "coverage80": {
+            "threshold": 0.2939470410346985,
+            "target_coverage": 0.8,
+            "answered": 118,
+            "coverage": 0.7972972972972973,
+            "retained_errors": 16,
+            "retained_vlm_accuracy": 0.864406779661017,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        }
+      }
+    },
+    "consistency_confidence": {
+      "name": "consistency_confidence",
+      "feature_set": "confidence",
+      "cohort": "consistency",
+      "layer": 18,
+      "input_dim": 2,
+      "train_rows": 436,
+      "validation_rows": 95,
+      "selected_weight_decay": 0.01,
+      "selected_class_weight": null,
+      "selection_metrics": {
+        "experiment": "consistency_confidence",
+        "weight_decay": 0.01,
+        "class_weight": "None",
+        "mean_validation_auroc": 0.781960531960532,
+        "std_validation_auroc": 0.0009829634695314388,
+        "mean_validation_average_precision": 0.4869022461746136,
+        "seed42_auroc": 0.7828185328185328,
+        "seed42_best_epoch": 54,
+        "seed43_auroc": 0.7808880308880309,
+        "seed43_best_epoch": 91,
+        "seed44_auroc": 0.7821750321750321,
+        "seed44_best_epoch": 73
+      },
+      "scaler_file": "outputs\\mlp_comparison\\models\\consistency_confidence_scaler.joblib",
+      "scaler_sha256": "01f297a737c103c373fd78cf3bc85a8e634505c3cb4fb1a243c018ce995f8402",
+      "seeds": {
+        "42": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_confidence_seed42.pt",
+          "checkpoint_sha256": "5acd3e5ab814e76be06321ef0cf72633123fadf0a288c9da4e8cd7d701b933d3",
+          "best_epoch": 54,
+          "epochs_run": 69,
+          "training_metrics": {
+            "auroc": 0.7975830290384281,
+            "average_precision": 0.44649360744920397,
+            "brier_score": 0.12465914338827133
+          },
+          "validation_metrics": {
+            "auroc": 0.7828185328185328,
+            "average_precision": 0.4913292341906495,
+            "brier_score": 0.1431514322757721
+          },
+          "coverage80": {
+            "threshold": 0.3255501091480255,
+            "target_coverage": 0.8,
+            "answered": 75,
+            "coverage": 0.7894736842105263,
+            "retained_errors": 10,
+            "retained_vlm_accuracy": 0.8666666666666667,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "43": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_confidence_seed43.pt",
+          "checkpoint_sha256": "3107e7fdacaa858dbe59df8d8ef1ccc2f959e196ef9514943ce1ab6a36b879c3",
+          "best_epoch": 91,
+          "epochs_run": 106,
+          "training_metrics": {
+            "auroc": 0.7979655712050079,
+            "average_precision": 0.44841120018505876,
+            "brier_score": 0.12395431101322174
+          },
+          "validation_metrics": {
+            "auroc": 0.7808880308880309,
+            "average_precision": 0.4904127564884575,
+            "brier_score": 0.14282305538654327
+          },
+          "coverage80": {
+            "threshold": 0.3112241327762604,
+            "target_coverage": 0.8,
+            "answered": 75,
+            "coverage": 0.7894736842105263,
+            "retained_errors": 10,
+            "retained_vlm_accuracy": 0.8666666666666667,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "44": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_confidence_seed44.pt",
+          "checkpoint_sha256": "0d9c15a6656761ed4e7754fdfdec92e17d3e37a7247a663de044b90c7dec4b22",
+          "best_epoch": 73,
+          "epochs_run": 88,
+          "training_metrics": {
+            "auroc": 0.7980003477656059,
+            "average_precision": 0.4507712272674666,
+            "brier_score": 0.12389535456895828
+          },
+          "validation_metrics": {
+            "auroc": 0.7821750321750321,
+            "average_precision": 0.47896474784473375,
+            "brier_score": 0.1429300457239151
+          },
+          "coverage80": {
+            "threshold": 0.3032726049423218,
+            "target_coverage": 0.8,
+            "answered": 75,
+            "coverage": 0.7894736842105263,
+            "retained_errors": 10,
+            "retained_vlm_accuracy": 0.8666666666666667,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        }
+      }
+    },
+    "consistency_core": {
+      "name": "consistency_core",
+      "feature_set": "core",
+      "cohort": "consistency",
+      "layer": 18,
+      "input_dim": 4,
+      "train_rows": 436,
+      "validation_rows": 95,
+      "selected_weight_decay": 0.0001,
+      "selected_class_weight": null,
+      "selection_metrics": {
+        "experiment": "consistency_core",
+        "weight_decay": 0.0001,
+        "class_weight": "None",
+        "mean_validation_auroc": 0.7887172887172887,
+        "std_validation_auroc": 0.006820297338303144,
+        "mean_validation_average_precision": 0.5131903426760913,
+        "seed42_auroc": 0.7876447876447876,
+        "seed42_best_epoch": 31,
+        "seed43_auroc": 0.796010296010296,
+        "seed43_best_epoch": 26,
+        "seed44_auroc": 0.7824967824967826,
+        "seed44_best_epoch": 34
+      },
+      "scaler_file": "outputs\\mlp_comparison\\models\\consistency_core_scaler.joblib",
+      "scaler_sha256": "4cefaca76441296632f1801107b5d083ce03040a93ce4b599a0f67092ed556f4",
+      "seeds": {
+        "42": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_core_seed42.pt",
+          "checkpoint_sha256": "5b5bd5208e32f20fd5f371fef208d84d4ca1399f0998b75387ba464f7b429043",
+          "best_epoch": 31,
+          "epochs_run": 46,
+          "training_metrics": {
+            "auroc": 0.7979655712050078,
+            "average_precision": 0.4400096016348668,
+            "brier_score": 0.12373900413513184
+          },
+          "validation_metrics": {
+            "auroc": 0.7876447876447876,
+            "average_precision": 0.5081899370115652,
+            "brier_score": 0.14125046133995056
+          },
+          "coverage80": {
+            "threshold": 0.3121698796749115,
+            "target_coverage": 0.8,
+            "answered": 76,
+            "coverage": 0.8,
+            "retained_errors": 11,
+            "retained_vlm_accuracy": 0.8552631578947368,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "43": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_core_seed43.pt",
+          "checkpoint_sha256": "2fa9420ace5a23d368829ffff2c4eae24d9b2237cbeda9b704da6d6d74fa79a5",
+          "best_epoch": 26,
+          "epochs_run": 41,
+          "training_metrics": {
+            "auroc": 0.798000347765606,
+            "average_precision": 0.4727245790763791,
+            "brier_score": 0.12495473772287369
+          },
+          "validation_metrics": {
+            "auroc": 0.796010296010296,
+            "average_precision": 0.5483796023776173,
+            "brier_score": 0.14133313298225403
+          },
+          "coverage80": {
+            "threshold": 0.31755971908569336,
+            "target_coverage": 0.8,
+            "answered": 76,
+            "coverage": 0.8,
+            "retained_errors": 11,
+            "retained_vlm_accuracy": 0.8552631578947368,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "44": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_core_seed44.pt",
+          "checkpoint_sha256": "265dc8a240b3c6dae8b9845e2532cd8beb066e59bdcaf8686c818d7e345b7436",
+          "best_epoch": 34,
+          "epochs_run": 49,
+          "training_metrics": {
+            "auroc": 0.7964701790992871,
+            "average_precision": 0.4433665819940809,
+            "brier_score": 0.12346488237380981
+          },
+          "validation_metrics": {
+            "auroc": 0.7824967824967826,
+            "average_precision": 0.4830014886390913,
+            "brier_score": 0.14259785413742065
+          },
+          "coverage80": {
+            "threshold": 0.30397096276283264,
+            "target_coverage": 0.8,
+            "answered": 76,
+            "coverage": 0.8,
+            "retained_errors": 11,
+            "retained_vlm_accuracy": 0.8552631578947368,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        }
+      }
+    },
+    "consistency_behavior": {
+      "name": "consistency_behavior",
+      "feature_set": "behavior",
+      "cohort": "consistency",
+      "layer": 18,
+      "input_dim": 7,
+      "train_rows": 436,
+      "validation_rows": 95,
+      "selected_weight_decay": 0.0001,
+      "selected_class_weight": null,
+      "selection_metrics": {
+        "experiment": "consistency_behavior",
+        "weight_decay": 0.0001,
+        "class_weight": "None",
+        "mean_validation_auroc": 0.7912912912912913,
+        "std_validation_auroc": 0.0052410088901203656,
+        "mean_validation_average_precision": 0.47723424304244744,
+        "seed42_auroc": 0.7972972972972973,
+        "seed42_best_epoch": 73,
+        "seed43_auroc": 0.788931788931789,
+        "seed43_best_epoch": 24,
+        "seed44_auroc": 0.7876447876447876,
+        "seed44_best_epoch": 27
+      },
+      "scaler_file": "outputs\\mlp_comparison\\models\\consistency_behavior_scaler.joblib",
+      "scaler_sha256": "94dc470858bc8c6100d2668a6656a9906138affdb101e99f0514160a9b3a58f7",
+      "seeds": {
+        "42": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_behavior_seed42.pt",
+          "checkpoint_sha256": "1d3e02451d78044c3b4c17da542614074c8fd7466014884e327842fc649e0685",
+          "best_epoch": 73,
+          "epochs_run": 88,
+          "training_metrics": {
+            "auroc": 0.8295774647887324,
+            "average_precision": 0.5324469928119656,
+            "brier_score": 0.11479228734970093
+          },
+          "validation_metrics": {
+            "auroc": 0.7972972972972973,
+            "average_precision": 0.4746235549012887,
+            "brier_score": 0.14058026671409607
+          },
+          "coverage80": {
+            "threshold": 0.3545374274253845,
+            "target_coverage": 0.8,
+            "answered": 76,
+            "coverage": 0.8,
+            "retained_errors": 11,
+            "retained_vlm_accuracy": 0.8552631578947368,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "43": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_behavior_seed43.pt",
+          "checkpoint_sha256": "83d022931bec0dcb3369501872b2a579e90eb8d5dc4b950f871044e8acd0f45d",
+          "best_epoch": 24,
+          "epochs_run": 39,
+          "training_metrics": {
+            "auroc": 0.8051990958094245,
+            "average_precision": 0.48035283903746984,
+            "brier_score": 0.12264388054609299
+          },
+          "validation_metrics": {
+            "auroc": 0.788931788931789,
+            "average_precision": 0.46313890492212156,
+            "brier_score": 0.14336639642715454
+          },
+          "coverage80": {
+            "threshold": 0.3068264126777649,
+            "target_coverage": 0.8,
+            "answered": 76,
+            "coverage": 0.8,
+            "retained_errors": 12,
+            "retained_vlm_accuracy": 0.8421052631578947,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        },
+        "44": {
+          "checkpoint": "outputs\\mlp_comparison\\models\\consistency_behavior_seed44.pt",
+          "checkpoint_sha256": "2dd94f7c4c9020fe32ad0b3597c214cd119461aa6bde506bf5318a41053bbba5",
+          "best_epoch": 27,
+          "epochs_run": 42,
+          "training_metrics": {
+            "auroc": 0.8119457485654669,
+            "average_precision": 0.4776151588974653,
+            "brier_score": 0.12110700458288193
+          },
+          "validation_metrics": {
+            "auroc": 0.7876447876447876,
+            "average_precision": 0.49394026930393203,
+            "brier_score": 0.14513681828975677
+          },
+          "coverage80": {
+            "threshold": 0.30730974674224854,
+            "target_coverage": 0.8,
+            "answered": 76,
+            "coverage": 0.8,
+            "retained_errors": 12,
+            "retained_vlm_accuracy": 0.8421052631578947,
+            "tie_policy": "Whole risk-score tie groups retained; coverage cannot exceed target."
+          }
+        }
+      }
+    }
+  },
+  "config": {
+    "hidden_units": 32,
+    "dropout": 0.2,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "max_epochs": 200,
+    "patience": 15,
+    "min_delta": 1e-05,
+    "weight_decay_grid": [
+      0.0001,
+      0.01
+    ],
+    "class_weight_grid": [
+      null,
+      "balanced"
+    ],
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "primary_seed": 42,
+    "primary_experiments": [
+      "all_core",
+      "consistency_behavior"
+    ],
+    "selection": "Mean validation AUROC across all three seeds, then mean average precision, then larger weight decay, then unweighted",
+    "checkpoint_selection": "Minimum validation BCE under fixed early-stopping rule; training-derived class weights",
+    "target_validation_coverage": 0.8,
+    "bootstrap_repetitions": 2000,
+    "test_policy": "Freeze selected checkpoints and validation thresholds before opening test. Primary comparison uses seed 42, not the best seed. Other seeds describe training variability; no ensemble. No changes after test results."
+  },
+  "experiments": [
+    {
+      "name": "all_confidence",
+      "feature_set": "confidence",
+      "cohort": "all",
+      "layer": 18
+    },
+    {
+      "name": "all_core",
+      "feature_set": "core",
+      "cohort": "all",
+      "layer": 18
+    },
+    {
+      "name": "all_hidden9",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 9
+    },
+    {
+      "name": "all_hidden18",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 18
+    },
+    {
+      "name": "all_hidden36",
+      "feature_set": "hidden",
+      "cohort": "all",
+      "layer": 36
+    },
+    {
+      "name": "consistency_confidence",
+      "feature_set": "confidence",
+      "cohort": "consistency",
+      "layer": 18
+    },
+    {
+      "name": "consistency_core",
+      "feature_set": "core",
+      "cohort": "consistency",
+      "layer": 18
+    },
+    {
+      "name": "consistency_behavior",
+      "feature_set": "behavior",
+      "cohort": "consistency",
+      "layer": 18
+    }
+  ],
+  "candidate_configurations": 32,
+  "seed_fits": 96,
+  "primary_seed": 42,
+  "test_opened": false,
+  "training_wall_seconds": 194.7894529000041
+}

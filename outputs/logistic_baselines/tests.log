@@ -1,0 +1,37 @@
+test_behavior_requires_matched_cohort (test_detector_data.DetectorDataTests.test_behavior_requires_matched_cohort) ... ok
+test_cohort_keeps_targets_and_comparators_aligned (test_detector_data.DetectorDataTests.test_cohort_keeps_targets_and_comparators_aligned) ... ok
+test_combined_dimensions (test_detector_data.DetectorDataTests.test_combined_dimensions) ... ok
+test_core_does_not_include_labels_or_identifiers (test_detector_data.DetectorDataTests.test_core_does_not_include_labels_or_identifiers) ... ok
+test_hidden_layer_selection (test_detector_data.DetectorDataTests.test_hidden_layer_selection) ... ok
+test_modified_artifact_rejected (test_detector_data.DetectorDataTests.test_modified_artifact_rejected) ... ok
+test_unknown_split_and_layer_rejected (test_detector_data.DetectorDataTests.test_unknown_split_and_layer_rejected) ... ok
+test_nonfinite_hidden_rejected (test_extraction_integrity.ExtractionIntegrityTests.test_nonfinite_hidden_rejected) ... ok
+test_transient_windows_lock_is_retried (test_extraction_integrity.ExtractionIntegrityTests.test_transient_windows_lock_is_retried) ... ok
+test_valid_hidden_states (test_extraction_integrity.ExtractionIntegrityTests.test_valid_hidden_states) ... ok
+test_wrong_hidden_shape_rejected (test_extraction_integrity.ExtractionIntegrityTests.test_wrong_hidden_shape_rejected) ... ok
+test_wrong_token_alignment_rejected (test_extraction_integrity.ExtractionIntegrityTests.test_wrong_token_alignment_rejected) ... ok
+test_coverage_respects_ties_and_target (test_logistic_training.LogisticTrainingTests.test_coverage_respects_ties_and_target) ... ok
+test_identical_scores_cannot_force_partial_tie_acceptance (test_logistic_training.LogisticTrainingTests.test_identical_scores_cannot_force_partial_tie_acceptance) ... ok
+test_retained_accuracy_uses_original_error_labels (test_logistic_training.LogisticTrainingTests.test_retained_accuracy_uses_original_error_labels) ... ok
+test_scaler_fitted_on_training_only_and_risk_is_error_class (test_logistic_training.LogisticTrainingTests.test_scaler_fitted_on_training_only_and_risk_is_error_class) ... ok
+test_test_split_cannot_be_opened_by_training_stage (test_logistic_training.LogisticTrainingTests.test_test_split_cannot_be_opened_by_training_stage) ... ok
+test_approval_cannot_keep_issue_flags (test_vsr_review.ReviewTests.test_approval_cannot_keep_issue_flags) ... ok
+test_changed_image_blocks_greenlight (test_vsr_review.ReviewTests.test_changed_image_blocks_greenlight) ... ok
+test_changed_source_blocks_greenlight (test_vsr_review.ReviewTests.test_changed_source_blocks_greenlight) ... ok
+test_confirmation_required (test_vsr_review.ReviewTests.test_confirmation_required) ... ok
+test_decisions_persist (test_vsr_review.ReviewTests.test_decisions_persist) ... ok
+test_each_split_must_have_included_examples (test_vsr_review.ReviewTests.test_each_split_must_have_included_examples) ... ok
+test_greenlight_preserves_labels_and_separates_cohorts (test_vsr_review.ReviewTests.test_greenlight_preserves_labels_and_separates_cohorts) ... ok
+test_incomplete_review_cannot_greenlight (test_vsr_review.ReviewTests.test_incomplete_review_cannot_greenlight) ... ok
+test_initial_state_is_unreviewed (test_vsr_review.ReviewTests.test_initial_state_is_unreviewed) ... ok
+test_later_edit_invalidates_approval (test_vsr_review.ReviewTests.test_later_edit_invalidates_approval) ... ok
+test_original_only_requires_usable_original (test_vsr_review.ReviewTests.test_original_only_requires_usable_original) ... ok
+test_other_requires_explanation (test_vsr_review.ReviewTests.test_other_requires_explanation) ... ok
+test_reasons_required (test_vsr_review.ReviewTests.test_reasons_required) ... ok
+test_stale_revision_is_rejected (test_vsr_review.ReviewTests.test_stale_revision_is_rejected) ... ok
+test_unknown_statement_rejected (test_vsr_review.ReviewTests.test_unknown_statement_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 1.528s
+
+OK

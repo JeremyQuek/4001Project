@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "source_rows_retained": 941,
+  "duplicates": 0,
+  "image_overlap_between_splits": 0,
+  "hidden_vectors_verified": 2823,
+  "hidden_values_finite": true,
+  "all_core_features_finite": true,
+  "consistency_missingness_matches_mask": true,
+  "probability_checks_passed": true,
+  "label_formula_checked": true,
+  "source_labels_preserved": true,
+  "npz_roundtrip_checked": true,
+  "training_readiness": "All required files complete. No scaler, detector or threshold fitted.",
+  "loader_scenarios_checked": 20,
+  "matched_cohort_alignment_checked": true,
+  "pilot_originals_reused_and_verified": 100
+}
