@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Hallucination Probe Pipeline</title>
+<title>Relation Lie Detector Pipeline</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -71,7 +71,7 @@ h1 {
   padding: 1px 6px; border-radius: 4px; font-weight: 600; white-space: nowrap;
 }
 .w-ok { background: var(--ok-soft); color: var(--ok); }
-.w-bad { background: var(--bad-soft); color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
+.w-bad { background: var(--bad-soft); color: var(--bad); }
 .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; color: var(--muted); }
 
 /* Steps */
@@ -152,16 +152,17 @@ footer { font-size: 14px; color: var(--muted); }
 <div class="wrap">
   <header>
     <span class="eyebrow">SC4001 · Project E</span>
-    <h1>Catching AI hallucinations in picture captioning</h1>
-    <p class="lede">Goal: Build a small detector that spots hallucinations from AI's hidden layer activations.</p>
+    <h1>Catching an AI's wrong answers about where things are</h1>
+    <p class="lede">Goal: Build a small lie detector that spots, from the AI's hidden layer activations, when it gets "left of", "on top of" and similar relations wrong.</p>
   </header>
 
   <section class="example" aria-label="Example">
     <span class="label">Example</span>
-    <p class="caption">"A <span class="w-ok">man</span> throwing a <span class="w-ok">frisbee</span> in a park, next to a <span class="w-bad">dog</span>."</p>
+    <p class="caption">Photo: a <span class="w-ok">cup to the left of a plate</span>.</p>
+    <p class="caption">We ask: "Is the cup to the right of the plate?" The AI says: <span class="w-bad">Yes</span></p>
     <div class="legend">
-      <span><span class="w-ok">green</span> in the photo</span>
-      <span><span class="w-bad">red</span> not in the photo: a hallucination</span>
+      <span><span class="w-ok">green</span> what the photo shows</span>
+      <span><span class="w-bad">red</span> a wrong answer: the detector should catch it</span>
     </div>
   </section>
 
@@ -171,93 +172,110 @@ footer { font-size: 14px; color: var(--muted); }
     <div class="step">
       <div class="num">1</div>
       <div class="card">
-        <h2>Get photos</h2>
-        <p>Use COCO dataset - Large set of photos with labelled captions.</p>
-        <div class="tags"><span class="tag">~4,000 photos</span><span class="tag">70 / 15 / 15 split</span></div>
-        <div class="out">out → photos + human object lists</div>
+        <h2>Get the data</h2>
+        <p>Use the Visual Genome dataset - photos where people boxed the objects and wrote how they relate.</p>
+        <div class="tags"><span class="tag">objects file</span><span class="tag">relationships file</span><span class="tag">alias files</span></div>
+        <div class="out">out → photos + (object, relation, object) lists</div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">2</div>
       <div class="card">
-        <h2>Let the AI caption each picture</h2>
-        <p> While the AI writes, we save its hidden layer activations.</p>
-        <div class="tags"><span class="tag frozen">Qwen2-VL-2B · frozen, not trained</span></div>
-        <div class="out">out → captions + internal numbers for each word</div>
+        <h2>Keep only position relations</h2>
+        <p>We keep 8 relations. The alias file groups different wordings ("left of", "to the left of") into one.</p>
+        <div class="tags"><span class="tag">left · right</span><span class="tag">up · down</span><span class="tag">front · back</span><span class="tag">on · under</span></div>
+        <div class="out">out → clean list of relations per photo</div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">3</div>
       <div class="card">
-        <h2> Find Mistakes </h2>
-        <p>For each picture, we compare the list of object in AI caption vs human one. Not on the list means a mistake.</p>
-        <div class="tags"><span class="tag">CHAIR matching</span><span class="tag">hand-check ~100</span></div>
-        <div class="out">out → each object word labelled real or made up</div>
+        <h2>Turn each relation into questions</h2>
+        <p>Each relation gives several questions with a known answer. Photos are then split into a train set and a test set.</p>
+        <div class="fork">
+          <div class="lane">
+            <span class="when">Answer: yes</span>
+            <h3>True version</h3>
+            <ol>
+              <li>"Is the cup to the left of the plate?"</li>
+              <li>The same question in other words.</li>
+            </ol>
+          </div>
+          <div class="lane">
+            <span class="when">Answer: no</span>
+            <h3>Flipped version</h3>
+            <ol>
+              <li>"Is the cup to the right of the plate?"</li>
+              <li>"Is the plate to the left of the cup?"</li>
+            </ol>
+          </div>
+        </div>
+        <div class="out">out → questions + ground truth, split by photo</div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">4</div>
       <div class="card">
-        <h2>Train the detector</h2>
-        <p> Using the mistaken objects pictures, and the hidden layer values for those, we train a small detector to perceive pattern in values.</p>
-        <div class="out">out → detector that says real or made up</div>
+        <h2>Ask the AI each question</h2>
+        <p>For each one we save its answer, how confident it was, and its hidden layer activations.</p>
+        <div class="tags"><span class="tag frozen">Qwen 3B · frozen, not trained</span></div>
+        <div class="out">out → answer + confidence + internal numbers for each question</div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">5</div>
       <div class="card">
-        <h2>Plug the detector in to fix descriptions</h2>
-        <p>We try two ways.</p>
-        <div class="fork">
-          <div class="lane">
-            <span class="when">After writing</span>
-            <h3>Feedback loop</h3>
-            <ol>
-              <li>The AI finishes the description.</li>
-              <li>The detector flags "dog".</li>
-              <li>We tell the AI: "dog is likely not there".</li>
-              <li>The AI rewrites it.</li>
-            </ol>
-          </div>
-          <div class="lane">
-            <span class="when">While writing</span>
-            <h3>Early warning</h3>
-            <ol>
-              <li>The AI is about to write "dog".</li>
-              <li>The detector checks first.</li>
-              <li>It says "made up".</li>
-              <li>We block "dog". The AI picks another word.</li>
-            </ol>
-          </div>
-        </div>
+        <h2>Find the wrong answers</h2>
+        <p>We compare each answer with the ground truth.</p>
+        <div class="out">out → each answer labelled right or wrong</div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">6</div>
       <div class="card">
-        <h2>Test on new photos</h2>
-        <p>We use photos from our test set the detector never saw.</p>
-        <div class="tags"><span class="tag">AUROC · F1</span><span class="tag">CHAIR before vs after</span><span class="tag">real objects kept</span></div>
+        <h2>Train the lie detector</h2>
+        <p>A small model learns to tell wrong answers from right ones using the hidden layer values. Each of us tries a different detector design and we keep the best.</p>
+        <div class="tags"><span class="tag train">only the detector is trained</span></div>
+        <div class="out">out → detector that says right or wrong</div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">7</div>
       <div class="card">
-        <h2>Compare</h2>
-        <p>Is our detector better than simple checks? Does fixing help more than random flags? How close is it to perfect flags?</p>
-        <div class="tags"><span class="tag">word confidence</span><span class="tag">object detector</span><span class="tag">random flags</span><span class="tag">perfect flags</span></div>
+        <h2>Test on new photos</h2>
+        <p>We use test-set photos the detector never saw. Is it better than the AI's own confidence?</p>
+        <div class="tags"><span class="tag">AUROC · F1</span><span class="tag">vs answer confidence</span><span class="tag">per relation</span></div>
       </div>
     </div>
   </div>
 
+  <h2 class="section">Coordinate on</h2>
 
-  <footer>Runs on a free Google Colab T4 GPU. Data: COCO val2014. Model: Qwen2-VL-2B-Instruct.</footer>
+  <div class="facts">
+    <div class="fact">
+      <span class="k">Dataset</span>
+      <span class="v">Visual Genome</span>
+      <span class="s">Same cleaned relations and same train / test split for everyone.</span>
+    </div>
+    <div class="fact">
+      <span class="k">Model</span>
+      <span class="v">Qwen 3B</span>
+      <span class="s">Same checkpoint, precision, image size and prompt.</span>
+    </div>
+    <div class="fact">
+      <span class="k">Data shape</span>
+      <span class="v">One record per question</span>
+      <span class="s">Same fields and same hidden-state layout, so detectors can be compared.</span>
+    </div>
+  </div>
+
+  <footer>Runs on a free Google Colab T4 GPU. Data: Visual Genome. Model: Qwen 3B (Qwen2.5-VL-3B-Instruct, to confirm).</footer>
 </div>
 
 </body></html>

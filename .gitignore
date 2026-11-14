@@ -1,2 +1,12 @@
 .DS_Store
 .claude/settings.local.json
+.venv/
+__pycache__/
+*.egg-info/
+
+# raw download and every generated data file
+src/data/visual_genome/
+src/data/outputs/
+
+# weights: Qwen and the trained detectors
+src/model/models/
