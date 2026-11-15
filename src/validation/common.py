@@ -164,7 +164,7 @@ def ask_records(vlm: VLM, records: list[TrainRecord], batch_size: int, reask: bo
     """Ask Qwen the records' questions again: plainly, or (reask=True) as a second turn after its first answer."""
     out = []
     boxed = {}
-    for b in range(0, len(records), batch_size):
+    for b in tqdm(range(0, len(records), batch_size), desc="  batches", unit="batch", leave=False):
         batch = records[b:b + batch_size]
         # cap memory between batches, never inside one: the batch's images are looked up below
         if len(boxed) > 64:
