@@ -4,8 +4,8 @@
 __pycache__/
 *.egg-info/
 
-# raw download and every generated data file
-src/data/visual_genome/
+# Visual Genome photos (fetched one by one at run time) and every generated data file
+src/data/visual_genome/images/
 src/data/outputs/
 
 # weights: Qwen and the trained detectors

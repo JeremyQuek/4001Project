@@ -23,7 +23,7 @@ hidden states. The plan is in `Proposed Plan.pdf` and `claude/plan.md`.
     │   ├── clean_data.py        stage 1: clean the Visual Genome relationships
     │   ├── generate_left_right.py   stage 2: enrich with LEFT/RIGHT rows from box positions
     │   ├── generate_queries.py  stage 3: yes/no questions with ground truth
-    │   ├── visual_genome/       raw download, and images/ with the photos (not in Git)
+    │   ├── visual_genome/       raw Visual Genome files (in Git); images/ holds fetched photos (not in Git)
     │   └── outputs/             generated data (not in Git)
     │       ├── cleaned/         clean_data.json
     │       ├── enriched/        enriched_data.json
@@ -71,20 +71,23 @@ folder, which is ignored by Git along with `.venv/`.
 
 ## Data
 
-Download these Visual Genome files into `src/data/visual_genome/`:
+The Visual Genome files the pipeline needs are committed in `src/data/visual_genome/`:
 
 - `relationships.json.zip`
 - `objects.json.zip`
 - `relationship_alias.txt`
 - `object_alias.txt`
-- `image_data.json` (or `.zip`): photo URLs, used by stage 4
+- `image_data.json.zip`: photo URLs, used by stage 4
 
-Leave the zips as they are; the scripts read them directly. Photos are downloaded into `visual_genome/images/` by
+The scripts read the zips directly. The 15 GB image archives are not needed. Photos are downloaded into `visual_genome/images/` by
 stage 4, only for the images the questions use.
 
-On Colab, the raw data and the outputs can live on Google Drive instead, so they survive a disconnect. Call
-`paths.configure(vg_dir=..., output_dir=...)` before running the stages (the setup cell in `main.ipynb` shows how),
-or set the `RELATION_VG_DIR` and `RELATION_OUTPUT_DIR` environment variables.
+The Qwen weights are not committed: the Download cell in `main.ipynb` fetches them into `src/model/models/` the
+first time it runs in each environment.
+
+On Colab, the outputs can live on Google Drive instead, so they survive a disconnect. Call
+`paths.configure(output_dir=...)` before running the stages (the setup cell in `main.ipynb` shows how), or set the
+`RELATION_OUTPUT_DIR` environment variable.
 
 ## Qwen
 
