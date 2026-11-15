@@ -24,7 +24,6 @@ Script:  python src/model/vlm.py --download
 import argparse
 import json
 import sys
-import time
 import urllib.request
 import zipfile
 from collections.abc import Sequence
@@ -35,6 +34,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from PIL import Image, ImageDraw
+from tqdm.auto import tqdm
 from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
 
 SRC = Path(__file__).resolve().parents[1]
@@ -217,17 +217,18 @@ class VLM:
         queries = read_records(queries_path, Query)[:limit]
         shard_dir = out_dir / f"{split}_shards"
         shard_dir.mkdir(parents=True, exist_ok=True)
-        shards = []
+        starts = range(0, len(queries), shard_size)
+        shards = [shard_dir / f"{start:07d}-{min(start + shard_size, len(queries)):07d}" for start in starts]
+        # the records file is written last, so its presence means the shard is complete
+        complete = [stem.with_suffix(".json").exists() for stem in shards]
+        already = sum(min(shard_size, len(queries) - start) for start, done in zip(starts, complete) if done)
+        bar = tqdm(total=len(queries), initial=already, desc=f"{split} questions", unit="q")
 
-        for start in range(0, len(queries), shard_size):
-            chunk = queries[start:start + shard_size]
-            stem = shard_dir / f"{start:07d}-{start + len(chunk):07d}"
-            shards.append(stem)
-            # the records file is written last, so its presence means the shard is complete
-            if stem.with_suffix(".json").exists():
+        for start, stem, done in zip(starts, shards, complete):
+            if done:
                 continue
+            chunk = queries[start:start + shard_size]
 
-            began = time.time()
             records, hidden = [], []
             boxed = {}  # rel_id -> drawn image, shared by a relation's four variants
             for b in range(0, len(chunk), batch_size):
@@ -241,13 +242,13 @@ class VLM:
                     records.append(TrainRecord(**q.model_dump(), model_answer=model_answer, p_yes=a.p_yes,
                                                p_no=a.p_no, wrong=int(model_answer is not q.gt_answer)))
                     hidden.append(a.hidden)
+                bar.update(len(batch))
 
             np.save(stem.with_suffix(".npy"), np.stack(hidden))
             write_records(stem.with_suffix(".json"), records)
-            secs = time.time() - began
-            print(f"{split}: {start + len(chunk)}/{len(queries)} questions  "
-                  f"({len(chunk) / secs:.1f}/s, {sum(r.wrong for r in records)} wrong in this shard)")
+            bar.set_postfix(wrong_in_last_shard=sum(r.wrong for r in records))
 
+        bar.close()
         return self._merge(shards, out_dir, split)
 
     def _merge(self, shards: list[Path], out_dir: Path, split: str) -> Path:

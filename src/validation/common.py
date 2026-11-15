@@ -19,6 +19,7 @@ from pathlib import Path
 import joblib
 import numpy as np
 import torch
+from tqdm.auto import tqdm
 
 SRC = Path(__file__).resolve().parents[1]
 if str(SRC) not in sys.path:
@@ -187,10 +188,12 @@ def cached(path: Path, records: list[TrainRecord],
     """Answers for records, computing only those not already in the cache file; saved after every chunk."""
     done = {a.query_id: a for a in read_records(path, ValidationAnswer)} if path.exists() else {}
     missing = [r for r in records if r.query_id not in done]
-    for i in range(0, len(missing), CHUNK):
-        done.update((a.query_id, a) for a in compute(missing[i:i + CHUNK]))
-        write_records(path, done.values())
-        print(f"  {path.stem}: {min(i + CHUNK, len(missing))}/{len(missing)} new answers")
+    with tqdm(total=len(records), initial=len(records) - len(missing), desc=path.stem, unit="q") as bar:
+        for i in range(0, len(missing), CHUNK):
+            chunk = missing[i:i + CHUNK]
+            done.update((a.query_id, a) for a in compute(chunk))
+            write_records(path, done.values())
+            bar.update(len(chunk))
     return done
 
 

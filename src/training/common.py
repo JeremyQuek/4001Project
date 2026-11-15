@@ -14,7 +14,15 @@ from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
-from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score
+from sklearn.metrics import (
+    average_precision_score,
+    brier_score_loss,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
+from tqdm.auto import tqdm
 
 SRC = Path(__file__).resolve().parents[1]
 if str(SRC) not in sys.path:
@@ -67,12 +75,76 @@ def report(y: np.ndarray, scores: np.ndarray, threshold: float) -> dict:
     pred = scores >= threshold
     return {
         "auroc": float(roc_auc_score(y, scores)),
+        "ap": float(average_precision_score(y, scores)),  # chance level is base_rate
+        "brier": float(brier_score_loss(y, scores)),
         "precision": float(precision_score(y, pred, zero_division=0)),
         "recall": float(recall_score(y, pred, zero_division=0)),
         "f1": float(f1_score(y, pred, zero_division=0)),
         "threshold": threshold,
         "base_rate": float(y.mean()),
         "n": int(len(y)),
+    }
+
+
+def abstention(y_val: np.ndarray, val_scores: np.ndarray, y_test: np.ndarray, test_scores: np.ndarray,
+               coverage: float = 0.8) -> dict:
+    """Answer only the questions rated least likely to be wrong. The threshold keeps at most `coverage` of the
+    validation questions (tied scores kept or dropped together) and is applied unchanged to test."""
+    values = np.unique(val_scores)
+    covered = np.searchsorted(np.sort(val_scores), values, side="right") / len(val_scores)
+    allowed = values[covered <= coverage]
+    threshold = float(allowed.max()) if len(allowed) else -np.inf
+    answered = test_scores <= threshold
+    n = int(answered.sum())
+    return {
+        "target_coverage": coverage,
+        "threshold": threshold,
+        "coverage": n / len(y_test),
+        "answered": n,
+        "errors_retained": int(y_test[answered].sum()),
+        "answered_accuracy": float(1 - y_test[answered].mean()) if n else None,
+        "no_abstention_accuracy": float(1 - y_test.mean()),
+    }
+
+
+def risk_coverage(y: np.ndarray, scores: np.ndarray, points: int = 20) -> list[dict]:
+    """Accuracy of the answers kept when only the lowest-risk fraction of questions is answered."""
+    order = np.argsort(scores, kind="stable")
+    errors = np.cumsum(y[order])
+    out = []
+    for c in np.linspace(1 / points, 1, points):
+        k = max(int(round(c * len(y))), 1)
+        out.append({"coverage": k / len(y), "accuracy": float(1 - errors[k - 1] / k)})
+    return out
+
+
+def detector_metrics(y_val: np.ndarray, val_scores: np.ndarray, y_test: np.ndarray, test_scores: np.ndarray,
+                     threshold: float) -> dict:
+    """Every test metric for one detector: the thresholded report, abstention and the risk-coverage curve."""
+    return report(y_test, test_scores, threshold) | {
+        "abstention": abstention(y_val, val_scores, y_test, test_scores),
+        "risk_coverage": risk_coverage(y_test, test_scores),
+    }
+
+
+def paired_bootstrap(y: np.ndarray, a: np.ndarray, b: np.ndarray, groups, n: int = 2000, seed: int = 4001) -> dict:
+    """AUROC(a) - AUROC(b) on the same questions, with a 95% interval. Whole images are resampled, so the
+    questions about one image stay together, and both detectors see the same draws."""
+    _, inv = np.unique(np.asarray(groups), return_inverse=True)
+    order = np.argsort(inv, kind="stable")
+    starts = np.searchsorted(inv[order], np.arange(inv.max() + 2))
+    members = [order[starts[g]:starts[g + 1]] for g in range(len(starts) - 1)]
+    rng = np.random.default_rng(seed)
+    diffs = []
+    for _ in tqdm(range(n), desc="bootstrap", leave=False):
+        idx = np.concatenate([members[g] for g in rng.integers(len(members), size=len(members))])
+        if 0 < y[idx].sum() < len(idx):
+            diffs.append(roc_auc_score(y[idx], a[idx]) - roc_auc_score(y[idx], b[idx]))
+    return {
+        "diff": float(roc_auc_score(y, a) - roc_auc_score(y, b)),
+        "low": float(np.percentile(diffs, 2.5)),
+        "high": float(np.percentile(diffs, 97.5)),
+        "resamples": len(diffs),
     }
 
 
@@ -90,6 +162,27 @@ def auroc_by(records: list[TrainRecord], y: np.ndarray, scores: np.ndarray, key)
     for name, idx in sorted(groups.items()):
         out[name] = float(roc_auc_score(y[idx], scores[idx])) if len(set(y[idx])) == 2 else None
     return out
+
+
+def confidence_metrics(val_records: list[TrainRecord], y_val: np.ndarray, test_records: list[TrainRecord],
+                       y_test: np.ndarray) -> dict:
+    """The baseline detector, risk = 1 - confidence, scored like the trained ones (no threshold-based report)."""
+    val_scores, test_scores = confidence_scores(val_records), confidence_scores(test_records)
+    return {
+        "auroc": float(roc_auc_score(y_test, test_scores)),
+        "ap": float(average_precision_score(y_test, test_scores)),
+        "brier": float(brier_score_loss(y_test, test_scores)),
+        "abstention": abstention(y_val, val_scores, y_test, test_scores),
+        "risk_coverage": risk_coverage(y_test, test_scores),
+    }
+
+
+def save_scores(name: str, scores: np.ndarray) -> Path:
+    """A detector's test scores, row i for test record i; used for paired comparisons between detectors."""
+    paths.RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    path = paths.RESULTS_DIR / f"{name}_test_scores.npy"
+    np.save(path, scores)
+    return path
 
 
 def save_results(name: str, results: dict) -> Path:
