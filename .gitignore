@@ -1,2 +1,10 @@
 .DS_Store
 .claude/settings.local.json
+.venv/
+__pycache__/
+.pytest_cache/
+# Downloads, images and per-query hidden states are rebuilt by the scripts.
+data/vg/raw/
+data/vg/images/
+data/vg/extraction/
+data/vg/detector_ready/*.npz

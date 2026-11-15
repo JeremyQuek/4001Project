@@ -1,0 +1,9 @@
+lr_all_confidence: validation AUROC=0.672 (C=0.001, weights=None)
+mlp_all_confidence: mean validation AUROC=0.673 +/- 0.001 (decay=0.0001, weights=balanced)
+lr_all_hidden9: validation AUROC=0.589 (C=0.001, weights=None)
+mlp_all_hidden9: mean validation AUROC=0.594 +/- 0.005 (decay=0.0001, weights=balanced)
+lr_all_hidden18: validation AUROC=0.588 (C=0.001, weights=None)
+mlp_all_hidden18: mean validation AUROC=0.606 +/- 0.007 (decay=0.01, weights=None)
+lr_all_hidden36: validation AUROC=0.714 (C=0.001, weights=balanced)
+mlp_all_hidden36: mean validation AUROC=0.752 +/- 0.009 (decay=0.0001, weights=balanced)
+Frozen 9 models before test; 548.2 s.

@@ -1,0 +1,63 @@
+{
+  "seed": 42,
+  "per_predicate": 250,
+  "max_per_image": 2,
+  "quota_per_predicate": {
+    "train": 174,
+    "val": 38,
+    "test": 38
+  },
+  "filtered_relationships": 539144,
+  "dropped_label_conflict": 2736,
+  "left_out_teammate_vsr_images": 248,
+  "left_out_teammate_vsr_relationships": 1657,
+  "left_out_failed_images": 0,
+  "eligible_relationships": 534751,
+  "eligible_images": 96310,
+  "sampled_relationships": 2000,
+  "sampled_images": 1929,
+  "queries": 8000,
+  "pilot_relationships": 50,
+  "relationships_per_predicate_split": {
+    "to the left of": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    },
+    "to the right of": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    },
+    "above": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    },
+    "below": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    },
+    "in front of": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    },
+    "behind": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    },
+    "on": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    },
+    "under": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    }
+  }
+}

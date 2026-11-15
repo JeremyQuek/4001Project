@@ -1,0 +1,136 @@
+{
+  "checksums": {
+    "train.npz": "7b840ed13b58a56560e84f63289f6d68238ce3b5e852ad718945300a2439f809",
+    "train_rows.csv": "f648f4f316e237093f87468b71bef8990bab61a2b8db760a02ce1230723b8c40",
+    "val.npz": "57477157f3aa4969361e82b098aac9d99eda9e8eb7b7ea0592dde301817efc42",
+    "val_rows.csv": "4d23db31f98b32d516ba2e082cacbdae58ad03ef30b5390dd904a6fbd8f3d22b",
+    "test.npz": "140706d1a2a6fc5c75328210355b6afc58182ebd4f7bcb692e816f4eba0482cc",
+    "test_rows.csv": "71a962a0436605bc2d6bc9f64b896229884e54783f2bb1ebad9074e785275c53"
+  },
+  "counts": {
+    "train": {
+      "rows": 5568,
+      "relationships": 1392,
+      "images": 1345,
+      "errors": 1629,
+      "error_rate": 0.2925646551724138,
+      "yes_rate": 0.47323994252873564
+    },
+    "val": {
+      "rows": 1216,
+      "relationships": 304,
+      "images": 291,
+      "errors": 349,
+      "error_rate": 0.2870065789473684,
+      "yes_rate": 0.4876644736842105
+    },
+    "test": {
+      "rows": 1216,
+      "relationships": 304,
+      "images": 293
+    }
+  },
+  "vlm": {
+    "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+    "quantization": "4-bit NF4 double quantization; visual and lm_head excluded",
+    "compute_dtype": "torch.bfloat16",
+    "attention": "sdpa",
+    "batch_size": 1,
+    "max_pixels": 200704,
+    "min_pixels": 3136,
+    "processor_use_fast": true,
+    "prompt_version": "run_vlm_statement_yes_no_v1",
+    "hidden_layers": [
+      9,
+      18,
+      36
+    ],
+    "hidden_position": "final prompt token, before answering",
+    "loaded_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "python": "3.12.14",
+    "torch": "2.9.1+cu126",
+    "packages": {
+      "transformers": "4.57.6",
+      "accelerate": "1.12.0",
+      "bitsandbytes": "0.49.2"
+    },
+    "model_load_seconds": 13.5
+  },
+  "sample": {
+    "seed": 42,
+    "per_predicate": 250,
+    "max_per_image": 2,
+    "quota_per_predicate": {
+      "train": 174,
+      "val": 38,
+      "test": 38
+    },
+    "filtered_relationships": 539144,
+    "dropped_label_conflict": 2736,
+    "left_out_teammate_vsr_images": 248,
+    "left_out_teammate_vsr_relationships": 1657,
+    "left_out_failed_images": 0,
+    "eligible_relationships": 534751,
+    "eligible_images": 96310,
+    "sampled_relationships": 2000,
+    "sampled_images": 1929,
+    "queries": 8000,
+    "pilot_relationships": 50,
+    "relationships_per_predicate_split": {
+      "to the left of": {
+        "train": 174,
+        "val": 38,
+        "test": 38
+      },
+      "to the right of": {
+        "train": 174,
+        "val": 38,
+        "test": 38
+      },
+      "above": {
+        "train": 174,
+        "val": 38,
+        "test": 38
+      },
+      "below": {
+        "train": 174,
+        "val": 38,
+        "test": 38
+      },
+      "in front of": {
+        "train": 174,
+        "val": 38,
+        "test": 38
+      },
+      "behind": {
+        "train": 174,
+        "val": 38,
+        "test": 38
+      },
+      "on": {
+        "train": 174,
+        "val": 38,
+        "test": 38
+      },
+      "under": {
+        "train": 174,
+        "val": 38,
+        "test": 38
+      }
+    }
+  },
+  "feature_keys": [
+    "hidden_L9",
+    "hidden_L18",
+    "hidden_L36",
+    "p_yes",
+    "confidence"
+  ],
+  "metadata_keys_never_inputs": [
+    "vlm_pred",
+    "truth",
+    "y_error"
+  ]
+}

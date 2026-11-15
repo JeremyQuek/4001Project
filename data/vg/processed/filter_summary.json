@@ -1,0 +1,132 @@
+{
+  "filter_counts": {
+    "relationships_total": 2316104,
+    "predicate_matched": 827513,
+    "dropped_duplicate": 281283,
+    "dropped_identical_names": 7086
+  },
+  "kept_relationships": 539144,
+  "kept_images": 96588,
+  "surface_form_matches_before_filters": {
+    "to the left of": {
+      "left of": 390,
+      "to left of": 542,
+      "to the left of": 0,
+      "on left side of": 180,
+      "on the left of": 0
+    },
+    "to the right of": {
+      "right of": 229,
+      "to right of": 632,
+      "to the right of": 0,
+      "on right side of": 181,
+      "on the right of": 0
+    },
+    "above": {
+      "above": 13844,
+      "over": 8973
+    },
+    "below": {
+      "below": 3371,
+      "beneath": 1356,
+      "underneath": 1509
+    },
+    "in front of": {
+      "in front of": 13204,
+      "front of": 540
+    },
+    "behind": {
+      "behind": 39961,
+      "in back of": 491
+    },
+    "on": {
+      "on": 667990,
+      "on top of": 31575,
+      "sitting on": 13782,
+      "lying on": 1802,
+      "standing on": 7594,
+      "resting on": 908
+    },
+    "under": {
+      "under": 18459
+    }
+  },
+  "kept_per_canonical": {
+    "to the left of": {
+      "relationships": 888,
+      "images": 784,
+      "label_conflicts": 113,
+      "in_teammate_vsr": 0
+    },
+    "to the right of": {
+      "relationships": 815,
+      "images": 710,
+      "label_conflicts": 109,
+      "in_teammate_vsr": 0
+    },
+    "above": {
+      "relationships": 18264,
+      "images": 13815,
+      "label_conflicts": 50,
+      "in_teammate_vsr": 26
+    },
+    "below": {
+      "relationships": 5075,
+      "images": 4038,
+      "label_conflicts": 43,
+      "in_teammate_vsr": 18
+    },
+    "in front of": {
+      "relationships": 10978,
+      "images": 8636,
+      "label_conflicts": 212,
+      "in_teammate_vsr": 30
+    },
+    "behind": {
+      "relationships": 31422,
+      "images": 22047,
+      "label_conflicts": 273,
+      "in_teammate_vsr": 63
+    },
+    "on": {
+      "relationships": 457042,
+      "images": 93846,
+      "label_conflicts": 1600,
+      "in_teammate_vsr": 1459
+    },
+    "under": {
+      "relationships": 14660,
+      "images": 11562,
+      "label_conflicts": 336,
+      "in_teammate_vsr": 63
+    }
+  },
+  "kept_per_surface_form": {
+    "on": 424395,
+    "behind": 31044,
+    "on top of": 18595,
+    "under": 14660,
+    "above": 11051,
+    "in front of": 10544,
+    "sitting on": 7939,
+    "over": 7213,
+    "standing on": 4504,
+    "below": 2795,
+    "underneath": 1140,
+    "beneath": 1140,
+    "lying on": 1006,
+    "resting on": 603,
+    "to right of": 472,
+    "front of": 434,
+    "to left of": 420,
+    "in back of": 378,
+    "left of": 310,
+    "right of": 182,
+    "on right side of": 161,
+    "on left side of": 158
+  },
+  "label_conflicts_total": 2736,
+  "teammate_manifest_available": true,
+  "teammate_vsr_images": 855,
+  "vg_images_also_in_teammate_vsr": 248
+}

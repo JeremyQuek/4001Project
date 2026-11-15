@@ -1,0 +1,91 @@
+split                train  val  test
+canonical_predicate                  
+to the left of         174   38    38
+to the right of        174   38    38
+above                  174   38    38
+below                  174   38    38
+in front of            174   38    38
+behind                 174   38    38
+on                     174   38    38
+under                  174   38    38
+
+2000 relationships, 1929 images, 8000 queries; pilot = 50 training relationships.
+Dropped 2736 label-conflict relationships; left out 248 teammate VSR images (1657 relationships); 0 failed images excluded.
+1929 images verified, 0 failed.
+100/8000 done; 0.35 s/query; about 46.3 min left
+200/8000 done; 0.35 s/query; about 45.5 min left
+300/8000 done; 0.36 s/query; about 46.0 min left
+400/8000 done; 0.36 s/query; about 45.8 min left
+500/8000 done; 0.36 s/query; about 45.1 min left
+600/8000 done; 0.36 s/query; about 43.9 min left
+700/8000 done; 0.35 s/query; about 42.6 min left
+800/8000 done; 0.35 s/query; about 41.6 min left
+900/8000 done; 0.34 s/query; about 40.6 min left
+1000/8000 done; 0.34 s/query; about 39.6 min left
+1100/8000 done; 0.34 s/query; about 38.9 min left
+1200/8000 done; 0.34 s/query; about 38.1 min left
+1504/8000 done; 0.33 s/query; about 36.2 min left
+1604/8000 done; 0.33 s/query; about 35.4 min left
+1708/8000 done; 0.33 s/query; about 34.7 min left
+1812/8000 done; 0.33 s/query; about 34.1 min left
+1912/8000 done; 0.33 s/query; about 33.5 min left
+2012/8000 done; 0.33 s/query; about 32.9 min left
+2124/8000 done; 0.33 s/query; about 32.2 min left
+2232/8000 done; 0.33 s/query; about 31.6 min left
+2336/8000 done; 0.33 s/query; about 31.0 min left
+2436/8000 done; 0.33 s/query; about 30.4 min left
+2536/8000 done; 0.33 s/query; about 29.8 min left
+2640/8000 done; 0.33 s/query; about 29.2 min left
+2748/8000 done; 0.33 s/query; about 28.5 min left
+2856/8000 done; 0.33 s/query; about 27.9 min left
+2956/8000 done; 0.33 s/query; about 27.4 min left
+3056/8000 done; 0.33 s/query; about 26.8 min left
+3164/8000 done; 0.32 s/query; about 26.2 min left
+3268/8000 done; 0.32 s/query; about 25.6 min left
+3372/8000 done; 0.32 s/query; about 25.0 min left
+3476/8000 done; 0.32 s/query; about 24.4 min left
+3576/8000 done; 0.32 s/query; about 23.9 min left
+3688/8000 done; 0.32 s/query; about 23.2 min left
+3788/8000 done; 0.32 s/query; about 22.7 min left
+3892/8000 done; 0.32 s/query; about 22.1 min left
+3996/8000 done; 0.32 s/query; about 21.6 min left
+4104/8000 done; 0.32 s/query; about 21.0 min left
+4204/8000 done; 0.32 s/query; about 20.4 min left
+4308/8000 done; 0.32 s/query; about 19.8 min left
+4412/8000 done; 0.32 s/query; about 19.3 min left
+4516/8000 done; 0.32 s/query; about 18.7 min left
+4616/8000 done; 0.32 s/query; about 18.2 min left
+4716/8000 done; 0.32 s/query; about 17.6 min left
+4816/8000 done; 0.32 s/query; about 17.1 min left
+4920/8000 done; 0.32 s/query; about 16.5 min left
+5024/8000 done; 0.32 s/query; about 15.9 min left
+5124/8000 done; 0.32 s/query; about 15.4 min left
+5228/8000 done; 0.32 s/query; about 14.8 min left
+5328/8000 done; 0.32 s/query; about 14.3 min left
+5428/8000 done; 0.32 s/query; about 13.8 min left
+5528/8000 done; 0.32 s/query; about 13.2 min left
+5644/8000 done; 0.32 s/query; about 12.6 min left
+5744/8000 done; 0.32 s/query; about 12.1 min left
+5856/8000 done; 0.32 s/query; about 11.5 min left
+5968/8000 done; 0.32 s/query; about 10.9 min left
+6072/8000 done; 0.32 s/query; about 10.3 min left
+6176/8000 done; 0.32 s/query; about 9.8 min left
+6276/8000 done; 0.32 s/query; about 9.2 min left
+6376/8000 done; 0.32 s/query; about 8.7 min left
+6476/8000 done; 0.32 s/query; about 8.1 min left
+6576/8000 done; 0.32 s/query; about 7.6 min left
+6676/8000 done; 0.32 s/query; about 7.1 min left
+6776/8000 done; 0.32 s/query; about 6.5 min left
+6876/8000 done; 0.32 s/query; about 6.0 min left
+6976/8000 done; 0.32 s/query; about 5.5 min left
+7076/8000 done; 0.32 s/query; about 4.9 min left
+7176/8000 done; 0.32 s/query; about 4.4 min left
+7276/8000 done; 0.32 s/query; about 3.9 min left
+7376/8000 done; 0.32 s/query; about 3.3 min left
+7476/8000 done; 0.32 s/query; about 2.8 min left
+7576/8000 done; 0.32 s/query; about 2.3 min left
+7676/8000 done; 0.32 s/query; about 1.7 min left
+7776/8000 done; 0.32 s/query; about 1.2 min left
+7876/8000 done; 0.32 s/query; about 0.7 min left
+7976/8000 done; 0.32 s/query; about 0.1 min left
+{'mode': 'full', 'queries': 8000, 'new': 7624, 'reused': 376, 'wall_seconds': 2438.6, 'wall_seconds_per_new_query': 0.3199, 'forward_seconds_median': 0.3086278395003319, 'peak_allocated_vram_gib': 3.28, 'peak_reserved_vram_gib': 3.354}

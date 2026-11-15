@@ -1,0 +1,1217 @@
+row_idx,image_id,coco_id,rel_id,variant,canonical_predicate,vg_predicate,subject,object,statement,truth,split
+0,2319683,2823,4493339,orig,on,on,covering,floor,The covering is on the floor.,1,val
+1,2319683,2823,4493339,converse,on,on,covering,floor,The floor is under the covering.,1,val
+2,2319683,2823,4493339,swap,on,on,covering,floor,The floor is on the covering.,0,val
+3,2319683,2823,4493339,opposite,on,on,covering,floor,The covering is under the floor.,0,val
+4,2357110,478376,4219126,orig,on,on,pole,ground,The pole is on the ground.,1,val
+5,2357110,478376,4219126,converse,on,on,pole,ground,The ground is under the pole.,1,val
+6,2357110,478376,4219126,swap,on,on,pole,ground,The ground is on the pole.,0,val
+7,2357110,478376,4219126,opposite,on,on,pole,ground,The pole is under the ground.,0,val
+8,2388027,-1,1779288,orig,on,on,ripples,water,The ripples is on the water.,1,val
+9,2388027,-1,1779288,converse,on,on,ripples,water,The water is under the ripples.,1,val
+10,2388027,-1,1779288,swap,on,on,ripples,water,The water is on the ripples.,0,val
+11,2388027,-1,1779288,opposite,on,on,ripples,water,The ripples is under the water.,0,val
+12,2332341,112359,4092045,orig,on,on,clock,tower,The clock is on the tower.,1,val
+13,2332341,112359,4092045,converse,on,on,clock,tower,The tower is under the clock.,1,val
+14,2332341,112359,4092045,swap,on,on,clock,tower,The tower is on the clock.,0,val
+15,2332341,112359,4092045,opposite,on,on,clock,tower,The clock is under the tower.,0,val
+16,2363553,365614,2088106,orig,behind,behind,tree,street,The tree is behind the street.,1,val
+17,2363553,365614,2088106,converse,behind,behind,tree,street,The street is in front of the tree.,1,val
+18,2363553,365614,2088106,swap,behind,behind,tree,street,The street is behind the tree.,0,val
+19,2363553,365614,2088106,opposite,behind,behind,tree,street,The tree is in front of the street.,0,val
+20,2352768,-1,4236654,orig,on,on,hair,boy,The hair is on the boy.,1,val
+21,2352768,-1,4236654,converse,on,on,hair,boy,The boy is under the hair.,1,val
+22,2352768,-1,4236654,swap,on,on,hair,boy,The boy is on the hair.,0,val
+23,2352768,-1,4236654,opposite,on,on,hair,boy,The hair is under the boy.,0,val
+24,2334512,-1,4000264,orig,on,on,frame,window,The frame is on the window.,1,val
+25,2334512,-1,4000264,converse,on,on,frame,window,The window is under the frame.,1,val
+26,2334512,-1,4000264,swap,on,on,frame,window,The window is on the frame.,0,val
+27,2334512,-1,4000264,opposite,on,on,frame,window,The frame is under the window.,0,val
+28,2386698,-1,3514250,orig,under,under,cabinet,lamp,The cabinet is under the lamp.,1,val
+29,2386698,-1,3514250,converse,under,under,cabinet,lamp,The lamp is on the cabinet.,1,val
+30,2386698,-1,3514250,swap,under,under,cabinet,lamp,The lamp is under the cabinet.,0,val
+31,2386698,-1,3514250,opposite,under,under,cabinet,lamp,The cabinet is on the lamp.,0,val
+32,2344904,-1,3879357,orig,on,on,leaf,plant,The leaf is on the plant.,1,val
+33,2344904,-1,3879357,converse,on,on,leaf,plant,The plant is under the leaf.,1,val
+34,2344904,-1,3879357,swap,on,on,leaf,plant,The plant is on the leaf.,0,val
+35,2344904,-1,3879357,opposite,on,on,leaf,plant,The leaf is under the plant.,0,val
+36,2414044,267210,154797,orig,on,on,net,right,The net is on the right.,1,val
+37,2414044,267210,154797,converse,on,on,net,right,The right is under the net.,1,val
+38,2414044,267210,154797,swap,on,on,net,right,The right is on the net.,0,val
+39,2414044,267210,154797,opposite,on,on,net,right,The net is under the right.,0,val
+40,2399915,-1,3317560,orig,above,above,frisbee,water,The frisbee is above the water.,1,val
+41,2399915,-1,3317560,converse,above,above,frisbee,water,The water is below the frisbee.,1,val
+42,2399915,-1,3317560,swap,above,above,frisbee,water,The water is above the frisbee.,0,val
+43,2399915,-1,3317560,opposite,above,above,frisbee,water,The frisbee is below the water.,0,val
+44,2384452,-1,3553941,orig,under,under,sheet,dog,The sheet is under the dog.,1,val
+45,2384452,-1,3553941,converse,under,under,sheet,dog,The dog is on the sheet.,1,val
+46,2384452,-1,3553941,swap,under,under,sheet,dog,The dog is under the sheet.,0,val
+47,2384452,-1,3553941,opposite,under,under,sheet,dog,The sheet is on the dog.,0,val
+48,498055,-1,4262051,orig,on,on,door,bus,The door is on the bus.,1,val
+49,498055,-1,4262051,converse,on,on,door,bus,The bus is under the door.,1,val
+50,498055,-1,4262051,swap,on,on,door,bus,The bus is on the door.,0,val
+51,498055,-1,4262051,opposite,on,on,door,bus,The door is under the bus.,0,val
+52,2373290,250124,4135284,orig,on,on,backpack,floor,The backpack is on the floor.,1,val
+53,2373290,250124,4135284,converse,on,on,backpack,floor,The floor is under the backpack.,1,val
+54,2373290,250124,4135284,swap,on,on,backpack,floor,The floor is on the backpack.,0,val
+55,2373290,250124,4135284,opposite,on,on,backpack,floor,The backpack is under the floor.,0,val
+56,2409312,-1,259618,orig,on,on,sticker,bus,The sticker is on the bus.,1,val
+57,2409312,-1,259618,converse,on,on,sticker,bus,The bus is under the sticker.,1,val
+58,2409312,-1,259618,swap,on,on,sticker,bus,The bus is on the sticker.,0,val
+59,2409312,-1,259618,opposite,on,on,sticker,bus,The sticker is under the bus.,0,val
+60,2357066,558771,2293268,orig,on,on,pancake,plate,The pancake is on the plate.,1,val
+61,2357066,558771,2293268,converse,on,on,pancake,plate,The plate is under the pancake.,1,val
+62,2357066,558771,2293268,swap,on,on,pancake,plate,The plate is on the pancake.,0,val
+63,2357066,558771,2293268,opposite,on,on,pancake,plate,The pancake is under the plate.,0,val
+64,2396704,458313,4288254,orig,on,on,white frosting,donut,The white frosting is on the donut.,1,val
+65,2396704,458313,4288254,converse,on,on,white frosting,donut,The donut is under the white frosting.,1,val
+66,2396704,458313,4288254,swap,on,on,white frosting,donut,The donut is on the white frosting.,0,val
+67,2396704,458313,4288254,opposite,on,on,white frosting,donut,The white frosting is under the donut.,0,val
+68,2375283,-1,4042744,orig,on,on,cap,female,The cap is on the female.,1,val
+69,2375283,-1,4042744,converse,on,on,cap,female,The female is under the cap.,1,val
+70,2375283,-1,4042744,swap,on,on,cap,female,The female is on the cap.,0,val
+71,2375283,-1,4042744,opposite,on,on,cap,female,The cap is under the female.,0,val
+72,286051,117961,4728986,orig,on,on,window,building,The window is on the building.,1,val
+73,286051,117961,4728986,converse,on,on,window,building,The building is under the window.,1,val
+74,286051,117961,4728986,swap,on,on,window,building,The building is on the window.,0,val
+75,286051,117961,4728986,opposite,on,on,window,building,The window is under the building.,0,val
+76,2368444,-1,1590747,orig,behind,behind,black dog,frisbee,The black dog is behind the frisbee.,1,val
+77,2368444,-1,1590747,converse,behind,behind,black dog,frisbee,The frisbee is in front of the black dog.,1,val
+78,2368444,-1,1590747,swap,behind,behind,black dog,frisbee,The frisbee is behind the black dog.,0,val
+79,2368444,-1,1590747,opposite,behind,behind,black dog,frisbee,The black dog is in front of the frisbee.,0,val
+80,2319718,-1,2982757,orig,on,on,lettuce,sandwich,The lettuce is on the sandwich.,1,val
+81,2319718,-1,2982757,converse,on,on,lettuce,sandwich,The sandwich is under the lettuce.,1,val
+82,2319718,-1,2982757,swap,on,on,lettuce,sandwich,The sandwich is on the lettuce.,0,val
+83,2319718,-1,2982757,opposite,on,on,lettuce,sandwich,The lettuce is under the sandwich.,0,val
+84,2397651,556498,3350676,orig,on,on,chimney,building,The chimney is on the building.,1,val
+85,2397651,556498,3350676,converse,on,on,chimney,building,The building is under the chimney.,1,val
+86,2397651,556498,3350676,swap,on,on,chimney,building,The building is on the chimney.,0,val
+87,2397651,556498,3350676,opposite,on,on,chimney,building,The chimney is under the building.,0,val
+88,2318394,-1,4583198,orig,on,on,bear,trash cans,The bear is on the trash cans.,1,val
+89,2318394,-1,4583198,converse,on,on,bear,trash cans,The trash cans is under the bear.,1,val
+90,2318394,-1,4583198,swap,on,on,bear,trash cans,The trash cans is on the bear.,0,val
+91,2318394,-1,4583198,opposite,on,on,bear,trash cans,The bear is under the trash cans.,0,val
+92,2338685,-1,4797441,orig,on,on,glasses,eyes,The glasses is on the eyes.,1,val
+93,2338685,-1,4797441,converse,on,on,glasses,eyes,The eyes is under the glasses.,1,val
+94,2338685,-1,4797441,swap,on,on,glasses,eyes,The eyes is on the glasses.,0,val
+95,2338685,-1,4797441,opposite,on,on,glasses,eyes,The glasses is under the eyes.,0,val
+96,2377167,-1,4007965,orig,on,on top of,pots,black oven,The pots is on the black oven.,1,val
+97,2377167,-1,4007965,converse,on,on top of,pots,black oven,The black oven is under the pots.,1,val
+98,2377167,-1,4007965,swap,on,on top of,pots,black oven,The black oven is on the pots.,0,val
+99,2377167,-1,4007965,opposite,on,on top of,pots,black oven,The pots is under the black oven.,0,val
+100,2406624,-1,368119,orig,on,on,window,building,The window is on the building.,1,val
+101,2406624,-1,368119,converse,on,on,window,building,The building is under the window.,1,val
+102,2406624,-1,368119,swap,on,on,window,building,The building is on the window.,0,val
+103,2406624,-1,368119,opposite,on,on,window,building,The window is under the building.,0,val
+104,2341330,-1,3947292,orig,on,on top of,elbow,table,The elbow is on the table.,1,val
+105,2341330,-1,3947292,converse,on,on top of,elbow,table,The table is under the elbow.,1,val
+106,2341330,-1,3947292,swap,on,on top of,elbow,table,The table is on the elbow.,0,val
+107,2341330,-1,3947292,opposite,on,on top of,elbow,table,The elbow is under the table.,0,val
+108,1585,-1,3900818,orig,on,on,sign,pole,The sign is on the pole.,1,val
+109,1585,-1,3900818,converse,on,on,sign,pole,The pole is under the sign.,1,val
+110,1585,-1,3900818,swap,on,on,sign,pole,The pole is on the sign.,0,val
+111,1585,-1,3900818,opposite,on,on,sign,pole,The sign is under the pole.,0,val
+112,2371383,573146,2009167,orig,on,on,chairs,car,The chairs is on the car.,1,val
+113,2371383,573146,2009167,converse,on,on,chairs,car,The car is under the chairs.,1,val
+114,2371383,573146,2009167,swap,on,on,chairs,car,The car is on the chairs.,0,val
+115,2371383,573146,2009167,opposite,on,on,chairs,car,The chairs is under the car.,0,val
+116,2376657,-1,1423701,orig,on,on top of,paper towel,counter,The paper towel is on the counter.,1,val
+117,2376657,-1,1423701,converse,on,on top of,paper towel,counter,The counter is under the paper towel.,1,val
+118,2376657,-1,1423701,swap,on,on top of,paper towel,counter,The counter is on the paper towel.,0,val
+119,2376657,-1,1423701,opposite,on,on top of,paper towel,counter,The paper towel is under the counter.,0,val
+120,2386896,428736,1238774,orig,under,under,sofa,tv,The sofa is under the tv.,1,val
+121,2386896,428736,1238774,converse,under,under,sofa,tv,The tv is on the sofa.,1,val
+122,2386896,428736,1238774,swap,under,under,sofa,tv,The tv is under the sofa.,0,val
+123,2386896,428736,1238774,opposite,under,under,sofa,tv,The sofa is on the tv.,0,val
+124,2360956,-1,4195880,orig,on,on,glasses,man,The glasses is on the man.,1,val
+125,2360956,-1,4195880,converse,on,on,glasses,man,The man is under the glasses.,1,val
+126,2360956,-1,4195880,swap,on,on,glasses,man,The man is on the glasses.,0,val
+127,2360956,-1,4195880,opposite,on,on,glasses,man,The glasses is under the man.,0,val
+128,2400514,-1,3307301,orig,on,on,headlight,front,The headlight is on the front.,1,val
+129,2400514,-1,3307301,converse,on,on,headlight,front,The front is under the headlight.,1,val
+130,2400514,-1,3307301,swap,on,on,headlight,front,The front is on the headlight.,0,val
+131,2400514,-1,3307301,opposite,on,on,headlight,front,The headlight is under the front.,0,val
+132,2323469,-1,3643134,orig,on,on,bow,bear,The bow is on the bear.,1,val
+133,2323469,-1,3643134,converse,on,on,bow,bear,The bear is under the bow.,1,val
+134,2323469,-1,3643134,swap,on,on,bow,bear,The bear is on the bow.,0,val
+135,2323469,-1,3643134,opposite,on,on,bow,bear,The bow is under the bear.,0,val
+136,2371561,-1,3630926,orig,on,on,holes,basket,The holes is on the basket.,1,val
+137,2371561,-1,3630926,converse,on,on,holes,basket,The basket is under the holes.,1,val
+138,2371561,-1,3630926,swap,on,on,holes,basket,The basket is on the holes.,0,val
+139,2371561,-1,3630926,opposite,on,on,holes,basket,The holes is under the basket.,0,val
+140,150275,-1,4719671,orig,on,on,hair,head,The hair is on the head.,1,val
+141,150275,-1,4719671,converse,on,on,hair,head,The head is under the hair.,1,val
+142,150275,-1,4719671,swap,on,on,hair,head,The head is on the hair.,0,val
+143,150275,-1,4719671,opposite,on,on,hair,head,The hair is under the head.,0,val
+144,2375586,-1,1453175,orig,on,on,mustard,dog,The mustard is on the dog.,1,val
+145,2375586,-1,1453175,converse,on,on,mustard,dog,The dog is under the mustard.,1,val
+146,2375586,-1,1453175,swap,on,on,mustard,dog,The dog is on the mustard.,0,val
+147,2375586,-1,1453175,opposite,on,on,mustard,dog,The mustard is under the dog.,0,val
+148,2397573,549317,3352254,orig,on,on top of,cup,sink,The cup is on the sink.,1,val
+149,2397573,549317,3352254,converse,on,on top of,cup,sink,The sink is under the cup.,1,val
+150,2397573,549317,3352254,swap,on,on top of,cup,sink,The sink is on the cup.,0,val
+151,2397573,549317,3352254,opposite,on,on top of,cup,sink,The cup is under the sink.,0,val
+152,2373639,457227,4311812,orig,on,on,nose,board,The nose is on the board.,1,val
+153,2373639,457227,4311812,converse,on,on,nose,board,The board is under the nose.,1,val
+154,2373639,457227,4311812,swap,on,on,nose,board,The board is on the nose.,0,val
+155,2373639,457227,4311812,opposite,on,on,nose,board,The nose is under the board.,0,val
+156,2380862,92366,1886689,orig,on,on,dirt,ground,The dirt is on the ground.,1,val
+157,2380862,92366,1886689,converse,on,on,dirt,ground,The ground is under the dirt.,1,val
+158,2380862,92366,1886689,swap,on,on,dirt,ground,The ground is on the dirt.,0,val
+159,2380862,92366,1886689,opposite,on,on,dirt,ground,The dirt is under the ground.,0,val
+160,2364032,326237,4167040,orig,on,on,zipper,sweatshirt,The zipper is on the sweatshirt.,1,val
+161,2364032,326237,4167040,converse,on,on,zipper,sweatshirt,The sweatshirt is under the zipper.,1,val
+162,2364032,326237,4167040,swap,on,on,zipper,sweatshirt,The sweatshirt is on the zipper.,0,val
+163,2364032,326237,4167040,opposite,on,on,zipper,sweatshirt,The zipper is under the sweatshirt.,0,val
+164,1593078,153104,4747908,orig,on,on,ring,finger,The ring is on the finger.,1,val
+165,1593078,153104,4747908,converse,on,on,ring,finger,The finger is under the ring.,1,val
+166,1593078,153104,4747908,swap,on,on,ring,finger,The finger is on the ring.,0,val
+167,1593078,153104,4747908,opposite,on,on,ring,finger,The ring is under the finger.,0,val
+168,2412569,-1,184799,orig,on,on,lounge chair,beach,The lounge chair is on the beach.,1,val
+169,2412569,-1,184799,converse,on,on,lounge chair,beach,The beach is under the lounge chair.,1,val
+170,2412569,-1,184799,swap,on,on,lounge chair,beach,The beach is on the lounge chair.,0,val
+171,2412569,-1,184799,opposite,on,on,lounge chair,beach,The lounge chair is under the beach.,0,val
+172,2355406,-1,2340555,orig,on,on top of,soap,sink,The soap is on the sink.,1,val
+173,2355406,-1,2340555,converse,on,on top of,soap,sink,The sink is under the soap.,1,val
+174,2355406,-1,2340555,swap,on,on top of,soap,sink,The sink is on the soap.,0,val
+175,2355406,-1,2340555,opposite,on,on top of,soap,sink,The soap is under the sink.,0,val
+176,2413275,-1,1689016,orig,above,above,strand,train,The strand is above the train.,1,val
+177,2413275,-1,1689016,converse,above,above,strand,train,The train is below the strand.,1,val
+178,2413275,-1,1689016,swap,above,above,strand,train,The train is above the strand.,0,val
+179,2413275,-1,1689016,opposite,above,above,strand,train,The strand is below the train.,0,val
+180,2391743,201596,3444763,orig,behind,behind,trees,boat,The trees is behind the boat.,1,val
+181,2391743,201596,3444763,converse,behind,behind,trees,boat,The boat is in front of the trees.,1,val
+182,2391743,201596,3444763,swap,behind,behind,trees,boat,The boat is behind the trees.,0,val
+183,2391743,201596,3444763,opposite,behind,behind,trees,boat,The trees is in front of the boat.,0,val
+184,2351492,-1,3786588,orig,above,above,banner,wall,The banner is above the wall.,1,val
+185,2351492,-1,3786588,converse,above,above,banner,wall,The wall is below the banner.,1,val
+186,2351492,-1,3786588,swap,above,above,banner,wall,The wall is above the banner.,0,val
+187,2351492,-1,3786588,opposite,above,above,banner,wall,The banner is below the wall.,0,val
+188,2367047,228920,4362991,orig,behind,behind,drawing board,boy,The drawing board is behind the boy.,1,val
+189,2367047,228920,4362991,converse,behind,behind,drawing board,boy,The boy is in front of the drawing board.,1,val
+190,2367047,228920,4362991,swap,behind,behind,drawing board,boy,The boy is behind the drawing board.,0,val
+191,2367047,228920,4362991,opposite,behind,behind,drawing board,boy,The drawing board is in front of the boy.,0,val
+192,2364240,-1,3678661,orig,above,over,sky,mountain,The sky is above the mountain.,1,val
+193,2364240,-1,3678661,converse,above,over,sky,mountain,The mountain is below the sky.,1,val
+194,2364240,-1,3678661,swap,above,over,sky,mountain,The mountain is above the sky.,0,val
+195,2364240,-1,3678661,opposite,above,over,sky,mountain,The sky is below the mountain.,0,val
+196,2365925,-1,4377627,orig,under,under,tiles,white concrete,The tiles is under the white concrete.,1,val
+197,2365925,-1,4377627,converse,under,under,tiles,white concrete,The white concrete is on the tiles.,1,val
+198,2365925,-1,4377627,swap,under,under,tiles,white concrete,The white concrete is under the tiles.,0,val
+199,2365925,-1,4377627,opposite,under,under,tiles,white concrete,The tiles is on the white concrete.,0,val
+200,2375476,381018,4021605,orig,above,above,sky,beach,The sky is above the beach.,1,val
+201,2375476,381018,4021605,converse,above,above,sky,beach,The beach is below the sky.,1,val
+202,2375476,381018,4021605,swap,above,above,sky,beach,The beach is above the sky.,0,val
+203,2375476,381018,4021605,opposite,above,above,sky,beach,The sky is below the beach.,0,val
+204,2349669,270623,4413916,orig,to the right of,on right side of,post,bed,The post is to the right of the bed.,1,val
+205,2349669,270623,4413916,converse,to the right of,on right side of,post,bed,The bed is to the left of the post.,1,val
+206,2349669,270623,4413916,swap,to the right of,on right side of,post,bed,The bed is to the right of the post.,0,val
+207,2349669,270623,4413916,opposite,to the right of,on right side of,post,bed,The post is to the left of the bed.,0,val
+208,2321761,442040,4637747,orig,above,above,sky,land,The sky is above the land.,1,val
+209,2321761,442040,4637747,converse,above,above,sky,land,The land is below the sky.,1,val
+210,2321761,442040,4637747,swap,above,above,sky,land,The land is above the sky.,0,val
+211,2321761,442040,4637747,opposite,above,above,sky,land,The sky is below the land.,0,val
+212,2374185,-1,4118777,orig,under,under,step,snowboarder,The step is under the snowboarder.,1,val
+213,2374185,-1,4118777,converse,under,under,step,snowboarder,The snowboarder is on the step.,1,val
+214,2374185,-1,4118777,swap,under,under,step,snowboarder,The snowboarder is under the step.,0,val
+215,2374185,-1,4118777,opposite,under,under,step,snowboarder,The step is on the snowboarder.,0,val
+216,2392987,-1,3420969,orig,above,above,man,snow,The man is above the snow.,1,val
+217,2392987,-1,3420969,converse,above,above,man,snow,The snow is below the man.,1,val
+218,2392987,-1,3420969,swap,above,above,man,snow,The snow is above the man.,0,val
+219,2392987,-1,3420969,opposite,above,above,man,snow,The man is below the snow.,0,val
+220,2383024,-1,3575686,orig,behind,behind,wall,man,The wall is behind the man.,1,val
+221,2383024,-1,3575686,converse,behind,behind,wall,man,The man is in front of the wall.,1,val
+222,2383024,-1,3575686,swap,behind,behind,wall,man,The man is behind the wall.,0,val
+223,2383024,-1,3575686,opposite,behind,behind,wall,man,The wall is in front of the man.,0,val
+224,2391730,-1,3445022,orig,above,over,flag,street,The flag is above the street.,1,val
+225,2391730,-1,3445022,converse,above,over,flag,street,The street is below the flag.,1,val
+226,2391730,-1,3445022,swap,above,over,flag,street,The street is above the flag.,0,val
+227,2391730,-1,3445022,opposite,above,over,flag,street,The flag is below the street.,0,val
+228,2356746,-1,2301860,orig,under,under,board,man,The board is under the man.,1,val
+229,2356746,-1,2301860,converse,under,under,board,man,The man is on the board.,1,val
+230,2356746,-1,2301860,swap,under,under,board,man,The man is under the board.,0,val
+231,2356746,-1,2301860,opposite,under,under,board,man,The board is on the man.,0,val
+232,2391242,519768,3450534,orig,above,above,lights,people,The lights is above the people.,1,val
+233,2391242,519768,3450534,converse,above,above,lights,people,The people is below the lights.,1,val
+234,2391242,519768,3450534,swap,above,above,lights,people,The people is above the lights.,0,val
+235,2391242,519768,3450534,opposite,above,above,lights,people,The lights is below the people.,0,val
+236,2371496,540882,1508729,orig,above,over,power lines,trains,The power lines is above the trains.,1,val
+237,2371496,540882,1508729,converse,above,over,power lines,trains,The trains is below the power lines.,1,val
+238,2371496,540882,1508729,swap,above,over,power lines,trains,The trains is above the power lines.,0,val
+239,2371496,540882,1508729,opposite,above,over,power lines,trains,The power lines is below the trains.,0,val
+240,2403283,519522,3261763,orig,behind,behind,castle,tower,The castle is behind the tower.,1,val
+241,2403283,519522,3261763,converse,behind,behind,castle,tower,The tower is in front of the castle.,1,val
+242,2403283,519522,3261763,swap,behind,behind,castle,tower,The tower is behind the castle.,0,val
+243,2403283,519522,3261763,opposite,behind,behind,castle,tower,The castle is in front of the tower.,0,val
+244,2383352,503407,1306402,orig,above,above,wall,water,The wall is above the water.,1,val
+245,2383352,503407,1306402,converse,above,above,wall,water,The water is below the wall.,1,val
+246,2383352,503407,1306402,swap,above,above,wall,water,The water is above the wall.,0,val
+247,2383352,503407,1306402,opposite,above,above,wall,water,The wall is below the water.,0,val
+248,2414555,-1,4629905,orig,above,above,ceiling,man,The ceiling is above the man.,1,val
+249,2414555,-1,4629905,converse,above,above,ceiling,man,The man is below the ceiling.,1,val
+250,2414555,-1,4629905,swap,above,above,ceiling,man,The man is above the ceiling.,0,val
+251,2414555,-1,4629905,opposite,above,above,ceiling,man,The ceiling is below the man.,0,val
+252,2354155,442630,3753463,orig,behind,behind,house,man,The house is behind the man.,1,val
+253,2354155,442630,3753463,converse,behind,behind,house,man,The man is in front of the house.,1,val
+254,2354155,442630,3753463,swap,behind,behind,house,man,The man is behind the house.,0,val
+255,2354155,442630,3753463,opposite,behind,behind,house,man,The house is in front of the man.,0,val
+256,2338349,-1,4798980,orig,in front of,in front of,bus,building,The bus is in front of the building.,1,val
+257,2338349,-1,4798980,converse,in front of,in front of,bus,building,The building is behind the bus.,1,val
+258,2338349,-1,4798980,swap,in front of,in front of,bus,building,The building is in front of the bus.,0,val
+259,2338349,-1,4798980,opposite,in front of,in front of,bus,building,The bus is behind the building.,0,val
+260,2318863,27805,3005894,orig,behind,behind,pillow,baby,The pillow is behind the baby.,1,val
+261,2318863,27805,3005894,converse,behind,behind,pillow,baby,The baby is in front of the pillow.,1,val
+262,2318863,27805,3005894,swap,behind,behind,pillow,baby,The baby is behind the pillow.,0,val
+263,2318863,27805,3005894,opposite,behind,behind,pillow,baby,The pillow is in front of the baby.,0,val
+264,2387584,-1,3499768,orig,under,under,zebra,tree,The zebra is under the tree.,1,val
+265,2387584,-1,3499768,converse,under,under,zebra,tree,The tree is on the zebra.,1,val
+266,2387584,-1,3499768,swap,under,under,zebra,tree,The tree is under the zebra.,0,val
+267,2387584,-1,3499768,opposite,under,under,zebra,tree,The zebra is on the tree.,0,val
+268,2387497,306855,1785982,orig,behind,behind,wall,cat,The wall is behind the cat.,1,val
+269,2387497,306855,1785982,converse,behind,behind,wall,cat,The cat is in front of the wall.,1,val
+270,2387497,306855,1785982,swap,behind,behind,wall,cat,The cat is behind the wall.,0,val
+271,2387497,306855,1785982,opposite,behind,behind,wall,cat,The wall is in front of the cat.,0,val
+272,2405555,-1,3240470,orig,behind,behind,water,person,The water is behind the person.,1,val
+273,2405555,-1,3240470,converse,behind,behind,water,person,The person is in front of the water.,1,val
+274,2405555,-1,3240470,swap,behind,behind,water,person,The person is behind the water.,0,val
+275,2405555,-1,3240470,opposite,behind,behind,water,person,The water is in front of the person.,0,val
+276,2362633,354061,4394708,orig,below,below,bush,bird,The bush is below the bird.,1,val
+277,2362633,354061,4394708,converse,below,below,bush,bird,The bird is above the bush.,1,val
+278,2362633,354061,4394708,swap,below,below,bush,bird,The bird is below the bush.,0,val
+279,2362633,354061,4394708,opposite,below,below,bush,bird,The bush is above the bird.,0,val
+280,2405318,-1,3242483,orig,below,below,court,man,The court is below the man.,1,val
+281,2405318,-1,3242483,converse,below,below,court,man,The man is above the court.,1,val
+282,2405318,-1,3242483,swap,below,below,court,man,The man is below the court.,0,val
+283,2405318,-1,3242483,opposite,below,below,court,man,The court is above the man.,0,val
+284,2356635,-1,2304851,orig,to the left of,to left of,light switch,counter,The light switch is to the left of the counter.,1,val
+285,2356635,-1,2304851,converse,to the left of,to left of,light switch,counter,The counter is to the right of the light switch.,1,val
+286,2356635,-1,2304851,swap,to the left of,to left of,light switch,counter,The counter is to the left of the light switch.,0,val
+287,2356635,-1,2304851,opposite,to the left of,to left of,light switch,counter,The light switch is to the right of the counter.,0,val
+288,2409213,380734,264229,orig,above,over,bridge,water,The bridge is above the water.,1,val
+289,2409213,380734,264229,converse,above,over,bridge,water,The water is below the bridge.,1,val
+290,2409213,380734,264229,swap,above,over,bridge,water,The water is above the bridge.,0,val
+291,2409213,380734,264229,opposite,above,over,bridge,water,The bridge is below the water.,0,val
+292,2358171,524575,3691342,orig,behind,behind,tree,bush,The tree is behind the bush.,1,val
+293,2358171,524575,3691342,converse,behind,behind,tree,bush,The bush is in front of the tree.,1,val
+294,2358171,524575,3691342,swap,behind,behind,tree,bush,The bush is behind the tree.,0,val
+295,2358171,524575,3691342,opposite,behind,behind,tree,bush,The tree is in front of the bush.,0,val
+296,2366443,-1,2058665,orig,under,under,prop,keyboard,The prop is under the keyboard.,1,val
+297,2366443,-1,2058665,converse,under,under,prop,keyboard,The keyboard is on the prop.,1,val
+298,2366443,-1,2058665,swap,under,under,prop,keyboard,The keyboard is under the prop.,0,val
+299,2366443,-1,2058665,opposite,under,under,prop,keyboard,The prop is on the keyboard.,0,val
+300,2396887,-1,4697354,orig,behind,behind,word,woman,The word is behind the woman.,1,val
+301,2396887,-1,4697354,converse,behind,behind,word,woman,The woman is in front of the word.,1,val
+302,2396887,-1,4697354,swap,behind,behind,word,woman,The woman is behind the word.,0,val
+303,2396887,-1,4697354,opposite,behind,behind,word,woman,The word is in front of the woman.,0,val
+304,2410727,107840,651416,orig,above,above,light,bus,The light is above the bus.,1,val
+305,2410727,107840,651416,converse,above,above,light,bus,The bus is below the light.,1,val
+306,2410727,107840,651416,swap,above,above,light,bus,The bus is above the light.,0,val
+307,2410727,107840,651416,opposite,above,above,light,bus,The light is below the bus.,0,val
+308,2335682,-1,4808666,orig,behind,behind,soap dispenser,cat,The soap dispenser is behind the cat.,1,val
+309,2335682,-1,4808666,converse,behind,behind,soap dispenser,cat,The cat is in front of the soap dispenser.,1,val
+310,2335682,-1,4808666,swap,behind,behind,soap dispenser,cat,The cat is behind the soap dispenser.,0,val
+311,2335682,-1,4808666,opposite,behind,behind,soap dispenser,cat,The soap dispenser is in front of the cat.,0,val
+312,2414822,175671,146012,orig,in front of,in front of,boy,bushes,The boy is in front of the bushes.,1,val
+313,2414822,175671,146012,converse,in front of,in front of,boy,bushes,The bushes is behind the boy.,1,val
+314,2414822,175671,146012,swap,in front of,in front of,boy,bushes,The bushes is in front of the boy.,0,val
+315,2414822,175671,146012,opposite,in front of,in front of,boy,bushes,The boy is behind the bushes.,0,val
+316,2409327,-1,259051,orig,above,over,exhaust,stove,The exhaust is above the stove.,1,val
+317,2409327,-1,259051,converse,above,over,exhaust,stove,The stove is below the exhaust.,1,val
+318,2409327,-1,259051,swap,above,over,exhaust,stove,The stove is above the exhaust.,0,val
+319,2409327,-1,259051,opposite,above,over,exhaust,stove,The exhaust is below the stove.,0,val
+320,2409637,499592,248480,orig,under,under,night stand,telephone,The night stand is under the telephone.,1,val
+321,2409637,499592,248480,converse,under,under,night stand,telephone,The telephone is on the night stand.,1,val
+322,2409637,499592,248480,swap,under,under,night stand,telephone,The telephone is under the night stand.,0,val
+323,2409637,499592,248480,opposite,under,under,night stand,telephone,The night stand is on the telephone.,0,val
+324,2326393,211540,2935829,orig,above,over,bangs,forehead,The bangs is above the forehead.,1,val
+325,2326393,211540,2935829,converse,above,over,bangs,forehead,The forehead is below the bangs.,1,val
+326,2326393,211540,2935829,swap,above,over,bangs,forehead,The forehead is above the bangs.,0,val
+327,2326393,211540,2935829,opposite,above,over,bangs,forehead,The bangs is below the forehead.,0,val
+328,2391768,-1,3444444,orig,behind,behind,giraffe,cage door,The giraffe is behind the cage door.,1,val
+329,2391768,-1,3444444,converse,behind,behind,giraffe,cage door,The cage door is in front of the giraffe.,1,val
+330,2391768,-1,3444444,swap,behind,behind,giraffe,cage door,The cage door is behind the giraffe.,0,val
+331,2391768,-1,3444444,opposite,behind,behind,giraffe,cage door,The giraffe is in front of the cage door.,0,val
+332,2372358,16977,4152055,orig,behind,behind,black car,grey car,The black car is behind the grey car.,1,val
+333,2372358,16977,4152055,converse,behind,behind,black car,grey car,The grey car is in front of the black car.,1,val
+334,2372358,16977,4152055,swap,behind,behind,black car,grey car,The grey car is behind the black car.,0,val
+335,2372358,16977,4152055,opposite,behind,behind,black car,grey car,The black car is in front of the grey car.,0,val
+336,2362747,278636,4179665,orig,in front of,in front of,curtains,window,The curtains is in front of the window.,1,val
+337,2362747,278636,4179665,converse,in front of,in front of,curtains,window,The window is behind the curtains.,1,val
+338,2362747,278636,4179665,swap,in front of,in front of,curtains,window,The window is in front of the curtains.,0,val
+339,2362747,278636,4179665,opposite,in front of,in front of,curtains,window,The curtains is behind the window.,0,val
+340,2387637,-1,1784504,orig,above,above,cabinets,refrigerator,The cabinets is above the refrigerator.,1,val
+341,2387637,-1,1784504,converse,above,above,cabinets,refrigerator,The refrigerator is below the cabinets.,1,val
+342,2387637,-1,1784504,swap,above,above,cabinets,refrigerator,The refrigerator is above the cabinets.,0,val
+343,2387637,-1,1784504,opposite,above,above,cabinets,refrigerator,The cabinets is below the refrigerator.,0,val
+344,2405168,-1,3243825,orig,behind,behind,ledge,beach,The ledge is behind the beach.,1,val
+345,2405168,-1,3243825,converse,behind,behind,ledge,beach,The beach is in front of the ledge.,1,val
+346,2405168,-1,3243825,swap,behind,behind,ledge,beach,The beach is behind the ledge.,0,val
+347,2405168,-1,3243825,opposite,behind,behind,ledge,beach,The ledge is in front of the beach.,0,val
+348,2348844,-1,2545083,orig,behind,behind,water,woman,The water is behind the woman.,1,val
+349,2348844,-1,2545083,converse,behind,behind,water,woman,The woman is in front of the water.,1,val
+350,2348844,-1,2545083,swap,behind,behind,water,woman,The woman is behind the water.,0,val
+351,2348844,-1,2545083,opposite,behind,behind,water,woman,The water is in front of the woman.,0,val
+352,2393683,569414,1058952,orig,behind,behind,grass,tennis courts,The grass is behind the tennis courts.,1,val
+353,2393683,569414,1058952,converse,behind,behind,grass,tennis courts,The tennis courts is in front of the grass.,1,val
+354,2393683,569414,1058952,swap,behind,behind,grass,tennis courts,The tennis courts is behind the grass.,0,val
+355,2393683,569414,1058952,opposite,behind,behind,grass,tennis courts,The grass is in front of the tennis courts.,0,val
+356,2318396,406699,3019125,orig,above,over,bird,gas station,The bird is above the gas station.,1,val
+357,2318396,406699,3019125,converse,above,over,bird,gas station,The gas station is below the bird.,1,val
+358,2318396,406699,3019125,swap,above,over,bird,gas station,The gas station is above the bird.,0,val
+359,2318396,406699,3019125,opposite,above,over,bird,gas station,The bird is below the gas station.,0,val
+360,2345271,392905,4430650,orig,behind,behind,person,ground,The person is behind the ground.,1,val
+361,2345271,392905,4430650,converse,behind,behind,person,ground,The ground is in front of the person.,1,val
+362,2345271,392905,4430650,swap,behind,behind,person,ground,The ground is behind the person.,0,val
+363,2345271,392905,4430650,opposite,behind,behind,person,ground,The person is in front of the ground.,0,val
+364,2380606,137028,1890947,orig,behind,behind,door,dog,The door is behind the dog.,1,val
+365,2380606,137028,1890947,converse,behind,behind,door,dog,The dog is in front of the door.,1,val
+366,2380606,137028,1890947,swap,behind,behind,door,dog,The dog is behind the door.,0,val
+367,2380606,137028,1890947,opposite,behind,behind,door,dog,The door is in front of the dog.,0,val
+368,2320617,543224,4654009,orig,below,below,lettuce,meat,The lettuce is below the meat.,1,val
+369,2320617,543224,4654009,converse,below,below,lettuce,meat,The meat is above the lettuce.,1,val
+370,2320617,543224,4654009,swap,below,below,lettuce,meat,The meat is below the lettuce.,0,val
+371,2320617,543224,4654009,opposite,below,below,lettuce,meat,The lettuce is above the meat.,0,val
+372,2363590,-1,4173451,orig,behind,behind,tree,fountain,The tree is behind the fountain.,1,val
+373,2363590,-1,4173451,converse,behind,behind,tree,fountain,The fountain is in front of the tree.,1,val
+374,2363590,-1,4173451,swap,behind,behind,tree,fountain,The fountain is behind the tree.,0,val
+375,2363590,-1,4173451,opposite,behind,behind,tree,fountain,The tree is in front of the fountain.,0,val
+376,2412492,515391,186769,orig,under,under,shirt,tie,The shirt is under the tie.,1,val
+377,2412492,515391,186769,converse,under,under,shirt,tie,The tie is on the shirt.,1,val
+378,2412492,515391,186769,swap,under,under,shirt,tie,The tie is under the shirt.,0,val
+379,2412492,515391,186769,opposite,under,under,shirt,tie,The shirt is on the tie.,0,val
+380,2350572,349352,4101383,orig,behind,behind,tower,pole,The tower is behind the pole.,1,val
+381,2350572,349352,4101383,converse,behind,behind,tower,pole,The pole is in front of the tower.,1,val
+382,2350572,349352,4101383,swap,behind,behind,tower,pole,The pole is behind the tower.,0,val
+383,2350572,349352,4101383,opposite,behind,behind,tower,pole,The tower is in front of the pole.,0,val
+384,2364191,305287,1684503,orig,in front of,in front of,bear,wall,The bear is in front of the wall.,1,val
+385,2364191,305287,1684503,converse,in front of,in front of,bear,wall,The wall is behind the bear.,1,val
+386,2364191,305287,1684503,swap,in front of,in front of,bear,wall,The wall is in front of the bear.,0,val
+387,2364191,305287,1684503,opposite,in front of,in front of,bear,wall,The bear is behind the wall.,0,val
+388,2354907,279490,2355775,orig,in front of,in front of,plate,lady,The plate is in front of the lady.,1,val
+389,2354907,279490,2355775,converse,in front of,in front of,plate,lady,The lady is behind the plate.,1,val
+390,2354907,279490,2355775,swap,in front of,in front of,plate,lady,The lady is in front of the plate.,0,val
+391,2354907,279490,2355775,opposite,in front of,in front of,plate,lady,The plate is behind the lady.,0,val
+392,2412607,-1,184094,orig,behind,behind,wall,car,The wall is behind the car.,1,val
+393,2412607,-1,184094,converse,behind,behind,wall,car,The car is in front of the wall.,1,val
+394,2412607,-1,184094,swap,behind,behind,wall,car,The car is behind the wall.,0,val
+395,2412607,-1,184094,opposite,behind,behind,wall,car,The wall is in front of the car.,0,val
+396,2373809,467107,4125568,orig,above,above,ceiling,people,The ceiling is above the people.,1,val
+397,2373809,467107,4125568,converse,above,above,ceiling,people,The people is below the ceiling.,1,val
+398,2373809,467107,4125568,swap,above,above,ceiling,people,The people is above the ceiling.,0,val
+399,2373809,467107,4125568,opposite,above,above,ceiling,people,The ceiling is below the people.,0,val
+400,2354474,-1,4228454,orig,behind,behind,tree,aircraft,The tree is behind the aircraft.,1,val
+401,2354474,-1,4228454,converse,behind,behind,tree,aircraft,The aircraft is in front of the tree.,1,val
+402,2354474,-1,4228454,swap,behind,behind,tree,aircraft,The aircraft is behind the tree.,0,val
+403,2354474,-1,4228454,opposite,behind,behind,tree,aircraft,The tree is in front of the aircraft.,0,val
+404,2408528,289197,294439,orig,in front of,in front of,tree,building,The tree is in front of the building.,1,val
+405,2408528,289197,294439,converse,in front of,in front of,tree,building,The building is behind the tree.,1,val
+406,2408528,289197,294439,swap,in front of,in front of,tree,building,The building is in front of the tree.,0,val
+407,2408528,289197,294439,opposite,in front of,in front of,tree,building,The tree is behind the building.,0,val
+408,2386615,159315,1797284,orig,behind,behind,disrepair,bench,The disrepair is behind the bench.,1,val
+409,2386615,159315,1797284,converse,behind,behind,disrepair,bench,The bench is in front of the disrepair.,1,val
+410,2386615,159315,1797284,swap,behind,behind,disrepair,bench,The bench is behind the disrepair.,0,val
+411,2386615,159315,1797284,opposite,behind,behind,disrepair,bench,The disrepair is in front of the bench.,0,val
+412,2389514,-1,4761695,orig,behind,behind,street,people,The street is behind the people.,1,val
+413,2389514,-1,4761695,converse,behind,behind,street,people,The people is in front of the street.,1,val
+414,2389514,-1,4761695,swap,behind,behind,street,people,The people is behind the street.,0,val
+415,2389514,-1,4761695,opposite,behind,behind,street,people,The street is in front of the people.,0,val
+416,1003,-1,4641383,orig,in front of,in front of,game,chair,The game is in front of the chair.,1,val
+417,1003,-1,4641383,converse,in front of,in front of,game,chair,The chair is behind the game.,1,val
+418,1003,-1,4641383,swap,in front of,in front of,game,chair,The chair is in front of the game.,0,val
+419,1003,-1,4641383,opposite,in front of,in front of,game,chair,The game is behind the chair.,0,val
+420,2343285,-1,3910199,orig,under,under,grass,car,The grass is under the car.,1,val
+421,2343285,-1,3910199,converse,under,under,grass,car,The car is on the grass.,1,val
+422,2343285,-1,3910199,swap,under,under,grass,car,The car is under the grass.,0,val
+423,2343285,-1,3910199,opposite,under,under,grass,car,The grass is on the car.,0,val
+424,2382480,-1,3581050,orig,under,under,track,train,The track is under the train.,1,val
+425,2382480,-1,3581050,converse,under,under,track,train,The train is on the track.,1,val
+426,2382480,-1,3581050,swap,under,under,track,train,The train is under the track.,0,val
+427,2382480,-1,3581050,opposite,under,under,track,train,The track is on the train.,0,val
+428,2410302,186977,221575,orig,in front of,in front of,step,house,The step is in front of the house.,1,val
+429,2410302,186977,221575,converse,in front of,in front of,step,house,The house is behind the step.,1,val
+430,2410302,186977,221575,swap,in front of,in front of,step,house,The house is in front of the step.,0,val
+431,2410302,186977,221575,opposite,in front of,in front of,step,house,The step is behind the house.,0,val
+432,2409141,359563,266350,orig,under,under,colanders,cabinets,The colanders is under the cabinets.,1,val
+433,2409141,359563,266350,converse,under,under,colanders,cabinets,The cabinets is on the colanders.,1,val
+434,2409141,359563,266350,swap,under,under,colanders,cabinets,The cabinets is under the colanders.,0,val
+435,2409141,359563,266350,opposite,under,under,colanders,cabinets,The colanders is on the cabinets.,0,val
+436,2384902,-1,3545827,orig,behind,behind,tree,man,The tree is behind the man.,1,val
+437,2384902,-1,3545827,converse,behind,behind,tree,man,The man is in front of the tree.,1,val
+438,2384902,-1,3545827,swap,behind,behind,tree,man,The man is behind the tree.,0,val
+439,2384902,-1,3545827,opposite,behind,behind,tree,man,The tree is in front of the man.,0,val
+440,2361624,116511,3656050,orig,under,under,trunk,elephant,The trunk is under the elephant.,1,val
+441,2361624,116511,3656050,converse,under,under,trunk,elephant,The elephant is on the trunk.,1,val
+442,2361624,116511,3656050,swap,under,under,trunk,elephant,The elephant is under the trunk.,0,val
+443,2361624,116511,3656050,opposite,under,under,trunk,elephant,The trunk is on the elephant.,0,val
+444,2404348,543525,3250797,orig,above,above,cabinet,counter,The cabinet is above the counter.,1,val
+445,2404348,543525,3250797,converse,above,above,cabinet,counter,The counter is below the cabinet.,1,val
+446,2404348,543525,3250797,swap,above,above,cabinet,counter,The counter is above the cabinet.,0,val
+447,2404348,543525,3250797,opposite,above,above,cabinet,counter,The cabinet is below the counter.,0,val
+448,2384126,-1,3559587,orig,in front of,in front of,tennis player,wall,The tennis player is in front of the wall.,1,val
+449,2384126,-1,3559587,converse,in front of,in front of,tennis player,wall,The wall is behind the tennis player.,1,val
+450,2384126,-1,3559587,swap,in front of,in front of,tennis player,wall,The wall is in front of the tennis player.,0,val
+451,2384126,-1,3559587,opposite,in front of,in front of,tennis player,wall,The tennis player is behind the wall.,0,val
+452,2370658,-1,4551545,orig,in front of,in front of,dots,donut,The dots is in front of the donut.,1,val
+453,2370658,-1,4551545,converse,in front of,in front of,dots,donut,The donut is behind the dots.,1,val
+454,2370658,-1,4551545,swap,in front of,in front of,dots,donut,The donut is in front of the dots.,0,val
+455,2370658,-1,4551545,opposite,in front of,in front of,dots,donut,The dots is behind the donut.,0,val
+456,2320663,-1,4751697,orig,behind,behind,fence,baseball player,The fence is behind the baseball player.,1,val
+457,2320663,-1,4751697,converse,behind,behind,fence,baseball player,The baseball player is in front of the fence.,1,val
+458,2320663,-1,4751697,swap,behind,behind,fence,baseball player,The baseball player is behind the fence.,0,val
+459,2320663,-1,4751697,opposite,behind,behind,fence,baseball player,The fence is in front of the baseball player.,0,val
+460,2398933,-1,3330726,orig,below,below,ignition,handlebar,The ignition is below the handlebar.,1,val
+461,2398933,-1,3330726,converse,below,below,ignition,handlebar,The handlebar is above the ignition.,1,val
+462,2398933,-1,3330726,swap,below,below,ignition,handlebar,The handlebar is below the ignition.,0,val
+463,2398933,-1,3330726,opposite,below,below,ignition,handlebar,The ignition is above the handlebar.,0,val
+464,2398448,-1,3339234,orig,under,under,stump,laptop,The stump is under the laptop.,1,val
+465,2398448,-1,3339234,converse,under,under,stump,laptop,The laptop is on the stump.,1,val
+466,2398448,-1,3339234,swap,under,under,stump,laptop,The laptop is under the stump.,0,val
+467,2398448,-1,3339234,opposite,under,under,stump,laptop,The stump is on the laptop.,0,val
+468,1734,-1,3194398,orig,under,under,computer tower,table,The computer tower is under the table.,1,val
+469,1734,-1,3194398,converse,under,under,computer tower,table,The table is on the computer tower.,1,val
+470,1734,-1,3194398,swap,under,under,computer tower,table,The table is under the computer tower.,0,val
+471,1734,-1,3194398,opposite,under,under,computer tower,table,The computer tower is on the table.,0,val
+472,2378293,-1,3985810,orig,behind,behind,building,tree,The building is behind the tree.,1,val
+473,2378293,-1,3985810,converse,behind,behind,building,tree,The tree is in front of the building.,1,val
+474,2378293,-1,3985810,swap,behind,behind,building,tree,The tree is behind the building.,0,val
+475,2378293,-1,3985810,opposite,behind,behind,building,tree,The building is in front of the tree.,0,val
+476,4685,-1,4818520,orig,below,below,structure,staircase,The structure is below the staircase.,1,val
+477,4685,-1,4818520,converse,below,below,structure,staircase,The staircase is above the structure.,1,val
+478,4685,-1,4818520,swap,below,below,structure,staircase,The staircase is below the structure.,0,val
+479,4685,-1,4818520,opposite,below,below,structure,staircase,The structure is above the staircase.,0,val
+480,2407305,478266,3228713,orig,above,above,grass,water,The grass is above the water.,1,val
+481,2407305,478266,3228713,converse,above,above,grass,water,The water is below the grass.,1,val
+482,2407305,478266,3228713,swap,above,above,grass,water,The water is above the grass.,0,val
+483,2407305,478266,3228713,opposite,above,above,grass,water,The grass is below the water.,0,val
+484,2317373,467978,3052969,orig,in front of,in front of,railing,sheep,The railing is in front of the sheep.,1,val
+485,2317373,467978,3052969,converse,in front of,in front of,railing,sheep,The sheep is behind the railing.,1,val
+486,2317373,467978,3052969,swap,in front of,in front of,railing,sheep,The sheep is in front of the railing.,0,val
+487,2317373,467978,3052969,opposite,in front of,in front of,railing,sheep,The railing is behind the sheep.,0,val
+488,2343268,-1,2724817,orig,above,above,chair,floor,The chair is above the floor.,1,val
+489,2343268,-1,2724817,converse,above,above,chair,floor,The floor is below the chair.,1,val
+490,2343268,-1,2724817,swap,above,above,chair,floor,The floor is above the chair.,0,val
+491,2343268,-1,2724817,opposite,above,above,chair,floor,The chair is below the floor.,0,val
+492,2395044,-1,3392374,orig,above,above,train,water,The train is above the water.,1,val
+493,2395044,-1,3392374,converse,above,above,train,water,The water is below the train.,1,val
+494,2395044,-1,3392374,swap,above,above,train,water,The water is above the train.,0,val
+495,2395044,-1,3392374,opposite,above,above,train,water,The train is below the water.,0,val
+496,4086,-1,4783754,orig,above,over,object,bed,The object is above the bed.,1,val
+497,4086,-1,4783754,converse,above,over,object,bed,The bed is below the object.,1,val
+498,4086,-1,4783754,swap,above,over,object,bed,The bed is above the object.,0,val
+499,4086,-1,4783754,opposite,above,over,object,bed,The object is below the bed.,0,val
+500,2324327,476034,2951333,orig,behind,behind,tree,man,The tree is behind the man.,1,val
+501,2324327,476034,2951333,converse,behind,behind,tree,man,The man is in front of the tree.,1,val
+502,2324327,476034,2951333,swap,behind,behind,tree,man,The man is behind the tree.,0,val
+503,2324327,476034,2951333,opposite,behind,behind,tree,man,The tree is in front of the man.,0,val
+504,2370097,-1,4555525,orig,in front of,in front of,stick,cow,The stick is in front of the cow.,1,val
+505,2370097,-1,4555525,converse,in front of,in front of,stick,cow,The cow is behind the stick.,1,val
+506,2370097,-1,4555525,swap,in front of,in front of,stick,cow,The cow is in front of the stick.,0,val
+507,2370097,-1,4555525,opposite,in front of,in front of,stick,cow,The stick is behind the cow.,0,val
+508,2360817,557400,3905515,orig,behind,behind,tile,shelf,The tile is behind the shelf.,1,val
+509,2360817,557400,3905515,converse,behind,behind,tile,shelf,The shelf is in front of the tile.,1,val
+510,2360817,557400,3905515,swap,behind,behind,tile,shelf,The shelf is behind the tile.,0,val
+511,2360817,557400,3905515,opposite,behind,behind,tile,shelf,The tile is in front of the shelf.,0,val
+512,1592701,-1,4086366,orig,in front of,front of,car,building,The car is in front of the building.,1,val
+513,1592701,-1,4086366,converse,in front of,front of,car,building,The building is behind the car.,1,val
+514,1592701,-1,4086366,swap,in front of,front of,car,building,The building is in front of the car.,0,val
+515,1592701,-1,4086366,opposite,in front of,front of,car,building,The car is behind the building.,0,val
+516,2405232,-1,715060,orig,behind,behind,branch,zebra,The branch is behind the zebra.,1,val
+517,2405232,-1,715060,converse,behind,behind,branch,zebra,The zebra is in front of the branch.,1,val
+518,2405232,-1,715060,swap,behind,behind,branch,zebra,The zebra is behind the branch.,0,val
+519,2405232,-1,715060,opposite,behind,behind,branch,zebra,The branch is in front of the zebra.,0,val
+520,2384983,-1,3544248,orig,in front of,in front of,fence,building,The fence is in front of the building.,1,val
+521,2384983,-1,3544248,converse,in front of,in front of,fence,building,The building is behind the fence.,1,val
+522,2384983,-1,3544248,swap,in front of,in front of,fence,building,The building is in front of the fence.,0,val
+523,2384983,-1,3544248,opposite,in front of,in front of,fence,building,The fence is behind the building.,0,val
+524,2318508,-1,3015715,orig,above,over,sky,ocean,The sky is above the ocean.,1,val
+525,2318508,-1,3015715,converse,above,over,sky,ocean,The ocean is below the sky.,1,val
+526,2318508,-1,3015715,swap,above,over,sky,ocean,The ocean is above the sky.,0,val
+527,2318508,-1,3015715,opposite,above,over,sky,ocean,The sky is below the ocean.,0,val
+528,2410436,265227,217497,orig,above,over,hand,plate,The hand is above the plate.,1,val
+529,2410436,265227,217497,converse,above,over,hand,plate,The plate is below the hand.,1,val
+530,2410436,265227,217497,swap,above,over,hand,plate,The plate is above the hand.,0,val
+531,2410436,265227,217497,opposite,above,over,hand,plate,The hand is below the plate.,0,val
+532,2344022,383172,3894307,orig,behind,behind,trees,horses,The trees is behind the horses.,1,val
+533,2344022,383172,3894307,converse,behind,behind,trees,horses,The horses is in front of the trees.,1,val
+534,2344022,383172,3894307,swap,behind,behind,trees,horses,The horses is behind the trees.,0,val
+535,2344022,383172,3894307,opposite,behind,behind,trees,horses,The trees is in front of the horses.,0,val
+536,2401135,343599,3297000,orig,below,below,window,clock,The window is below the clock.,1,val
+537,2401135,343599,3297000,converse,below,below,window,clock,The clock is above the window.,1,val
+538,2401135,343599,3297000,swap,below,below,window,clock,The clock is below the window.,0,val
+539,2401135,343599,3297000,opposite,below,below,window,clock,The window is above the clock.,0,val
+540,2316427,3366,3165920,orig,above,over,pier,water,The pier is above the water.,1,val
+541,2316427,3366,3165920,converse,above,over,pier,water,The water is below the pier.,1,val
+542,2316427,3366,3165920,swap,above,over,pier,water,The water is above the pier.,0,val
+543,2316427,3366,3165920,opposite,above,over,pier,water,The pier is below the water.,0,val
+544,2413018,-1,175209,orig,under,under,ground,plane,The ground is under the plane.,1,val
+545,2413018,-1,175209,converse,under,under,ground,plane,The plane is on the ground.,1,val
+546,2413018,-1,175209,swap,under,under,ground,plane,The plane is under the ground.,0,val
+547,2413018,-1,175209,opposite,under,under,ground,plane,The ground is on the plane.,0,val
+548,2366204,466288,4374362,orig,behind,behind,mountains,people,The mountains is behind the people.,1,val
+549,2366204,466288,4374362,converse,behind,behind,mountains,people,The people is in front of the mountains.,1,val
+550,2366204,466288,4374362,swap,behind,behind,mountains,people,The people is behind the mountains.,0,val
+551,2366204,466288,4374362,opposite,behind,behind,mountains,people,The mountains is in front of the people.,0,val
+552,2374100,219117,1961384,orig,above,over,tower,building,The tower is above the building.,1,val
+553,2374100,219117,1961384,converse,above,over,tower,building,The building is below the tower.,1,val
+554,2374100,219117,1961384,swap,above,over,tower,building,The building is above the tower.,0,val
+555,2374100,219117,1961384,opposite,above,over,tower,building,The tower is below the building.,0,val
+556,1403,-1,3743231,orig,in front of,in front of,fence,ladder,The fence is in front of the ladder.,1,val
+557,1403,-1,3743231,converse,in front of,in front of,fence,ladder,The ladder is behind the fence.,1,val
+558,1403,-1,3743231,swap,in front of,in front of,fence,ladder,The ladder is in front of the fence.,0,val
+559,1403,-1,3743231,opposite,in front of,in front of,fence,ladder,The fence is behind the ladder.,0,val
+560,713588,-1,4789167,orig,in front of,in front of,tree,building,The tree is in front of the building.,1,val
+561,713588,-1,4789167,converse,in front of,in front of,tree,building,The building is behind the tree.,1,val
+562,713588,-1,4789167,swap,in front of,in front of,tree,building,The building is in front of the tree.,0,val
+563,713588,-1,4789167,opposite,in front of,in front of,tree,building,The tree is behind the building.,0,val
+564,2336868,-1,4260064,orig,above,above,light,plane,The light is above the plane.,1,val
+565,2336868,-1,4260064,converse,above,above,light,plane,The plane is below the light.,1,val
+566,2336868,-1,4260064,swap,above,above,light,plane,The plane is above the light.,0,val
+567,2336868,-1,4260064,opposite,above,above,light,plane,The light is below the plane.,0,val
+568,2386027,444953,3525802,orig,in front of,in front of,net,player,The net is in front of the player.,1,val
+569,2386027,444953,3525802,converse,in front of,in front of,net,player,The player is behind the net.,1,val
+570,2386027,444953,3525802,swap,in front of,in front of,net,player,The player is in front of the net.,0,val
+571,2386027,444953,3525802,opposite,in front of,in front of,net,player,The net is behind the player.,0,val
+572,2374619,44251,4309444,orig,below,beneath,light,blinds,The light is below the blinds.,1,val
+573,2374619,44251,4309444,converse,below,beneath,light,blinds,The blinds is above the light.,1,val
+574,2374619,44251,4309444,swap,below,beneath,light,blinds,The blinds is below the light.,0,val
+575,2374619,44251,4309444,opposite,below,beneath,light,blinds,The light is above the blinds.,0,val
+576,2338595,-1,3131123,orig,under,under,box,table,The box is under the table.,1,val
+577,2338595,-1,3131123,converse,under,under,box,table,The table is on the box.,1,val
+578,2338595,-1,3131123,swap,under,under,box,table,The table is under the box.,0,val
+579,2338595,-1,3131123,opposite,under,under,box,table,The box is on the table.,0,val
+580,2352920,15750,4401703,orig,behind,behind,sink,toilet,The sink is behind the toilet.,1,val
+581,2352920,15750,4401703,converse,behind,behind,sink,toilet,The toilet is in front of the sink.,1,val
+582,2352920,15750,4401703,swap,behind,behind,sink,toilet,The toilet is behind the sink.,0,val
+583,2352920,15750,4401703,opposite,behind,behind,sink,toilet,The sink is in front of the toilet.,0,val
+584,285882,11034,4726389,orig,behind,behind,aquarium,couch,The aquarium is behind the couch.,1,val
+585,285882,11034,4726389,converse,behind,behind,aquarium,couch,The couch is in front of the aquarium.,1,val
+586,285882,11034,4726389,swap,behind,behind,aquarium,couch,The couch is behind the aquarium.,0,val
+587,285882,11034,4726389,opposite,behind,behind,aquarium,couch,The aquarium is in front of the couch.,0,val
+588,2410707,-1,652326,orig,below,beneath,trees,bike,The trees is below the bike.,1,val
+589,2410707,-1,652326,converse,below,beneath,trees,bike,The bike is above the trees.,1,val
+590,2410707,-1,652326,swap,below,beneath,trees,bike,The bike is below the trees.,0,val
+591,2410707,-1,652326,opposite,below,beneath,trees,bike,The trees is above the bike.,0,val
+592,2376549,-1,4019499,orig,behind,behind,umpire,catcher,The umpire is behind the catcher.,1,val
+593,2376549,-1,4019499,converse,behind,behind,umpire,catcher,The catcher is in front of the umpire.,1,val
+594,2376549,-1,4019499,swap,behind,behind,umpire,catcher,The catcher is behind the umpire.,0,val
+595,2376549,-1,4019499,opposite,behind,behind,umpire,catcher,The umpire is in front of the catcher.,0,val
+596,2383517,572802,3569545,orig,behind,behind,building,man,The building is behind the man.,1,val
+597,2383517,572802,3569545,converse,behind,behind,building,man,The man is in front of the building.,1,val
+598,2383517,572802,3569545,swap,behind,behind,building,man,The man is behind the building.,0,val
+599,2383517,572802,3569545,opposite,behind,behind,building,man,The building is in front of the man.,0,val
+600,2413957,-1,156551,orig,under,under,toilet,cabinet,The toilet is under the cabinet.,1,val
+601,2413957,-1,156551,converse,under,under,toilet,cabinet,The cabinet is on the toilet.,1,val
+602,2413957,-1,156551,swap,under,under,toilet,cabinet,The cabinet is under the toilet.,0,val
+603,2413957,-1,156551,opposite,under,under,toilet,cabinet,The toilet is on the cabinet.,0,val
+604,2395768,54308,3381127,orig,below,below,buildings,sky,The buildings is below the sky.,1,val
+605,2395768,54308,3381127,converse,below,below,buildings,sky,The sky is above the buildings.,1,val
+606,2395768,54308,3381127,swap,below,below,buildings,sky,The sky is below the buildings.,0,val
+607,2395768,54308,3381127,opposite,below,below,buildings,sky,The buildings is above the sky.,0,val
+608,2322253,-1,2963560,orig,below,beneath,ear,cell phone,The ear is below the cell phone.,1,val
+609,2322253,-1,2963560,converse,below,beneath,ear,cell phone,The cell phone is above the ear.,1,val
+610,2322253,-1,2963560,swap,below,beneath,ear,cell phone,The cell phone is below the ear.,0,val
+611,2322253,-1,2963560,opposite,below,beneath,ear,cell phone,The ear is above the cell phone.,0,val
+612,2353023,-1,3767137,orig,above,above,sky,slope,The sky is above the slope.,1,val
+613,2353023,-1,3767137,converse,above,above,sky,slope,The slope is below the sky.,1,val
+614,2353023,-1,3767137,swap,above,above,sky,slope,The slope is above the sky.,0,val
+615,2353023,-1,3767137,opposite,above,above,sky,slope,The sky is below the slope.,0,val
+616,2350785,-1,2488243,orig,under,under,photo,clock,The photo is under the clock.,1,val
+617,2350785,-1,2488243,converse,under,under,photo,clock,The clock is on the photo.,1,val
+618,2350785,-1,2488243,swap,under,under,photo,clock,The clock is under the photo.,0,val
+619,2350785,-1,2488243,opposite,under,under,photo,clock,The photo is on the clock.,0,val
+620,2329338,-1,4056082,orig,below,beneath,table,vase,The table is below the vase.,1,val
+621,2329338,-1,4056082,converse,below,beneath,table,vase,The vase is above the table.,1,val
+622,2329338,-1,4056082,swap,below,beneath,table,vase,The vase is below the table.,0,val
+623,2329338,-1,4056082,opposite,below,beneath,table,vase,The table is above the vase.,0,val
+624,2394435,84879,3399365,orig,under,under,dog,toilet paper,The dog is under the toilet paper.,1,val
+625,2394435,84879,3399365,converse,under,under,dog,toilet paper,The toilet paper is on the dog.,1,val
+626,2394435,84879,3399365,swap,under,under,dog,toilet paper,The toilet paper is under the dog.,0,val
+627,2394435,84879,3399365,opposite,under,under,dog,toilet paper,The dog is on the toilet paper.,0,val
+628,2386864,-1,1793709,orig,above,over,wire,book,The wire is above the book.,1,val
+629,2386864,-1,1793709,converse,above,over,wire,book,The book is below the wire.,1,val
+630,2386864,-1,1793709,swap,above,over,wire,book,The book is above the wire.,0,val
+631,2386864,-1,1793709,opposite,above,over,wire,book,The wire is below the book.,0,val
+632,2345021,-1,2674928,orig,below,underneath,area rug,table,The area rug is below the table.,1,val
+633,2345021,-1,2674928,converse,below,underneath,area rug,table,The table is above the area rug.,1,val
+634,2345021,-1,2674928,swap,below,underneath,area rug,table,The table is below the area rug.,0,val
+635,2345021,-1,2674928,opposite,below,underneath,area rug,table,The area rug is above the table.,0,val
+636,4050,-1,4706848,orig,above,over,outlet,sink,The outlet is above the sink.,1,val
+637,4050,-1,4706848,converse,above,over,outlet,sink,The sink is below the outlet.,1,val
+638,4050,-1,4706848,swap,above,over,outlet,sink,The sink is above the outlet.,0,val
+639,4050,-1,4706848,opposite,above,over,outlet,sink,The outlet is below the sink.,0,val
+640,2382312,165046,3582268,orig,above,above,man,bicycle,The man is above the bicycle.,1,val
+641,2382312,165046,3582268,converse,above,above,man,bicycle,The bicycle is below the man.,1,val
+642,2382312,165046,3582268,swap,above,above,man,bicycle,The bicycle is above the man.,0,val
+643,2382312,165046,3582268,opposite,above,above,man,bicycle,The man is below the bicycle.,0,val
+644,2331847,-1,4141478,orig,in front of,in front of,window,plane,The window is in front of the plane.,1,val
+645,2331847,-1,4141478,converse,in front of,in front of,window,plane,The plane is behind the window.,1,val
+646,2331847,-1,4141478,swap,in front of,in front of,window,plane,The plane is in front of the window.,0,val
+647,2331847,-1,4141478,opposite,in front of,in front of,window,plane,The window is behind the plane.,0,val
+648,2320370,-1,4753680,orig,to the left of,left of,door,fire hydrant,The door is to the left of the fire hydrant.,1,val
+649,2320370,-1,4753680,converse,to the left of,left of,door,fire hydrant,The fire hydrant is to the right of the door.,1,val
+650,2320370,-1,4753680,swap,to the left of,left of,door,fire hydrant,The fire hydrant is to the left of the door.,0,val
+651,2320370,-1,4753680,opposite,to the left of,left of,door,fire hydrant,The door is to the right of the fire hydrant.,0,val
+652,2398567,-1,3349065,orig,under,under,bike,man,The bike is under the man.,1,val
+653,2398567,-1,3349065,converse,under,under,bike,man,The man is on the bike.,1,val
+654,2398567,-1,3349065,swap,under,under,bike,man,The man is under the bike.,0,val
+655,2398567,-1,3349065,opposite,under,under,bike,man,The bike is on the man.,0,val
+656,2391293,-1,1132716,orig,above,above,man,ramp,The man is above the ramp.,1,val
+657,2391293,-1,1132716,converse,above,above,man,ramp,The ramp is below the man.,1,val
+658,2391293,-1,1132716,swap,above,above,man,ramp,The ramp is above the man.,0,val
+659,2391293,-1,1132716,opposite,above,above,man,ramp,The man is below the ramp.,0,val
+660,2317861,-1,3035544,orig,under,under,sheet,baseball,The sheet is under the baseball.,1,val
+661,2317861,-1,3035544,converse,under,under,sheet,baseball,The baseball is on the sheet.,1,val
+662,2317861,-1,3035544,swap,under,under,sheet,baseball,The baseball is under the sheet.,0,val
+663,2317861,-1,3035544,opposite,under,under,sheet,baseball,The sheet is on the baseball.,0,val
+664,2344263,-1,3889914,orig,under,under,cement,bench,The cement is under the bench.,1,val
+665,2344263,-1,3889914,converse,under,under,cement,bench,The bench is on the cement.,1,val
+666,2344263,-1,3889914,swap,under,under,cement,bench,The bench is under the cement.,0,val
+667,2344263,-1,3889914,opposite,under,under,cement,bench,The cement is on the bench.,0,val
+668,107987,-1,3942886,orig,in front of,in front of,man,boat,The man is in front of the boat.,1,val
+669,107987,-1,3942886,converse,in front of,in front of,man,boat,The boat is behind the man.,1,val
+670,107987,-1,3942886,swap,in front of,in front of,man,boat,The boat is in front of the man.,0,val
+671,107987,-1,3942886,opposite,in front of,in front of,man,boat,The man is behind the boat.,0,val
+672,2406710,283199,364779,orig,above,above,bird,apples,The bird is above the apples.,1,val
+673,2406710,283199,364779,converse,above,above,bird,apples,The apples is below the bird.,1,val
+674,2406710,283199,364779,swap,above,above,bird,apples,The apples is above the bird.,0,val
+675,2406710,283199,364779,opposite,above,above,bird,apples,The bird is below the apples.,0,val
+676,2388874,128647,3486200,orig,above,above,wreath,pantry door,The wreath is above the pantry door.,1,val
+677,2388874,128647,3486200,converse,above,above,wreath,pantry door,The pantry door is below the wreath.,1,val
+678,2388874,128647,3486200,swap,above,above,wreath,pantry door,The pantry door is above the wreath.,0,val
+679,2388874,128647,3486200,opposite,above,above,wreath,pantry door,The wreath is below the pantry door.,0,val
+680,2356643,-1,3720579,orig,to the left of,to left of,paved area,train,The paved area is to the left of the train.,1,val
+681,2356643,-1,3720579,converse,to the left of,to left of,paved area,train,The train is to the right of the paved area.,1,val
+682,2356643,-1,3720579,swap,to the left of,to left of,paved area,train,The train is to the left of the paved area.,0,val
+683,2356643,-1,3720579,opposite,to the left of,to left of,paved area,train,The paved area is to the right of the train.,0,val
+684,2333486,407355,4028775,orig,under,under,ottoman,table,The ottoman is under the table.,1,val
+685,2333486,407355,4028775,converse,under,under,ottoman,table,The table is on the ottoman.,1,val
+686,2333486,407355,4028775,swap,under,under,ottoman,table,The table is under the ottoman.,0,val
+687,2333486,407355,4028775,opposite,under,under,ottoman,table,The ottoman is on the table.,0,val
+688,2385660,13988,3532264,orig,above,above,sky,grass,The sky is above the grass.,1,val
+689,2385660,13988,3532264,converse,above,above,sky,grass,The grass is below the sky.,1,val
+690,2385660,13988,3532264,swap,above,above,sky,grass,The grass is above the sky.,0,val
+691,2385660,13988,3532264,opposite,above,above,sky,grass,The sky is below the grass.,0,val
+692,2415157,210195,140017,orig,under,under,two people,umbrella,The two people is under the umbrella.,1,val
+693,2415157,210195,140017,converse,under,under,two people,umbrella,The umbrella is on the two people.,1,val
+694,2415157,210195,140017,swap,under,under,two people,umbrella,The umbrella is under the two people.,0,val
+695,2415157,210195,140017,opposite,under,under,two people,umbrella,The two people is on the umbrella.,0,val
+696,2354493,410339,3749482,orig,above,above,black balloons,girl,The black balloons is above the girl.,1,val
+697,2354493,410339,3749482,converse,above,above,black balloons,girl,The girl is below the black balloons.,1,val
+698,2354493,410339,3749482,swap,above,above,black balloons,girl,The girl is above the black balloons.,0,val
+699,2354493,410339,3749482,opposite,above,above,black balloons,girl,The black balloons is below the girl.,0,val
+700,2378527,536423,4297356,orig,under,under,wheel,plane,The wheel is under the plane.,1,val
+701,2378527,536423,4297356,converse,under,under,wheel,plane,The plane is on the wheel.,1,val
+702,2378527,536423,4297356,swap,under,under,wheel,plane,The plane is under the wheel.,0,val
+703,2378527,536423,4297356,opposite,under,under,wheel,plane,The wheel is on the plane.,0,val
+704,2350969,-1,3793033,orig,under,under,leaves,bench,The leaves is under the bench.,1,val
+705,2350969,-1,3793033,converse,under,under,leaves,bench,The bench is on the leaves.,1,val
+706,2350969,-1,3793033,swap,under,under,leaves,bench,The bench is under the leaves.,0,val
+707,2350969,-1,3793033,opposite,under,under,leaves,bench,The leaves is on the bench.,0,val
+708,2376441,59328,4021633,orig,in front of,in front of,lady,store front,The lady is in front of the store front.,1,val
+709,2376441,59328,4021633,converse,in front of,in front of,lady,store front,The store front is behind the lady.,1,val
+710,2376441,59328,4021633,swap,in front of,in front of,lady,store front,The store front is in front of the lady.,0,val
+711,2376441,59328,4021633,opposite,in front of,in front of,lady,store front,The lady is behind the store front.,0,val
+712,2346171,367462,3855628,orig,below,underneath,airplane,plane,The airplane is below the plane.,1,val
+713,2346171,367462,3855628,converse,below,underneath,airplane,plane,The plane is above the airplane.,1,val
+714,2346171,367462,3855628,swap,below,underneath,airplane,plane,The plane is below the airplane.,0,val
+715,2346171,367462,3855628,opposite,below,underneath,airplane,plane,The airplane is above the plane.,0,val
+716,713744,-1,3816337,orig,below,beneath,drain,ramp,The drain is below the ramp.,1,val
+717,713744,-1,3816337,converse,below,beneath,drain,ramp,The ramp is above the drain.,1,val
+718,713744,-1,3816337,swap,below,beneath,drain,ramp,The ramp is below the drain.,0,val
+719,713744,-1,3816337,opposite,below,beneath,drain,ramp,The drain is above the ramp.,0,val
+720,2379269,111223,3616256,orig,under,under,engines,wing,The engines is under the wing.,1,val
+721,2379269,111223,3616256,converse,under,under,engines,wing,The wing is on the engines.,1,val
+722,2379269,111223,3616256,swap,under,under,engines,wing,The wing is under the engines.,0,val
+723,2379269,111223,3616256,opposite,under,under,engines,wing,The engines is on the wing.,0,val
+724,2387048,-1,1235784,orig,under,under,table,plate,The table is under the plate.,1,val
+725,2387048,-1,1235784,converse,under,under,table,plate,The plate is on the table.,1,val
+726,2387048,-1,1235784,swap,under,under,table,plate,The plate is under the table.,0,val
+727,2387048,-1,1235784,opposite,under,under,table,plate,The table is on the plate.,0,val
+728,2334661,155845,3843285,orig,below,below,horizon,sky,The horizon is below the sky.,1,val
+729,2334661,155845,3843285,converse,below,below,horizon,sky,The sky is above the horizon.,1,val
+730,2334661,155845,3843285,swap,below,below,horizon,sky,The sky is below the horizon.,0,val
+731,2334661,155845,3843285,opposite,below,below,horizon,sky,The horizon is above the sky.,0,val
+732,2330949,-1,4107827,orig,in front of,in front of,mailbox,building,The mailbox is in front of the building.,1,val
+733,2330949,-1,4107827,converse,in front of,in front of,mailbox,building,The building is behind the mailbox.,1,val
+734,2330949,-1,4107827,swap,in front of,in front of,mailbox,building,The building is in front of the mailbox.,0,val
+735,2330949,-1,4107827,opposite,in front of,in front of,mailbox,building,The mailbox is behind the building.,0,val
+736,2382744,517399,1846902,orig,in front of,in front of,table,sofa bed,The table is in front of the sofa bed.,1,val
+737,2382744,517399,1846902,converse,in front of,in front of,table,sofa bed,The sofa bed is behind the table.,1,val
+738,2382744,517399,1846902,swap,in front of,in front of,table,sofa bed,The sofa bed is in front of the table.,0,val
+739,2382744,517399,1846902,opposite,in front of,in front of,table,sofa bed,The table is behind the sofa bed.,0,val
+740,2346310,71347,2630307,orig,in front of,in front of,boy,toy kitchen,The boy is in front of the toy kitchen.,1,val
+741,2346310,71347,2630307,converse,in front of,in front of,boy,toy kitchen,The toy kitchen is behind the boy.,1,val
+742,2346310,71347,2630307,swap,in front of,in front of,boy,toy kitchen,The toy kitchen is in front of the boy.,0,val
+743,2346310,71347,2630307,opposite,in front of,in front of,boy,toy kitchen,The boy is behind the toy kitchen.,0,val
+744,2383140,301109,1310500,orig,to the right of,to right of,lamp,other remote,The lamp is to the right of the other remote.,1,val
+745,2383140,301109,1310500,converse,to the right of,to right of,lamp,other remote,The other remote is to the left of the lamp.,1,val
+746,2383140,301109,1310500,swap,to the right of,to right of,lamp,other remote,The other remote is to the right of the lamp.,0,val
+747,2383140,301109,1310500,opposite,to the right of,to right of,lamp,other remote,The lamp is to the left of the other remote.,0,val
+748,2398088,518518,3343347,orig,in front of,in front of,steering wheel,dog,The steering wheel is in front of the dog.,1,val
+749,2398088,518518,3343347,converse,in front of,in front of,steering wheel,dog,The dog is behind the steering wheel.,1,val
+750,2398088,518518,3343347,swap,in front of,in front of,steering wheel,dog,The dog is in front of the steering wheel.,0,val
+751,2398088,518518,3343347,opposite,in front of,in front of,steering wheel,dog,The steering wheel is behind the dog.,0,val
+752,2377502,-1,4001306,orig,in front of,in front of,chair,window,The chair is in front of the window.,1,val
+753,2377502,-1,4001306,converse,in front of,in front of,chair,window,The window is behind the chair.,1,val
+754,2377502,-1,4001306,swap,in front of,in front of,chair,window,The window is in front of the chair.,0,val
+755,2377502,-1,4001306,opposite,in front of,in front of,chair,window,The chair is behind the window.,0,val
+756,2402379,328068,3276775,orig,under,under,ball,drapery,The ball is under the drapery.,1,val
+757,2402379,328068,3276775,converse,under,under,ball,drapery,The drapery is on the ball.,1,val
+758,2402379,328068,3276775,swap,under,under,ball,drapery,The drapery is under the ball.,0,val
+759,2402379,328068,3276775,opposite,under,under,ball,drapery,The ball is on the drapery.,0,val
+760,2407717,71880,3226157,orig,under,under,track,train,The track is under the train.,1,val
+761,2407717,71880,3226157,converse,under,under,track,train,The train is on the track.,1,val
+762,2407717,71880,3226157,swap,under,under,track,train,The train is under the track.,0,val
+763,2407717,71880,3226157,opposite,under,under,track,train,The track is on the train.,0,val
+764,2403993,-1,582490,orig,in front of,in front of,jet,sky,The jet is in front of the sky.,1,val
+765,2403993,-1,582490,converse,in front of,in front of,jet,sky,The sky is behind the jet.,1,val
+766,2403993,-1,582490,swap,in front of,in front of,jet,sky,The sky is in front of the jet.,0,val
+767,2403993,-1,582490,opposite,in front of,in front of,jet,sky,The jet is behind the sky.,0,val
+768,2364675,417660,1672915,orig,under,under,tracks,train,The tracks is under the train.,1,val
+769,2364675,417660,1672915,converse,under,under,tracks,train,The train is on the tracks.,1,val
+770,2364675,417660,1672915,swap,under,under,tracks,train,The train is under the tracks.,0,val
+771,2364675,417660,1672915,opposite,under,under,tracks,train,The tracks is on the train.,0,val
+772,2323700,259067,2953876,orig,under,under,light,table,The light is under the table.,1,val
+773,2323700,259067,2953876,converse,under,under,light,table,The table is on the light.,1,val
+774,2323700,259067,2953876,swap,under,under,light,table,The table is under the light.,0,val
+775,2323700,259067,2953876,opposite,under,under,light,table,The light is on the table.,0,val
+776,2412196,196035,195494,orig,under,under,women,umbrella,The women is under the umbrella.,1,val
+777,2412196,196035,195494,converse,under,under,women,umbrella,The umbrella is on the women.,1,val
+778,2412196,196035,195494,swap,under,under,women,umbrella,The umbrella is under the women.,0,val
+779,2412196,196035,195494,opposite,under,under,women,umbrella,The women is on the umbrella.,0,val
+780,2348003,-1,3831860,orig,under,under,tall building,cloudy sky,The tall building is under the cloudy sky.,1,val
+781,2348003,-1,3831860,converse,under,under,tall building,cloudy sky,The cloudy sky is on the tall building.,1,val
+782,2348003,-1,3831860,swap,under,under,tall building,cloudy sky,The cloudy sky is under the tall building.,0,val
+783,2348003,-1,3831860,opposite,under,under,tall building,cloudy sky,The tall building is on the cloudy sky.,0,val
+784,2325409,144693,2946813,orig,under,under,stand,light tent,The stand is under the light tent.,1,val
+785,2325409,144693,2946813,converse,under,under,stand,light tent,The light tent is on the stand.,1,val
+786,2325409,144693,2946813,swap,under,under,stand,light tent,The light tent is under the stand.,0,val
+787,2325409,144693,2946813,opposite,under,under,stand,light tent,The stand is on the light tent.,0,val
+788,2351898,-1,2451739,orig,in front of,in front of,clock,grey wall,The clock is in front of the grey wall.,1,val
+789,2351898,-1,2451739,converse,in front of,in front of,clock,grey wall,The grey wall is behind the clock.,1,val
+790,2351898,-1,2451739,swap,in front of,in front of,clock,grey wall,The grey wall is in front of the clock.,0,val
+791,2351898,-1,2451739,opposite,in front of,in front of,clock,grey wall,The clock is behind the grey wall.,0,val
+792,2338719,233537,2831794,orig,under,under,pipe,sink,The pipe is under the sink.,1,val
+793,2338719,233537,2831794,converse,under,under,pipe,sink,The sink is on the pipe.,1,val
+794,2338719,233537,2831794,swap,under,under,pipe,sink,The sink is under the pipe.,0,val
+795,2338719,233537,2831794,opposite,under,under,pipe,sink,The pipe is on the sink.,0,val
+796,2385809,335323,1812844,orig,below,underneath,wheels,jet,The wheels is below the jet.,1,val
+797,2385809,335323,1812844,converse,below,underneath,wheels,jet,The jet is above the wheels.,1,val
+798,2385809,335323,1812844,swap,below,underneath,wheels,jet,The jet is below the wheels.,0,val
+799,2385809,335323,1812844,opposite,below,underneath,wheels,jet,The wheels is above the jet.,0,val
+800,2367924,-1,1597530,orig,in front of,in front of,faucet,window,The faucet is in front of the window.,1,val
+801,2367924,-1,1597530,converse,in front of,in front of,faucet,window,The window is behind the faucet.,1,val
+802,2367924,-1,1597530,swap,in front of,in front of,faucet,window,The window is in front of the faucet.,0,val
+803,2367924,-1,1597530,opposite,in front of,in front of,faucet,window,The faucet is behind the window.,0,val
+804,2358858,186410,2235204,orig,in front of,in front of,front windows,train,The front windows is in front of the train.,1,val
+805,2358858,186410,2235204,converse,in front of,in front of,front windows,train,The train is behind the front windows.,1,val
+806,2358858,186410,2235204,swap,in front of,in front of,front windows,train,The train is in front of the front windows.,0,val
+807,2358858,186410,2235204,opposite,in front of,in front of,front windows,train,The front windows is behind the train.,0,val
+808,2366433,-1,2058700,orig,in front of,in front of,dog,woman,The dog is in front of the woman.,1,val
+809,2366433,-1,2058700,converse,in front of,in front of,dog,woman,The woman is behind the dog.,1,val
+810,2366433,-1,2058700,swap,in front of,in front of,dog,woman,The woman is in front of the dog.,0,val
+811,2366433,-1,2058700,opposite,in front of,in front of,dog,woman,The dog is behind the woman.,0,val
+812,3940,-1,4705204,orig,below,beneath,mulch,bushes,The mulch is below the bushes.,1,val
+813,3940,-1,4705204,converse,below,beneath,mulch,bushes,The bushes is above the mulch.,1,val
+814,3940,-1,4705204,swap,below,beneath,mulch,bushes,The bushes is below the mulch.,0,val
+815,3940,-1,4705204,opposite,below,beneath,mulch,bushes,The mulch is above the bushes.,0,val
+816,2369466,-1,1565864,orig,below,beneath,seat,cat,The seat is below the cat.,1,val
+817,2369466,-1,1565864,converse,below,beneath,seat,cat,The cat is above the seat.,1,val
+818,2369466,-1,1565864,swap,below,beneath,seat,cat,The cat is below the seat.,0,val
+819,2369466,-1,1565864,opposite,below,beneath,seat,cat,The seat is above the cat.,0,val
+820,2388301,-1,3491645,orig,below,below,grass,man,The grass is below the man.,1,val
+821,2388301,-1,3491645,converse,below,below,grass,man,The man is above the grass.,1,val
+822,2388301,-1,3491645,swap,below,below,grass,man,The man is below the grass.,0,val
+823,2388301,-1,3491645,opposite,below,below,grass,man,The grass is above the man.,0,val
+824,2383140,301109,1310521,orig,in front of,in front of,shirt,lamp,The shirt is in front of the lamp.,1,val
+825,2383140,301109,1310521,converse,in front of,in front of,shirt,lamp,The lamp is behind the shirt.,1,val
+826,2383140,301109,1310521,swap,in front of,in front of,shirt,lamp,The lamp is in front of the shirt.,0,val
+827,2383140,301109,1310521,opposite,in front of,in front of,shirt,lamp,The shirt is behind the lamp.,0,val
+828,2354942,-1,3745215,orig,in front of,in front of,item,window,The item is in front of the window.,1,val
+829,2354942,-1,3745215,converse,in front of,in front of,item,window,The window is behind the item.,1,val
+830,2354942,-1,3745215,swap,in front of,in front of,item,window,The window is in front of the item.,0,val
+831,2354942,-1,3745215,opposite,in front of,in front of,item,window,The item is behind the window.,0,val
+832,4740,-1,4249396,orig,in front of,in front of,small tree,house,The small tree is in front of the house.,1,val
+833,4740,-1,4249396,converse,in front of,in front of,small tree,house,The house is behind the small tree.,1,val
+834,4740,-1,4249396,swap,in front of,in front of,small tree,house,The house is in front of the small tree.,0,val
+835,4740,-1,4249396,opposite,in front of,in front of,small tree,house,The small tree is behind the house.,0,val
+836,2400343,-1,3310564,orig,in front of,in front of,cords,tv,The cords is in front of the tv.,1,val
+837,2400343,-1,3310564,converse,in front of,in front of,cords,tv,The tv is behind the cords.,1,val
+838,2400343,-1,3310564,swap,in front of,in front of,cords,tv,The tv is in front of the cords.,0,val
+839,2400343,-1,3310564,opposite,in front of,in front of,cords,tv,The cords is behind the tv.,0,val
+840,2383352,503407,1306421,orig,below,below,water,bridge,The water is below the bridge.,1,val
+841,2383352,503407,1306421,converse,below,below,water,bridge,The bridge is above the water.,1,val
+842,2383352,503407,1306421,swap,below,below,water,bridge,The bridge is below the water.,0,val
+843,2383352,503407,1306421,opposite,below,below,water,bridge,The water is above the bridge.,0,val
+844,2362983,-1,2102292,orig,in front of,in front of,windshield wiper,bus,The windshield wiper is in front of the bus.,1,val
+845,2362983,-1,2102292,converse,in front of,in front of,windshield wiper,bus,The bus is behind the windshield wiper.,1,val
+846,2362983,-1,2102292,swap,in front of,in front of,windshield wiper,bus,The bus is in front of the windshield wiper.,0,val
+847,2362983,-1,2102292,opposite,in front of,in front of,windshield wiper,bus,The windshield wiper is behind the bus.,0,val
+848,360,-1,3068086,orig,in front of,in front of,keyboard,monitor,The keyboard is in front of the monitor.,1,val
+849,360,-1,3068086,converse,in front of,in front of,keyboard,monitor,The monitor is behind the keyboard.,1,val
+850,360,-1,3068086,swap,in front of,in front of,keyboard,monitor,The monitor is in front of the keyboard.,0,val
+851,360,-1,3068086,opposite,in front of,in front of,keyboard,monitor,The keyboard is behind the monitor.,0,val
+852,2336387,51946,4449214,orig,in front of,in front of,man,sign,The man is in front of the sign.,1,val
+853,2336387,51946,4449214,converse,in front of,in front of,man,sign,The sign is behind the man.,1,val
+854,2336387,51946,4449214,swap,in front of,in front of,man,sign,The sign is in front of the man.,0,val
+855,2336387,51946,4449214,opposite,in front of,in front of,man,sign,The man is behind the sign.,0,val
+856,2363735,79024,4171280,orig,in front of,in front of,bike,building,The bike is in front of the building.,1,val
+857,2363735,79024,4171280,converse,in front of,in front of,bike,building,The building is behind the bike.,1,val
+858,2363735,79024,4171280,swap,in front of,in front of,bike,building,The building is in front of the bike.,0,val
+859,2363735,79024,4171280,opposite,in front of,in front of,bike,building,The bike is behind the building.,0,val
+860,2409617,-1,249417,orig,below,below,plate,pizza,The plate is below the pizza.,1,val
+861,2409617,-1,249417,converse,below,below,plate,pizza,The pizza is above the plate.,1,val
+862,2409617,-1,249417,swap,below,below,plate,pizza,The pizza is below the plate.,0,val
+863,2409617,-1,249417,opposite,below,below,plate,pizza,The plate is above the pizza.,0,val
+864,2328789,-1,4145162,orig,below,beneath,wave,man,The wave is below the man.,1,val
+865,2328789,-1,4145162,converse,below,beneath,wave,man,The man is above the wave.,1,val
+866,2328789,-1,4145162,swap,below,beneath,wave,man,The man is below the wave.,0,val
+867,2328789,-1,4145162,opposite,below,beneath,wave,man,The wave is above the man.,0,val
+868,2351811,441458,3782274,orig,below,underneath,ground,bench,The ground is below the bench.,1,val
+869,2351811,441458,3782274,converse,below,underneath,ground,bench,The bench is above the ground.,1,val
+870,2351811,441458,3782274,swap,below,underneath,ground,bench,The bench is below the ground.,0,val
+871,2351811,441458,3782274,opposite,below,underneath,ground,bench,The ground is above the bench.,0,val
+872,2370000,425114,1550750,orig,below,underneath,box,table,The box is below the table.,1,val
+873,2370000,425114,1550750,converse,below,underneath,box,table,The table is above the box.,1,val
+874,2370000,425114,1550750,swap,below,underneath,box,table,The table is below the box.,0,val
+875,2370000,425114,1550750,opposite,below,underneath,box,table,The box is above the table.,0,val
+876,2382599,-1,1320374,orig,below,beneath,couple,umbrella,The couple is below the umbrella.,1,val
+877,2382599,-1,1320374,converse,below,beneath,couple,umbrella,The umbrella is above the couple.,1,val
+878,2382599,-1,1320374,swap,below,beneath,couple,umbrella,The umbrella is below the couple.,0,val
+879,2382599,-1,1320374,opposite,below,beneath,couple,umbrella,The couple is above the umbrella.,0,val
+880,2414437,244768,398210,orig,below,beneath,bed,window,The bed is below the window.,1,val
+881,2414437,244768,398210,converse,below,beneath,bed,window,The window is above the bed.,1,val
+882,2414437,244768,398210,swap,below,beneath,bed,window,The window is below the bed.,0,val
+883,2414437,244768,398210,opposite,below,beneath,bed,window,The bed is above the window.,0,val
+884,2400350,549962,3310441,orig,to the right of,on right side of,placemat,bowl,The placemat is to the right of the bowl.,1,val
+885,2400350,549962,3310441,converse,to the right of,on right side of,placemat,bowl,The bowl is to the left of the placemat.,1,val
+886,2400350,549962,3310441,swap,to the right of,on right side of,placemat,bowl,The bowl is to the right of the placemat.,0,val
+887,2400350,549962,3310441,opposite,to the right of,on right side of,placemat,bowl,The placemat is to the left of the bowl.,0,val
+888,2355783,-1,2328628,orig,below,below,shoreline,trees,The shoreline is below the trees.,1,val
+889,2355783,-1,2328628,converse,below,below,shoreline,trees,The trees is above the shoreline.,1,val
+890,2355783,-1,2328628,swap,below,below,shoreline,trees,The trees is below the shoreline.,0,val
+891,2355783,-1,2328628,opposite,below,below,shoreline,trees,The shoreline is above the trees.,0,val
+892,2374100,219117,4310823,orig,to the right of,on right side of,building,train,The building is to the right of the train.,1,val
+893,2374100,219117,4310823,converse,to the right of,on right side of,building,train,The train is to the left of the building.,1,val
+894,2374100,219117,4310823,swap,to the right of,on right side of,building,train,The train is to the right of the building.,0,val
+895,2374100,219117,4310823,opposite,to the right of,on right side of,building,train,The building is to the left of the train.,0,val
+896,2315939,-1,4658827,orig,below,below,window,lion,The window is below the lion.,1,val
+897,2315939,-1,4658827,converse,below,below,window,lion,The lion is above the window.,1,val
+898,2315939,-1,4658827,swap,below,below,window,lion,The lion is below the window.,0,val
+899,2315939,-1,4658827,opposite,below,below,window,lion,The window is above the lion.,0,val
+900,2350802,-1,4408612,orig,below,beneath,home plate,batter,The home plate is below the batter.,1,val
+901,2350802,-1,4408612,converse,below,beneath,home plate,batter,The batter is above the home plate.,1,val
+902,2350802,-1,4408612,swap,below,beneath,home plate,batter,The batter is below the home plate.,0,val
+903,2350802,-1,4408612,opposite,below,beneath,home plate,batter,The home plate is above the batter.,0,val
+904,2382559,-1,1320859,orig,below,below,bowl,plunger,The bowl is below the plunger.,1,val
+905,2382559,-1,1320859,converse,below,below,bowl,plunger,The plunger is above the bowl.,1,val
+906,2382559,-1,1320859,swap,below,below,bowl,plunger,The plunger is below the bowl.,0,val
+907,2382559,-1,1320859,opposite,below,below,bowl,plunger,The bowl is above the plunger.,0,val
+908,2391348,-1,3449236,orig,below,beneath,table,pizza,The table is below the pizza.,1,val
+909,2391348,-1,3449236,converse,below,beneath,table,pizza,The pizza is above the table.,1,val
+910,2391348,-1,3449236,swap,below,beneath,table,pizza,The pizza is below the table.,0,val
+911,2391348,-1,3449236,opposite,below,beneath,table,pizza,The table is above the pizza.,0,val
+912,2400153,-1,3313938,orig,below,underneath,grass,sheep,The grass is below the sheep.,1,val
+913,2400153,-1,3313938,converse,below,underneath,grass,sheep,The sheep is above the grass.,1,val
+914,2400153,-1,3313938,swap,below,underneath,grass,sheep,The sheep is below the grass.,0,val
+915,2400153,-1,3313938,opposite,below,underneath,grass,sheep,The grass is above the sheep.,0,val
+916,2367535,-1,2050728,orig,below,underneath,pants,dress,The pants is below the dress.,1,val
+917,2367535,-1,2050728,converse,below,underneath,pants,dress,The dress is above the pants.,1,val
+918,2367535,-1,2050728,swap,below,underneath,pants,dress,The dress is below the pants.,0,val
+919,2367535,-1,2050728,opposite,below,underneath,pants,dress,The pants is above the dress.,0,val
+920,2353194,336697,2409472,orig,below,below,tile,board,The tile is below the board.,1,val
+921,2353194,336697,2409472,converse,below,below,tile,board,The board is above the tile.,1,val
+922,2353194,336697,2409472,swap,below,below,tile,board,The board is below the tile.,0,val
+923,2353194,336697,2409472,opposite,below,below,tile,board,The tile is above the board.,0,val
+924,2353995,-1,3755674,orig,below,underneath,twigs,pot,The twigs is below the pot.,1,val
+925,2353995,-1,3755674,converse,below,underneath,twigs,pot,The pot is above the twigs.,1,val
+926,2353995,-1,3755674,swap,below,underneath,twigs,pot,The pot is below the twigs.,0,val
+927,2353995,-1,3755674,opposite,below,underneath,twigs,pot,The twigs is above the pot.,0,val
+928,2363108,-1,3643985,orig,below,below,headscarf,platter,The headscarf is below the platter.,1,val
+929,2363108,-1,3643985,converse,below,below,headscarf,platter,The platter is above the headscarf.,1,val
+930,2363108,-1,3643985,swap,below,below,headscarf,platter,The platter is below the headscarf.,0,val
+931,2363108,-1,3643985,opposite,below,below,headscarf,platter,The headscarf is above the platter.,0,val
+932,2399095,334275,904112,orig,below,below,grass,mountains,The grass is below the mountains.,1,val
+933,2399095,334275,904112,converse,below,below,grass,mountains,The mountains is above the grass.,1,val
+934,2399095,334275,904112,swap,below,below,grass,mountains,The mountains is below the grass.,0,val
+935,2399095,334275,904112,opposite,below,below,grass,mountains,The grass is above the mountains.,0,val
+936,2390647,367619,1151965,orig,below,below,cabinet,counter,The cabinet is below the counter.,1,val
+937,2390647,367619,1151965,converse,below,below,cabinet,counter,The counter is above the cabinet.,1,val
+938,2390647,367619,1151965,swap,below,below,cabinet,counter,The counter is below the cabinet.,0,val
+939,2390647,367619,1151965,opposite,below,below,cabinet,counter,The cabinet is above the counter.,0,val
+940,2348916,-1,2542425,orig,to the left of,to left of,lamp,bed,The lamp is to the left of the bed.,1,val
+941,2348916,-1,2542425,converse,to the left of,to left of,lamp,bed,The bed is to the right of the lamp.,1,val
+942,2348916,-1,2542425,swap,to the left of,to left of,lamp,bed,The bed is to the left of the lamp.,0,val
+943,2348916,-1,2542425,opposite,to the left of,to left of,lamp,bed,The lamp is to the right of the bed.,0,val
+944,2363405,-1,2092325,orig,to the left of,left of,table cloth,person,The table cloth is to the left of the person.,1,val
+945,2363405,-1,2092325,converse,to the left of,left of,table cloth,person,The person is to the right of the table cloth.,1,val
+946,2363405,-1,2092325,swap,to the left of,left of,table cloth,person,The person is to the left of the table cloth.,0,val
+947,2363405,-1,2092325,opposite,to the left of,left of,table cloth,person,The table cloth is to the right of the person.,0,val
+948,2369580,245874,1563134,orig,to the right of,to right of,toast,knife,The toast is to the right of the knife.,1,val
+949,2369580,245874,1563134,converse,to the right of,to right of,toast,knife,The knife is to the left of the toast.,1,val
+950,2369580,245874,1563134,swap,to the right of,to right of,toast,knife,The knife is to the right of the toast.,0,val
+951,2369580,245874,1563134,opposite,to the right of,to right of,toast,knife,The toast is to the left of the knife.,0,val
+952,2350420,-1,3799441,orig,to the right of,to right of,lamp,couch,The lamp is to the right of the couch.,1,val
+953,2350420,-1,3799441,converse,to the right of,to right of,lamp,couch,The couch is to the left of the lamp.,1,val
+954,2350420,-1,3799441,swap,to the right of,to right of,lamp,couch,The couch is to the right of the lamp.,0,val
+955,2350420,-1,3799441,opposite,to the right of,to right of,lamp,couch,The lamp is to the left of the couch.,0,val
+956,2366408,-1,1629474,orig,to the right of,right of,trashcan,building,The trashcan is to the right of the building.,1,val
+957,2366408,-1,1629474,converse,to the right of,right of,trashcan,building,The building is to the left of the trashcan.,1,val
+958,2366408,-1,1629474,swap,to the right of,right of,trashcan,building,The building is to the right of the trashcan.,0,val
+959,2366408,-1,1629474,opposite,to the right of,right of,trashcan,building,The trashcan is to the left of the building.,0,val
+960,2362983,-1,2102312,orig,to the left of,left of,road rail,road,The road rail is to the left of the road.,1,val
+961,2362983,-1,2102312,converse,to the left of,left of,road rail,road,The road is to the right of the road rail.,1,val
+962,2362983,-1,2102312,swap,to the left of,left of,road rail,road,The road is to the left of the road rail.,0,val
+963,2362983,-1,2102312,opposite,to the left of,left of,road rail,road,The road rail is to the right of the road.,0,val
+964,2702,-1,4729215,orig,to the right of,on right side of,building,road,The building is to the right of the road.,1,val
+965,2702,-1,4729215,converse,to the right of,on right side of,building,road,The road is to the left of the building.,1,val
+966,2702,-1,4729215,swap,to the right of,on right side of,building,road,The road is to the right of the building.,0,val
+967,2702,-1,4729215,opposite,to the right of,on right side of,building,road,The building is to the left of the road.,0,val
+968,2404864,-1,3246240,orig,to the right of,to right of,windows,people,The windows is to the right of the people.,1,val
+969,2404864,-1,3246240,converse,to the right of,to right of,windows,people,The people is to the left of the windows.,1,val
+970,2404864,-1,3246240,swap,to the right of,to right of,windows,people,The people is to the right of the windows.,0,val
+971,2404864,-1,3246240,opposite,to the right of,to right of,windows,people,The windows is to the left of the people.,0,val
+972,2385162,470935,4307513,orig,to the left of,to left of,outlet,stove,The outlet is to the left of the stove.,1,val
+973,2385162,470935,4307513,converse,to the left of,to left of,outlet,stove,The stove is to the right of the outlet.,1,val
+974,2385162,470935,4307513,swap,to the left of,to left of,outlet,stove,The stove is to the left of the outlet.,0,val
+975,2385162,470935,4307513,opposite,to the left of,to left of,outlet,stove,The outlet is to the right of the stove.,0,val
+976,2356518,-1,3722605,orig,to the left of,to left of,pole,2,The pole is to the left of the 2.,1,val
+977,2356518,-1,3722605,converse,to the left of,to left of,pole,2,The 2 is to the right of the pole.,1,val
+978,2356518,-1,3722605,swap,to the left of,to left of,pole,2,The 2 is to the left of the pole.,0,val
+979,2356518,-1,3722605,opposite,to the left of,to left of,pole,2,The pole is to the right of the 2.,0,val
+980,2364022,-1,4167087,orig,to the right of,right of,hair,hat,The hair is to the right of the hat.,1,val
+981,2364022,-1,4167087,converse,to the right of,right of,hair,hat,The hat is to the left of the hair.,1,val
+982,2364022,-1,4167087,swap,to the right of,right of,hair,hat,The hat is to the right of the hair.,0,val
+983,2364022,-1,4167087,opposite,to the right of,right of,hair,hat,The hair is to the left of the hat.,0,val
+984,2411439,163975,433757,orig,to the right of,to right of,tub,mirror,The tub is to the right of the mirror.,1,val
+985,2411439,163975,433757,converse,to the right of,to right of,tub,mirror,The mirror is to the left of the tub.,1,val
+986,2411439,163975,433757,swap,to the right of,to right of,tub,mirror,The mirror is to the right of the tub.,0,val
+987,2411439,163975,433757,opposite,to the right of,to right of,tub,mirror,The tub is to the left of the mirror.,0,val
+988,2369580,245874,1563132,orig,to the left of,to left of,painting,cup,The painting is to the left of the cup.,1,val
+989,2369580,245874,1563132,converse,to the left of,to left of,painting,cup,The cup is to the right of the painting.,1,val
+990,2369580,245874,1563132,swap,to the left of,to left of,painting,cup,The cup is to the left of the painting.,0,val
+991,2369580,245874,1563132,opposite,to the left of,to left of,painting,cup,The painting is to the right of the cup.,0,val
+992,2408704,398604,287109,orig,to the right of,to right of,glass,sandwich,The glass is to the right of the sandwich.,1,val
+993,2408704,398604,287109,converse,to the right of,to right of,glass,sandwich,The sandwich is to the left of the glass.,1,val
+994,2408704,398604,287109,swap,to the right of,to right of,glass,sandwich,The sandwich is to the right of the glass.,0,val
+995,2408704,398604,287109,opposite,to the right of,to right of,glass,sandwich,The glass is to the left of the sandwich.,0,val
+996,2387486,-1,3500838,orig,to the left of,to left of,patch,cat,The patch is to the left of the cat.,1,val
+997,2387486,-1,3500838,converse,to the left of,to left of,patch,cat,The cat is to the right of the patch.,1,val
+998,2387486,-1,3500838,swap,to the left of,to left of,patch,cat,The cat is to the left of the patch.,0,val
+999,2387486,-1,3500838,opposite,to the left of,to left of,patch,cat,The patch is to the right of the cat.,0,val
+1000,2343534,-1,4078362,orig,to the left of,to left of,bars,bathroom,The bars is to the left of the bathroom.,1,val
+1001,2343534,-1,4078362,converse,to the left of,to left of,bars,bathroom,The bathroom is to the right of the bars.,1,val
+1002,2343534,-1,4078362,swap,to the left of,to left of,bars,bathroom,The bathroom is to the left of the bars.,0,val
+1003,2343534,-1,4078362,opposite,to the left of,to left of,bars,bathroom,The bars is to the right of the bathroom.,0,val
+1004,2407767,-1,324804,orig,to the right of,to right of,lamp,table,The lamp is to the right of the table.,1,val
+1005,2407767,-1,324804,converse,to the right of,to right of,lamp,table,The table is to the left of the lamp.,1,val
+1006,2407767,-1,324804,swap,to the right of,to right of,lamp,table,The table is to the right of the lamp.,0,val
+1007,2407767,-1,324804,opposite,to the right of,to right of,lamp,table,The lamp is to the left of the table.,0,val
+1008,2388301,-1,3491626,orig,to the right of,to right of,grass,man,The grass is to the right of the man.,1,val
+1009,2388301,-1,3491626,converse,to the right of,to right of,grass,man,The man is to the left of the grass.,1,val
+1010,2388301,-1,3491626,swap,to the right of,to right of,grass,man,The man is to the right of the grass.,0,val
+1011,2388301,-1,3491626,opposite,to the right of,to right of,grass,man,The grass is to the left of the man.,0,val
+1012,2336407,573008,4798489,orig,to the right of,to right of,skyscraper,building,The skyscraper is to the right of the building.,1,val
+1013,2336407,573008,4798489,converse,to the right of,to right of,skyscraper,building,The building is to the left of the skyscraper.,1,val
+1014,2336407,573008,4798489,swap,to the right of,to right of,skyscraper,building,The building is to the right of the skyscraper.,0,val
+1015,2336407,573008,4798489,opposite,to the right of,to right of,skyscraper,building,The skyscraper is to the left of the building.,0,val
+1016,2380699,-1,1333269,orig,to the left of,left of,outleft,sink,The outleft is to the left of the sink.,1,val
+1017,2380699,-1,1333269,converse,to the left of,left of,outleft,sink,The sink is to the right of the outleft.,1,val
+1018,2380699,-1,1333269,swap,to the left of,left of,outleft,sink,The sink is to the left of the outleft.,0,val
+1019,2380699,-1,1333269,opposite,to the left of,left of,outleft,sink,The outleft is to the right of the sink.,0,val
+1020,2382944,-1,1314891,orig,to the right of,right of,hair,building,The hair is to the right of the building.,1,val
+1021,2382944,-1,1314891,converse,to the right of,right of,hair,building,The building is to the left of the hair.,1,val
+1022,2382944,-1,1314891,swap,to the right of,right of,hair,building,The building is to the right of the hair.,0,val
+1023,2382944,-1,1314891,opposite,to the right of,right of,hair,building,The hair is to the left of the building.,0,val
+1024,2399947,-1,4680487,orig,to the right of,to right of,tree,pole,The tree is to the right of the pole.,1,val
+1025,2399947,-1,4680487,converse,to the right of,to right of,tree,pole,The pole is to the left of the tree.,1,val
+1026,2399947,-1,4680487,swap,to the right of,to right of,tree,pole,The pole is to the right of the tree.,0,val
+1027,2399947,-1,4680487,opposite,to the right of,to right of,tree,pole,The tree is to the left of the pole.,0,val
+1028,2398048,-1,4590135,orig,to the left of,to left of,rock,pole,The rock is to the left of the pole.,1,val
+1029,2398048,-1,4590135,converse,to the left of,to left of,rock,pole,The pole is to the right of the rock.,1,val
+1030,2398048,-1,4590135,swap,to the left of,to left of,rock,pole,The pole is to the left of the rock.,0,val
+1031,2398048,-1,4590135,opposite,to the left of,to left of,rock,pole,The rock is to the right of the pole.,0,val
+1032,2376944,-1,4300899,orig,to the left of,to left of,racket,guy,The racket is to the left of the guy.,1,val
+1033,2376944,-1,4300899,converse,to the left of,to left of,racket,guy,The guy is to the right of the racket.,1,val
+1034,2376944,-1,4300899,swap,to the left of,to left of,racket,guy,The guy is to the left of the racket.,0,val
+1035,2376944,-1,4300899,opposite,to the left of,to left of,racket,guy,The racket is to the right of the guy.,0,val
+1036,2385329,491272,3537858,orig,to the right of,to right of,pole post,tree,The pole post is to the right of the tree.,1,val
+1037,2385329,491272,3537858,converse,to the right of,to right of,pole post,tree,The tree is to the left of the pole post.,1,val
+1038,2385329,491272,3537858,swap,to the right of,to right of,pole post,tree,The tree is to the right of the pole post.,0,val
+1039,2385329,491272,3537858,opposite,to the right of,to right of,pole post,tree,The pole post is to the left of the tree.,0,val
+1040,2411718,-1,417590,orig,to the left of,to left of,peaches,bananas,The peaches is to the left of the bananas.,1,val
+1041,2411718,-1,417590,converse,to the left of,to left of,peaches,bananas,The bananas is to the right of the peaches.,1,val
+1042,2411718,-1,417590,swap,to the left of,to left of,peaches,bananas,The bananas is to the left of the peaches.,0,val
+1043,2411718,-1,417590,opposite,to the left of,to left of,peaches,bananas,The peaches is to the right of the bananas.,0,val
+1044,2370869,-1,1524388,orig,to the right of,on right side of,building,background,The building is to the right of the background.,1,val
+1045,2370869,-1,1524388,converse,to the right of,on right side of,building,background,The background is to the left of the building.,1,val
+1046,2370869,-1,1524388,swap,to the right of,on right side of,building,background,The background is to the right of the building.,0,val
+1047,2370869,-1,1524388,opposite,to the right of,on right side of,building,background,The building is to the left of the background.,0,val
+1048,2412525,-1,4272217,orig,to the left of,to left of,train track,train,The train track is to the left of the train.,1,val
+1049,2412525,-1,4272217,converse,to the left of,to left of,train track,train,The train is to the right of the train track.,1,val
+1050,2412525,-1,4272217,swap,to the left of,to left of,train track,train,The train is to the left of the train track.,0,val
+1051,2412525,-1,4272217,opposite,to the left of,to left of,train track,train,The train track is to the right of the train.,0,val
+1052,2415929,-1,4544532,orig,to the left of,on left side of,engine,plane,The engine is to the left of the plane.,1,val
+1053,2415929,-1,4544532,converse,to the left of,on left side of,engine,plane,The plane is to the right of the engine.,1,val
+1054,2415929,-1,4544532,swap,to the left of,on left side of,engine,plane,The plane is to the left of the engine.,0,val
+1055,2415929,-1,4544532,opposite,to the left of,on left side of,engine,plane,The engine is to the right of the plane.,0,val
+1056,2392426,85036,3432702,orig,to the right of,on right side of,emblem,motorcycle,The emblem is to the right of the motorcycle.,1,val
+1057,2392426,85036,3432702,converse,to the right of,on right side of,emblem,motorcycle,The motorcycle is to the left of the emblem.,1,val
+1058,2392426,85036,3432702,swap,to the right of,on right side of,emblem,motorcycle,The motorcycle is to the right of the emblem.,0,val
+1059,2392426,85036,3432702,opposite,to the right of,on right side of,emblem,motorcycle,The emblem is to the left of the motorcycle.,0,val
+1060,2373459,-1,4312229,orig,to the left of,left of,butter,hand,The butter is to the left of the hand.,1,val
+1061,2373459,-1,4312229,converse,to the left of,left of,butter,hand,The hand is to the right of the butter.,1,val
+1062,2373459,-1,4312229,swap,to the left of,left of,butter,hand,The hand is to the left of the butter.,0,val
+1063,2373459,-1,4312229,opposite,to the left of,left of,butter,hand,The butter is to the right of the hand.,0,val
+1064,2411302,-1,440229,orig,to the left of,to left of,field,herd,The field is to the left of the herd.,1,val
+1065,2411302,-1,440229,converse,to the left of,to left of,field,herd,The herd is to the right of the field.,1,val
+1066,2411302,-1,440229,swap,to the left of,to left of,field,herd,The herd is to the left of the field.,0,val
+1067,2411302,-1,440229,opposite,to the left of,to left of,field,herd,The field is to the right of the herd.,0,val
+1068,2373599,54761,4311879,orig,to the right of,to right of,white sign,boy,The white sign is to the right of the boy.,1,val
+1069,2373599,54761,4311879,converse,to the right of,to right of,white sign,boy,The boy is to the left of the white sign.,1,val
+1070,2373599,54761,4311879,swap,to the right of,to right of,white sign,boy,The boy is to the right of the white sign.,0,val
+1071,2373599,54761,4311879,opposite,to the right of,to right of,white sign,boy,The white sign is to the left of the boy.,0,val
+1072,2411940,522020,202960,orig,to the left of,to left of,blade of grass,cat,The blade of grass is to the left of the cat.,1,val
+1073,2411940,522020,202960,converse,to the left of,to left of,blade of grass,cat,The cat is to the right of the blade of grass.,1,val
+1074,2411940,522020,202960,swap,to the left of,to left of,blade of grass,cat,The cat is to the left of the blade of grass.,0,val
+1075,2411940,522020,202960,opposite,to the left of,to left of,blade of grass,cat,The blade of grass is to the right of the cat.,0,val
+1076,2411302,-1,440249,orig,to the right of,to right of,tub,herd,The tub is to the right of the herd.,1,val
+1077,2411302,-1,440249,converse,to the right of,to right of,tub,herd,The herd is to the left of the tub.,1,val
+1078,2411302,-1,440249,swap,to the right of,to right of,tub,herd,The herd is to the right of the tub.,0,val
+1079,2411302,-1,440249,opposite,to the right of,to right of,tub,herd,The tub is to the left of the herd.,0,val
+1080,2372536,-1,4148566,orig,to the left of,left of,headlight,train,The headlight is to the left of the train.,1,val
+1081,2372536,-1,4148566,converse,to the left of,left of,headlight,train,The train is to the right of the headlight.,1,val
+1082,2372536,-1,4148566,swap,to the left of,left of,headlight,train,The train is to the left of the headlight.,0,val
+1083,2372536,-1,4148566,opposite,to the left of,left of,headlight,train,The headlight is to the right of the train.,0,val
+1084,2383149,-1,1843778,orig,to the right of,to right of,box,toilet,The box is to the right of the toilet.,1,val
+1085,2383149,-1,1843778,converse,to the right of,to right of,box,toilet,The toilet is to the left of the box.,1,val
+1086,2383149,-1,1843778,swap,to the right of,to right of,box,toilet,The toilet is to the right of the box.,0,val
+1087,2383149,-1,1843778,opposite,to the right of,to right of,box,toilet,The box is to the left of the toilet.,0,val
+1088,2392482,413096,3431715,orig,to the left of,to left of,man,plane,The man is to the left of the plane.,1,val
+1089,2392482,413096,3431715,converse,to the left of,to left of,man,plane,The plane is to the right of the man.,1,val
+1090,2392482,413096,3431715,swap,to the left of,to left of,man,plane,The plane is to the left of the man.,0,val
+1091,2392482,413096,3431715,opposite,to the left of,to left of,man,plane,The man is to the right of the plane.,0,val
+1092,2392471,307337,1093877,orig,to the left of,to left of,stairway,door,The stairway is to the left of the door.,1,val
+1093,2392471,307337,1093877,converse,to the left of,to left of,stairway,door,The door is to the right of the stairway.,1,val
+1094,2392471,307337,1093877,swap,to the left of,to left of,stairway,door,The door is to the left of the stairway.,0,val
+1095,2392471,307337,1093877,opposite,to the left of,to left of,stairway,door,The stairway is to the right of the door.,0,val
+1096,2355173,-1,2348033,orig,to the right of,right of,group of bottles,man,The group of bottles is to the right of the man.,1,val
+1097,2355173,-1,2348033,converse,to the right of,right of,group of bottles,man,The man is to the left of the group of bottles.,1,val
+1098,2355173,-1,2348033,swap,to the right of,right of,group of bottles,man,The man is to the right of the group of bottles.,0,val
+1099,2355173,-1,2348033,opposite,to the right of,right of,group of bottles,man,The group of bottles is to the left of the man.,0,val
+1100,2317487,-1,4071816,orig,to the left of,on left side of,signs,road,The signs is to the left of the road.,1,val
+1101,2317487,-1,4071816,converse,to the left of,on left side of,signs,road,The road is to the right of the signs.,1,val
+1102,2317487,-1,4071816,swap,to the left of,on left side of,signs,road,The road is to the left of the signs.,0,val
+1103,2317487,-1,4071816,opposite,to the left of,on left side of,signs,road,The signs is to the right of the road.,0,val
+1104,2349928,346904,3805307,orig,to the left of,on left side of,building,road,The building is to the left of the road.,1,val
+1105,2349928,346904,3805307,converse,to the left of,on left side of,building,road,The road is to the right of the building.,1,val
+1106,2349928,346904,3805307,swap,to the left of,on left side of,building,road,The road is to the left of the building.,0,val
+1107,2349928,346904,3805307,opposite,to the left of,on left side of,building,road,The building is to the right of the road.,0,val
+1108,2354155,442630,3753479,orig,to the left of,left of,brick house,street,The brick house is to the left of the street.,1,val
+1109,2354155,442630,3753479,converse,to the left of,left of,brick house,street,The street is to the right of the brick house.,1,val
+1110,2354155,442630,3753479,swap,to the left of,left of,brick house,street,The street is to the left of the brick house.,0,val
+1111,2354155,442630,3753479,opposite,to the left of,left of,brick house,street,The brick house is to the right of the street.,0,val
+1112,2394547,-1,1037738,orig,to the right of,to right of,zebra,rock wall,The zebra is to the right of the rock wall.,1,val
+1113,2394547,-1,1037738,converse,to the right of,to right of,zebra,rock wall,The rock wall is to the left of the zebra.,1,val
+1114,2394547,-1,1037738,swap,to the right of,to right of,zebra,rock wall,The rock wall is to the right of the zebra.,0,val
+1115,2394547,-1,1037738,opposite,to the right of,to right of,zebra,rock wall,The zebra is to the left of the rock wall.,0,val
+1116,2356247,-1,2315146,orig,to the right of,right of,mouse pad,laptop,The mouse pad is to the right of the laptop.,1,val
+1117,2356247,-1,2315146,converse,to the right of,right of,mouse pad,laptop,The laptop is to the left of the mouse pad.,1,val
+1118,2356247,-1,2315146,swap,to the right of,right of,mouse pad,laptop,The laptop is to the right of the mouse pad.,0,val
+1119,2356247,-1,2315146,opposite,to the right of,right of,mouse pad,laptop,The mouse pad is to the left of the laptop.,0,val
+1120,2394547,-1,1037726,orig,to the right of,to right of,shrub,tree,The shrub is to the right of the tree.,1,val
+1121,2394547,-1,1037726,converse,to the right of,to right of,shrub,tree,The tree is to the left of the shrub.,1,val
+1122,2394547,-1,1037726,swap,to the right of,to right of,shrub,tree,The tree is to the right of the shrub.,0,val
+1123,2394547,-1,1037726,opposite,to the right of,to right of,shrub,tree,The shrub is to the left of the tree.,0,val
+1124,2409402,-1,256137,orig,to the left of,to left of,fork,plate,The fork is to the left of the plate.,1,val
+1125,2409402,-1,256137,converse,to the left of,to left of,fork,plate,The plate is to the right of the fork.,1,val
+1126,2409402,-1,256137,swap,to the left of,to left of,fork,plate,The plate is to the left of the fork.,0,val
+1127,2409402,-1,256137,opposite,to the left of,to left of,fork,plate,The fork is to the right of the plate.,0,val
+1128,2407022,102322,3230227,orig,to the left of,to left of,white object,urinal basin,The white object is to the left of the urinal basin.,1,val
+1129,2407022,102322,3230227,converse,to the left of,to left of,white object,urinal basin,The urinal basin is to the right of the white object.,1,val
+1130,2407022,102322,3230227,swap,to the left of,to left of,white object,urinal basin,The urinal basin is to the left of the white object.,0,val
+1131,2407022,102322,3230227,opposite,to the left of,to left of,white object,urinal basin,The white object is to the right of the urinal basin.,0,val
+1132,2413762,-1,160438,orig,to the left of,left of,tree trunk,person,The tree trunk is to the left of the person.,1,val
+1133,2413762,-1,160438,converse,to the left of,left of,tree trunk,person,The person is to the right of the tree trunk.,1,val
+1134,2413762,-1,160438,swap,to the left of,left of,tree trunk,person,The person is to the left of the tree trunk.,0,val
+1135,2413762,-1,160438,opposite,to the left of,left of,tree trunk,person,The tree trunk is to the right of the person.,0,val
+1136,2400320,-1,863160,orig,to the right of,right of,sign,bus,The sign is to the right of the bus.,1,val
+1137,2400320,-1,863160,converse,to the right of,right of,sign,bus,The bus is to the left of the sign.,1,val
+1138,2400320,-1,863160,swap,to the right of,right of,sign,bus,The bus is to the right of the sign.,0,val
+1139,2400320,-1,863160,opposite,to the right of,right of,sign,bus,The sign is to the left of the bus.,0,val
+1140,2382944,-1,1314884,orig,to the left of,left of,car,muff,The car is to the left of the muff.,1,val
+1141,2382944,-1,1314884,converse,to the left of,left of,car,muff,The muff is to the right of the car.,1,val
+1142,2382944,-1,1314884,swap,to the left of,left of,car,muff,The muff is to the left of the car.,0,val
+1143,2382944,-1,1314884,opposite,to the left of,left of,car,muff,The car is to the right of the muff.,0,val
+1144,2379204,-1,3617022,orig,to the right of,to right of,glass,door,The glass is to the right of the door.,1,val
+1145,2379204,-1,3617022,converse,to the right of,to right of,glass,door,The door is to the left of the glass.,1,val
+1146,2379204,-1,3617022,swap,to the right of,to right of,glass,door,The door is to the right of the glass.,0,val
+1147,2379204,-1,3617022,opposite,to the right of,to right of,glass,door,The glass is to the left of the door.,0,val
+1148,2362682,304984,3646701,orig,to the left of,to left of,fork,plate,The fork is to the left of the plate.,1,val
+1149,2362682,304984,3646701,converse,to the left of,to left of,fork,plate,The plate is to the right of the fork.,1,val
+1150,2362682,304984,3646701,swap,to the left of,to left of,fork,plate,The plate is to the left of the fork.,0,val
+1151,2362682,304984,3646701,opposite,to the left of,to left of,fork,plate,The fork is to the right of the plate.,0,val
+1152,2338878,-1,4056174,orig,to the left of,left of,giraffe,small tree,The giraffe is to the left of the small tree.,1,val
+1153,2338878,-1,4056174,converse,to the left of,left of,giraffe,small tree,The small tree is to the right of the giraffe.,1,val
+1154,2338878,-1,4056174,swap,to the left of,left of,giraffe,small tree,The small tree is to the left of the giraffe.,0,val
+1155,2338878,-1,4056174,opposite,to the left of,left of,giraffe,small tree,The giraffe is to the right of the small tree.,0,val
+1156,2407681,548933,327426,orig,to the left of,on left side of,wing,plane,The wing is to the left of the plane.,1,val
+1157,2407681,548933,327426,converse,to the left of,on left side of,wing,plane,The plane is to the right of the wing.,1,val
+1158,2407681,548933,327426,swap,to the left of,on left side of,wing,plane,The plane is to the left of the wing.,0,val
+1159,2407681,548933,327426,opposite,to the left of,on left side of,wing,plane,The wing is to the right of the plane.,0,val
+1160,2372297,-1,4314713,orig,to the right of,right of,post,fence post,The post is to the right of the fence post.,1,val
+1161,2372297,-1,4314713,converse,to the right of,right of,post,fence post,The fence post is to the left of the post.,1,val
+1162,2372297,-1,4314713,swap,to the right of,right of,post,fence post,The fence post is to the right of the post.,0,val
+1163,2372297,-1,4314713,opposite,to the right of,right of,post,fence post,The post is to the left of the fence post.,0,val
+1164,4149,-1,4708100,orig,to the left of,on left side of,tower,castle,The tower is to the left of the castle.,1,val
+1165,4149,-1,4708100,converse,to the left of,on left side of,tower,castle,The castle is to the right of the tower.,1,val
+1166,4149,-1,4708100,swap,to the left of,on left side of,tower,castle,The castle is to the left of the tower.,0,val
+1167,4149,-1,4708100,opposite,to the left of,on left side of,tower,castle,The tower is to the right of the castle.,0,val
+1168,2391977,101581,3441150,orig,to the right of,to right of,bush,horses,The bush is to the right of the horses.,1,val
+1169,2391977,101581,3441150,converse,to the right of,to right of,bush,horses,The horses is to the left of the bush.,1,val
+1170,2391977,101581,3441150,swap,to the right of,to right of,bush,horses,The horses is to the right of the bush.,0,val
+1171,2391977,101581,3441150,opposite,to the right of,to right of,bush,horses,The bush is to the left of the horses.,0,val
+1172,4806,-1,4715544,orig,to the right of,right of,cup,plate,The cup is to the right of the plate.,1,val
+1173,4806,-1,4715544,converse,to the right of,right of,cup,plate,The plate is to the left of the cup.,1,val
+1174,4806,-1,4715544,swap,to the right of,right of,cup,plate,The plate is to the right of the cup.,0,val
+1175,4806,-1,4715544,opposite,to the right of,right of,cup,plate,The cup is to the left of the plate.,0,val
+1176,2702,-1,4729231,orig,to the right of,on right side of,bushes,road,The bushes is to the right of the road.,1,val
+1177,2702,-1,4729231,converse,to the right of,on right side of,bushes,road,The road is to the left of the bushes.,1,val
+1178,2702,-1,4729231,swap,to the right of,on right side of,bushes,road,The road is to the right of the bushes.,0,val
+1179,2702,-1,4729231,opposite,to the right of,on right side of,bushes,road,The bushes is to the left of the road.,0,val
+1180,2380769,-1,1332473,orig,to the right of,right of,grass,lanes,The grass is to the right of the lanes.,1,val
+1181,2380769,-1,1332473,converse,to the right of,right of,grass,lanes,The lanes is to the left of the grass.,1,val
+1182,2380769,-1,1332473,swap,to the right of,right of,grass,lanes,The lanes is to the right of the grass.,0,val
+1183,2380769,-1,1332473,opposite,to the right of,right of,grass,lanes,The grass is to the left of the lanes.,0,val
+1184,2389375,567571,3478067,orig,to the right of,to right of,rocks,person,The rocks is to the right of the person.,1,val
+1185,2389375,567571,3478067,converse,to the right of,to right of,rocks,person,The person is to the left of the rocks.,1,val
+1186,2389375,567571,3478067,swap,to the right of,to right of,rocks,person,The person is to the right of the rocks.,0,val
+1187,2389375,567571,3478067,opposite,to the right of,to right of,rocks,person,The rocks is to the left of the person.,0,val
+1188,2394120,503252,4732360,orig,to the right of,to right of,arrow,coin slot,The arrow is to the right of the coin slot.,1,val
+1189,2394120,503252,4732360,converse,to the right of,to right of,arrow,coin slot,The coin slot is to the left of the arrow.,1,val
+1190,2394120,503252,4732360,swap,to the right of,to right of,arrow,coin slot,The coin slot is to the right of the arrow.,0,val
+1191,2394120,503252,4732360,opposite,to the right of,to right of,arrow,coin slot,The arrow is to the left of the coin slot.,0,val
+1192,2413246,-1,4268051,orig,to the left of,left of,head,post,The head is to the left of the post.,1,val
+1193,2413246,-1,4268051,converse,to the left of,left of,head,post,The post is to the right of the head.,1,val
+1194,2413246,-1,4268051,swap,to the left of,left of,head,post,The post is to the left of the head.,0,val
+1195,2413246,-1,4268051,opposite,to the left of,left of,head,post,The head is to the right of the post.,0,val
+1196,2410727,107840,651388,orig,to the left of,left of,fence,bus,The fence is to the left of the bus.,1,val
+1197,2410727,107840,651388,converse,to the left of,left of,fence,bus,The bus is to the right of the fence.,1,val
+1198,2410727,107840,651388,swap,to the left of,left of,fence,bus,The bus is to the left of the fence.,0,val
+1199,2410727,107840,651388,opposite,to the left of,left of,fence,bus,The fence is to the right of the bus.,0,val
+1200,2380298,-1,1340249,orig,to the right of,to right of,pavement,road,The pavement is to the right of the road.,1,val
+1201,2380298,-1,1340249,converse,to the right of,to right of,pavement,road,The road is to the left of the pavement.,1,val
+1202,2380298,-1,1340249,swap,to the right of,to right of,pavement,road,The road is to the right of the pavement.,0,val
+1203,2380298,-1,1340249,opposite,to the right of,to right of,pavement,road,The pavement is to the left of the road.,0,val
+1204,2380377,-1,1894352,orig,to the right of,to right of,tree trunk,sheep,The tree trunk is to the right of the sheep.,1,val
+1205,2380377,-1,1894352,converse,to the right of,to right of,tree trunk,sheep,The sheep is to the left of the tree trunk.,1,val
+1206,2380377,-1,1894352,swap,to the right of,to right of,tree trunk,sheep,The sheep is to the right of the tree trunk.,0,val
+1207,2380377,-1,1894352,opposite,to the right of,to right of,tree trunk,sheep,The tree trunk is to the left of the sheep.,0,val
+1208,2385162,470935,4307511,orig,to the left of,to left of,baskets on,stove,The baskets on is to the left of the stove.,1,val
+1209,2385162,470935,4307511,converse,to the left of,to left of,baskets on,stove,The stove is to the right of the baskets on.,1,val
+1210,2385162,470935,4307511,swap,to the left of,to left of,baskets on,stove,The stove is to the left of the baskets on.,0,val
+1211,2385162,470935,4307511,opposite,to the left of,to left of,baskets on,stove,The baskets on is to the right of the stove.,0,val
+1212,2329559,384827,4131592,orig,to the left of,on left side of,pot,door,The pot is to the left of the door.,1,val
+1213,2329559,384827,4131592,converse,to the left of,on left side of,pot,door,The door is to the right of the pot.,1,val
+1214,2329559,384827,4131592,swap,to the left of,on left side of,pot,door,The door is to the left of the pot.,0,val
+1215,2329559,384827,4131592,opposite,to the left of,on left side of,pot,door,The pot is to the right of the door.,0,val

@@ -1,0 +1,97 @@
+[
+  {
+    "epoch": 1,
+    "train_bce": 1.0492241108554534,
+    "validation_bce": 0.9908431172370911
+  },
+  {
+    "epoch": 2,
+    "train_bce": 0.9733327085944428,
+    "validation_bce": 0.9708952903747559
+  },
+  {
+    "epoch": 3,
+    "train_bce": 0.9407382405352318,
+    "validation_bce": 0.9752345085144043
+  },
+  {
+    "epoch": 4,
+    "train_bce": 0.9306390669154024,
+    "validation_bce": 0.9657282829284668
+  },
+  {
+    "epoch": 5,
+    "train_bce": 0.9215664195603338,
+    "validation_bce": 0.9809799194335938
+  },
+  {
+    "epoch": 6,
+    "train_bce": 0.9097609348680781,
+    "validation_bce": 0.9761932492256165
+  },
+  {
+    "epoch": 7,
+    "train_bce": 0.9027882475277473,
+    "validation_bce": 0.9953119158744812
+  },
+  {
+    "epoch": 8,
+    "train_bce": 0.8976559060058374,
+    "validation_bce": 1.0012311935424805
+  },
+  {
+    "epoch": 9,
+    "train_bce": 0.8842583634387488,
+    "validation_bce": 1.0086203813552856
+  },
+  {
+    "epoch": 10,
+    "train_bce": 0.8772861399184698,
+    "validation_bce": 1.0147305727005005
+  },
+  {
+    "epoch": 11,
+    "train_bce": 0.87888418977288,
+    "validation_bce": 1.0011612176895142
+  },
+  {
+    "epoch": 12,
+    "train_bce": 0.8600606260628536,
+    "validation_bce": 1.0401633977890015
+  },
+  {
+    "epoch": 13,
+    "train_bce": 0.8599466732863722,
+    "validation_bce": 1.0219507217407227
+  },
+  {
+    "epoch": 14,
+    "train_bce": 0.8525814561323187,
+    "validation_bce": 1.0255978107452393
+  },
+  {
+    "epoch": 15,
+    "train_bce": 0.8416252920682403,
+    "validation_bce": 1.028071641921997
+  },
+  {
+    "epoch": 16,
+    "train_bce": 0.8405125511103663,
+    "validation_bce": 1.027694821357727
+  },
+  {
+    "epoch": 17,
+    "train_bce": 0.8315750264573372,
+    "validation_bce": 1.032312035560608
+  },
+  {
+    "epoch": 18,
+    "train_bce": 0.8175003165486215,
+    "validation_bce": 1.067218542098999
+  },
+  {
+    "epoch": 19,
+    "train_bce": 0.8240779103903935,
+    "validation_bce": 1.0430185794830322
+  }
+]
