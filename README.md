@@ -101,6 +101,8 @@ overlap filter is skipped and the script says so.
 | `scripts/09_report.py` | Report and figure from saved artifacts |
 | `scripts/10_aggregate.py` | Exploratory: abstention, aggregating the four variants, both, and a detect-then-verify cascade (validation only) |
 | `scripts/11_team_summary.py` | Short internal summary (`outputs/TEAM_SUMMARY.md`) from saved results |
+| `scripts/12_report_figures.py` | Extra report figure: VLM accuracy by predicate and variant |
+| `scripts/13_build_report_docx.js` | Builds the written report (`outputs/SC4001_ProjectE_Report_DRAFT.docx`) from saved results; needs Node and the `docx` npm package |
 | `tests/test_pipeline.py` | Split disjointness, leakage, shapes, risk orientation, round trips |
 
 ## Output data contract
