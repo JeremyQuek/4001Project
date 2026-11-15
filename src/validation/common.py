@@ -166,10 +166,11 @@ def ask_records(vlm: VLM, records: list[TrainRecord], batch_size: int, reask: bo
     boxed = {}
     for b in range(0, len(records), batch_size):
         batch = records[b:b + batch_size]
+        # cap memory between batches, never inside one: the batch's images are looked up below
+        if len(boxed) > 64:
+            boxed.clear()
         for r in batch:
             if r.rel_id not in boxed:
-                if len(boxed) > 64:
-                    boxed.clear()
                 boxed[r.rel_id] = draw_boxes(load_image(r.image_id), r.subj_bbox, r.obj_bbox)
         images = [boxed[r.rel_id] for r in batch]
         questions = [r.query_text for r in batch]
