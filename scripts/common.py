@@ -1,7 +1,7 @@
 """Shared constants and helpers for the Visual Genome spatial-relation pipeline.
 
 Everything that defines the dataset (predicate mapping, variants, split seed) and
-the frozen VLM configuration lives here so each stage reads the same values.
+the VLM settings live here so each stage reads the same values.
 """
 import csv
 import hashlib
@@ -12,7 +12,7 @@ from pathlib import Path
 
 # Set VG_PIPELINE_ROOT to run the pipeline in another folder (e.g. on synthetic data); normally unset.
 ROOT = Path(os.environ.get('VG_PIPELINE_ROOT') or Path(__file__).resolve().parents[1])
-RAW = ROOT / 'data/vg/raw'              # downloaded archives, read as data only
+RAW = ROOT / 'data/vg/raw'              # downloaded archives
 PROCESSED = ROOT / 'data/vg/processed'  # parsed tables, splits, queries
 IMAGES = ROOT / 'data/vg/images'        # only the images the sample needs
 EXTRACTION = ROOT / 'data/vg/extraction'
@@ -28,7 +28,7 @@ SPLIT_FRACTIONS = {'train': 0.70, 'val': 0.15, 'test': 0.15}
 VG_BASE = 'https://homes.cs.washington.edu/~ranjay/visualgenome/data/dataset/'
 VG_FILES = ['relationships.json.zip', 'objects.json.zip', 'image_data.json.zip']
 
-# Exact lowercase VG surface forms accepted for each canonical predicate (ASSUMPTIONS.md, A1).
+# Exact lowercase VG surface forms accepted for each canonical predicate
 PREDICATE_FORMS = {
     'to the left of': ['left of', 'to left of', 'to the left of', 'on left side of', 'on the left of'],
     'to the right of': ['right of', 'to right of', 'to the right of', 'on right side of', 'on the right of'],
@@ -49,7 +49,7 @@ OPPOSITE = {
 }
 VARIANTS = ['orig', 'converse', 'swap', 'opposite']
 
-# Frozen VLM configuration; the group's VSR experiment uses the same values.
+# VLM settings (same as the VSR run)
 VLM = {
     'model_id': 'Qwen/Qwen2.5-VL-3B-Instruct',
     'model_revision': '66285546d2b821cf421d4f5eb2576359d3770cd3',
@@ -68,7 +68,6 @@ PROMPT_TEMPLATE = 'Statement: "{statement}"\nIs this statement true in the image
 
 
 def clean_name(text):
-    """Lowercase and collapse whitespace (used for VG names and predicates)."""
     return re.sub(r'\s+', ' ', str(text).lower()).strip()
 
 
@@ -92,13 +91,11 @@ def sha256_file(path, chunk=1 << 20):
 
 
 def extraction_settings(metadata):
-    """Settings stored with cached VLM outputs, without hardware or timing fields."""
     return json.dumps({'vlm': VLM, 'prompt': PROMPT_TEMPLATE, 'torch': metadata['torch'],
                        'packages': metadata['packages']}, sort_keys=True)
 
 
 def record_matches(record, statement, image_sha, settings):
-    """Only reuse a cached answer for the same input and model settings."""
     expected = {'statement': statement, 'image_sha': image_sha, 'settings': settings}
     return all(key in record and str(record[key]) == value for key, value in expected.items())
 
@@ -114,7 +111,7 @@ def seeded_priority(*parts, seed=SEED):
 
 
 def write_json(path, value):
-    """Atomic JSON write so an interrupted run never leaves a half-written file."""
+    # write to tmp then rename
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + '.tmp')

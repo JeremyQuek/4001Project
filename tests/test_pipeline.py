@@ -1,7 +1,7 @@
 """Unit tests for the risky parts of the pipeline.
 
 Tests on the real arrays are skipped until stage 6 has produced them. They read
-only row metadata for the test split and never its outcomes.
+only row metadata for the test split, not its labels.
 """
 import importlib
 import sys
@@ -29,7 +29,7 @@ def synthetic(n=400, seed=0):
     return X, y
 
 
-# ---- Query generation ----
+# query generation
 
 def test_variants_are_balanced_and_correct():
     statements = make_statements('cup', 'on', 'table')
@@ -55,7 +55,7 @@ def test_split_is_deterministic():
     assert abs(shares['train'] - 0.70) < 0.02 and abs(shares['val'] - 0.15) < 0.02
 
 
-# ---- Real data: split disjointness, leakage, NaN/shape ----
+# real data checks
 
 @needs_data
 def test_splits_share_no_image_or_relationship():
@@ -100,7 +100,7 @@ def test_loader_rejects_unknown_inputs():
         load_detector_data('train', 'hidden', layer=12)
 
 
-# ---- Risk orientation, thresholds, bootstrap ----
+# risk scores, thresholds, bootstrap
 
 def test_risk_orientation_higher_means_more_likely_wrong():
     X, y = synthetic()
@@ -151,7 +151,7 @@ def test_bootstrap_is_image_clustered_and_paired():
     assert again == result
 
 
-# ---- Save / reload round trip ----
+# save/load
 
 def test_save_reload_round_trip(tmp_path):
     X, y = synthetic()
@@ -189,7 +189,6 @@ def test_extraction_reuses_only_matching_records(tmp_path, monkeypatch):
 
 
 def test_pack_train_and_evaluate_can_be_reproduced(tmp_path, monkeypatch):
-    """Exercise the real pipeline with synthetic VLM outputs, without downloading a model."""
     pack = importlib.import_module('06_build_npz')
     train = importlib.import_module('07_train_detectors')
     evaluate = importlib.import_module('08_evaluate_test')
@@ -266,7 +265,7 @@ def test_pack_train_and_evaluate_can_be_reproduced(tmp_path, monkeypatch):
     assert read_json(evaluate.RESULTS)['cohorts'] == first['cohorts']
 
 
-# ---- Exploratory aggregation (stage 10) ----
+# aggregation (stage 10)
 
 def test_aggregation_answers_four_variants_together():
     stage = importlib.import_module('10_aggregate')

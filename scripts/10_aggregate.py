@@ -1,6 +1,6 @@
 """Compare abstention, aggregation and cascades on the validation split.
 
-Compares, on the validation split only:
+Compares, on the validation split:
   1. abstention on a single query (risk = 1 - confidence, or a frozen detector's risk);
   2. aggregation of the four query variants of one relationship;
   3. aggregation followed by abstention.
@@ -10,8 +10,8 @@ call; only the questions a router marks as risky get the three extra calls and
 the aggregated answer. Optionally the least decided escalated questions are then
 withheld.
 
-Nothing is fitted or selected here and the test split is never read. The VLM
-outputs and the frozen detectors' validation risks are reused as saved.
+Nothing is fitted here and test isn't used. Reuses the saved VLM outputs
+and detector risks on val.
 
 Aggregation: every variant is evidence about one underlying fact F (the VG
 relationship). `orig` and `converse` state F; `swap` and `opposite` state its
@@ -38,7 +38,7 @@ def decide(support, states_fact, rel_id, weights=None):
     weights = np.ones(len(support)) if weights is None else weights
     _, inverse, counts = np.unique(rel_id, return_inverse=True, return_counts=True)
     if not (counts == 4).all():
-        raise ValueError('Every relationship needs its four variants')
+        raise ValueError('missing variants')
     mean_support = (np.bincount(inverse, weights=weights * support) / np.bincount(inverse, weights=weights))[inverse]
     fact_true = mean_support >= 0.5
     answer = np.where(states_fact, fact_true, ~fact_true).astype(int)
@@ -85,7 +85,7 @@ def group_mean(values, rel_id):
 
 
 def answered_mask(risk, target):
-    """Answer the lowest-risk queries; tied risks stay together; coverage never exceeds target."""
+    """Answer the lowest-risk queries; tied risks stay together; coverage <= target."""
     if target >= 1:
         return np.ones(len(risk), dtype=bool)
     best = np.zeros(len(risk), dtype=bool)

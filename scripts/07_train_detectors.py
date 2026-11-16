@@ -1,9 +1,8 @@
 """Train logistic-regression and MLP error detectors.
 
-Fits use the training split only (scalers included); hyperparameters and the
-abstention thresholds are chosen on validation only. The script then freezes
-every model file, threshold and the test-file checksum in
-outputs/detectors/frozen.json. The test split is never opened here.
+Models and scalers are fit on train; hyperparameters and abstention
+thresholds are picked on val. Model files, thresholds and the test-file
+checksum go in outputs/detectors/frozen.json. Doesn't touch test.
 """
 import argparse
 import itertools
@@ -39,7 +38,7 @@ def main():
     (OUT / 'models').mkdir(parents=True, exist_ok=True)
     (OUT / 'histories').mkdir(exist_ok=True)
 
-    models = {}        # frozen entry per reported model name
+    models = {}
     lr_rows, mlp_rows = [], []  # every candidate tried, for the report
     validation_predictions = {}
 
@@ -49,17 +48,17 @@ def main():
         X, y, info = load_detector_data('train', **kwargs)
         V, v, val_info = load_detector_data('val', **kwargs)
         if set(info['image_ids']) & set(val_info['image_ids']):
-            raise ValueError('Training/validation image overlap.')
+            raise ValueError('train/val image overlap')
 
         if name == 'all_confidence':
-            # Unfitted baseline: risk = 1 - confidence. Only its threshold uses validation.
+            # baseline: risk = 1 - confidence, threshold from val
             risk = 1 - val_info['confidence']
             models['heuristic_confidence'] = {
                 'kind': 'heuristic', 'validation_metrics': metrics(v, risk),
                 'coverage80': coverage_threshold(v, risk)}
             validation_predictions['heuristic_confidence'] = risk
 
-        # ---- Logistic regression: validation AUROC, then AP, then smaller C, then unweighted.
+        # LR: pick by val AUROC, then AP, then smaller C, then unweighted
         best = None
         for C, weight in itertools.product(LR_CONFIG['C_grid'], LR_CONFIG['class_weight_grid']):
             pipeline, converged = fit_logistic(X, y, C, weight)
@@ -85,7 +84,7 @@ def main():
         print(f'lr_{name}: validation AUROC={best["scores"]["auroc"]:.3f} '
               f'(C={best["C"]}, weights={best["class_weight"]})', flush=True)
 
-        # ---- MLP: scaler fitted on train only; selection by mean validation AUROC over seeds.
+        # MLP: scaler fit on train, pick by mean val AUROC over seeds
         scaler = StandardScaler().fit(X)
         train_scaled = scaler.transform(X).astype(np.float32)
         val_scaled = scaler.transform(V).astype(np.float32)

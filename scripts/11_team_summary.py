@@ -180,7 +180,7 @@ Here the aggregation of the four calls also uses the MLP's error probability for
 - `ASSUMPTIONS.md`: every decision and why.
 """
     (OUTPUTS / 'TEAM_SUMMARY.md').write_text(text, encoding='utf-8')
-    print('Wrote outputs/TEAM_SUMMARY.md')
+    print('saved TEAM_SUMMARY.md')
 
 
 if __name__ == '__main__':

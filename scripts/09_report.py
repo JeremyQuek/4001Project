@@ -1,7 +1,7 @@
 """Regenerate outputs/REPORT.md and the figure from saved artifacts.
 
 Reads only files written by earlier stages (results.json, frozen.json,
-test_predictions.csv, candidate tables); it never refits or rescores anything,
+test_predictions.csv, candidate tables); doesn't refit or rescore anything,
 so it can be re-run from the saved evaluation.
 """
 
@@ -32,7 +32,7 @@ def signed_interval(pair):
 
 
 def best_hidden(models, kind):
-    """Hidden-state model with the highest VALIDATION AUROC (never chosen on test)."""
+    # best hidden-state model by val AUROC
     def validation_auroc(name):
         entry = models[name]
         return (entry['validation_metrics']['auroc'] if kind == 'lr'
@@ -107,7 +107,6 @@ def make_figure(results, frozen, predictions, path):
 
 
 def make_cascade_figure(data, path):
-    """Accuracy against mean VLM calls for each cascade router (validation, exploratory)."""
     routers = data['cascade']['routers']
     figure, axis = plt.subplots(figsize=(6.4, 4.6))
     styles = {'confidence': ('tab:gray', ':')}
@@ -184,7 +183,6 @@ A hallucination in the strict sense is a "Yes" to a false statement.
 
 
 def rules_section(data):
-    """Aggregation rules that also use the detector's error probability of each call."""
     block = data['aggregation_rules']
     rows = []
     for entry in block['rules'].values():
@@ -210,7 +208,6 @@ columns are the cascade (routed by the same detector) at 30%, 50% and 70% escala
 
 
 def aggregation_section():
-    """Exploratory section from outputs/aggregation.json (stage 10); empty if that stage was not run."""
     path = OUTPUTS / 'aggregation.json'
     if not path.exists():
         return ''
@@ -405,7 +402,7 @@ hidden-state LR and MLP whose layers had the highest validation AUROC.
 - Intervals reflect test-image sampling for the frozen detectors, not retraining variability.
 {edge_note}"""
     (OUTPUTS / 'REPORT.md').write_text(report, encoding='utf-8')
-    print('Wrote outputs/REPORT.md and outputs/figure_test_results.png')
+    print('report + figure done')
 
 
 if __name__ == '__main__':

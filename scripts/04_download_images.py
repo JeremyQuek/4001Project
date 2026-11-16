@@ -22,7 +22,7 @@ def image_path(image_id):
 
 
 def check_image(source):
-    """Full decode (not just the header) so truncated files are rejected."""
+    # full decode, catches truncated files
     with Image.open(source) as image:
         image.convert('RGB').load()
         return image.size

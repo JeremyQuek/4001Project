@@ -23,11 +23,10 @@ RESULTS = OUTPUTS / 'results.json'
 
 def check_hash(path, expected):
     if sha256_file(path) != expected:
-        raise ValueError(f'Frozen artifact changed: {path}')
+        raise ValueError(f'{path} changed since training')
 
 
 def group_breakdown(frame, column, model_names):
-    """VLM behaviour and detector AUROC inside each predicate or variant."""
     result = {}
     for value, part in frame.groupby(column, sort=False):
         y = part['y_error'].to_numpy()
@@ -76,7 +75,7 @@ def main():
     for split in ('train', 'val'):
         other = pd.read_csv(DETECTOR_READY / f'{split}_rows.csv')
         if set(rows['image_id']) & set(other['image_id']):
-            raise ValueError('Test image leakage across splits.')
+            raise ValueError('test images overlap other splits')
 
     predictions = {'heuristic_confidence': 1 - info['confidence']}
     thresholds = {'heuristic_confidence': models['heuristic_confidence']['coverage80']['threshold']}
@@ -86,11 +85,11 @@ def main():
         name = experiment['name']
         X, targets, _ = load_detector_data('test', experiment['feature_set'], experiment['layer'])
         if not np.array_equal(targets, y):
-            raise ValueError('Test rows are misaligned between feature sets.')
+            raise ValueError('test rows misaligned')
         lr_entry = models[f'lr_{name}']
         pipeline = joblib.load(ROOT / lr_entry['model_file'])
         if pipeline['classifier'].classes_.tolist() != [0, 1]:
-            raise ValueError('LR output class order changed.')
+            raise ValueError('unexpected LR class order')
         predictions[f'lr_{name}'] = pipeline.predict_proba(X)[:, 1]
         thresholds[f'lr_{name}'] = lr_entry['coverage80']['threshold']
 

@@ -1,7 +1,6 @@
 """Download the Visual Genome metadata archives into data/vg/raw/.
 
-Only the official links are used. Archives are kept zipped and are only ever
-read as data (never extracted over the project or executed).
+Uses the official links. Archives stay zipped and are read directly.
 """
 import subprocess
 
@@ -11,7 +10,7 @@ from common import RAW, ROOT, VSR_MANIFEST, VG_BASE, VG_FILES, sha256_file, writ
 
 
 def download(url, target):
-    """Stream to a .part file, then rename, so a partial download is never used."""
+    # write to .part first so a broken download isn't picked up
     part = target.with_name(target.name + '.part')
     with requests.get(url, stream=True, timeout=60) as response:
         response.raise_for_status()
@@ -20,7 +19,7 @@ def download(url, target):
             for block in response.iter_content(1 << 20):
                 handle.write(block)
     if expected and part.stat().st_size != expected:
-        raise RuntimeError(f'Incomplete download: {url}')
+        raise RuntimeError(f'download incomplete: {url}')
     part.rename(target)
 
 

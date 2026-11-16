@@ -1,4 +1,4 @@
-"""Extract Yes/No probabilities and hidden states from the frozen VLM.
+"""Extract Yes/No probabilities and hidden states from the VLM.
 
 Completed queries are reused when their statement, image and model settings match.
 
@@ -24,7 +24,7 @@ def record_path(query_id):
 
 
 def load_record(query_id, statement, image_sha, settings):
-    """Return a finished record, or None if it is missing, damaged or from another config."""
+    # None if missing, broken or from a different config
     path = record_path(query_id)
     if not path.exists():
         return None
@@ -52,11 +52,11 @@ def main():
     manifest = pd.read_csv(PROCESSED / 'image_manifest.csv').set_index('image_id')
     missing = set(queries['image_id']) - set(manifest.index)
     if missing:
-        raise RuntimeError(f'{len(missing)} sampled images are not downloaded; run stages 03/04 again.')
+        raise RuntimeError(f'{len(missing)} images missing, rerun 03/04')
     if args.pilot:
         queries = queries[queries['pilot'] == 1]
         if set(queries['split']) != {'train'}:
-            raise RuntimeError('The pilot must only use the training split.')
+            raise RuntimeError('pilot should use train only')
 
     model, processor, metadata = load_vlm()
     settings = extraction_settings(metadata)

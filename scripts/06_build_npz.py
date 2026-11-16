@@ -15,7 +15,6 @@ ROW_COLUMNS = ['row_idx', 'image_id', 'coco_id', 'rel_id', 'variant', 'canonical
 
 
 def markdown_table(frame):
-    """Small dependency-free Markdown table (index is the first column)."""
     header = '| ' + ' | '.join([frame.index.name or ''] + [str(c) for c in frame.columns]) + ' |'
     rule = '|---|' + '---:|' * len(frame.columns)
     body = ['| ' + ' | '.join([str(index)] + [str(v) for v in row]) + ' |'
@@ -40,15 +39,15 @@ def main():
         for row in part.itertuples():
             with np.load(EXTRACTION / 'records' / f'{row.query_id}.npz') as record:
                 if not record_matches(record, row.statement, manifest.at[row.image_id, 'sha256'], settings):
-                    raise ValueError(f'Record {row.query_id} is stale; run 05_extract.py again.')
+                    raise ValueError(f'stale record {row.query_id}, rerun 05_extract.py')
                 hidden[row.row_idx] = record['hidden']
                 p_yes[row.row_idx] = record['p_yes']
         if not (np.isfinite(hidden).all() and np.isfinite(p_yes).all()):
-            raise ValueError('Non-finite values in extracted features.')
+            raise ValueError('NaN/inf in features')
         truth = part['truth'].to_numpy(dtype=np.int8)
-        vlm_pred = (p_yes >= 0.5).astype(np.int8)                    # ASSUMPTIONS.md, A4
+        vlm_pred = (p_yes >= 0.5).astype(np.int8)
         confidence = np.maximum(p_yes, 1 - p_yes).astype(np.float32)
-        y_error = (vlm_pred != truth).astype(np.int8)                # detector target (A5)
+        y_error = (vlm_pred != truth).astype(np.int8)
         arrays = {f'hidden_L{layer}': hidden[:, i] for i, layer in enumerate(VLM['hidden_layers'])}
         arrays.update(p_yes=p_yes, confidence=confidence, vlm_pred=vlm_pred, truth=truth, y_error=y_error)
         np.savez(DETECTOR_READY / f'{split}.npz', **arrays)
@@ -65,7 +64,7 @@ def main():
     image_sets = {s: set(pd.read_csv(DETECTOR_READY / f'{s}_rows.csv')['image_id']) for s in counts}
     if image_sets['train'] & image_sets['val'] or image_sets['train'] & image_sets['test'] \
             or image_sets['val'] & image_sets['test']:
-        raise ValueError('An image appears in more than one split.')
+        raise ValueError('image in more than one split')
 
     write_json(DETECTOR_READY / 'metadata.json', {
         'checksums': checksums, 'counts': counts, 'vlm': run['vlm'],
@@ -74,7 +73,7 @@ def main():
         'metadata_keys_never_inputs': ['vlm_pred', 'truth', 'y_error'],
     })
 
-    # ---- Dataset card ----
+    # dataset card
     split_table = pd.DataFrame(counts).T
     split_table.index.name = 'Split'
     for column in ('errors', 'error_rate', 'yes_rate'):

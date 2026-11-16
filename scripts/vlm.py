@@ -1,4 +1,4 @@
-"""Frozen VLM loader and Yes/No scorer.
+"""VLM loader and Yes/No scorer.
 
 The model is never trained. The group's VSR experiment loads and scores the
 model in the same way (same revision, 4-bit NF4 quantization, pixel budget,
@@ -21,12 +21,11 @@ from common import OUTPUTS, PROMPT_TEMPLATE, VLM, write_json
 
 
 def load_vlm():
-    """Load the pinned Qwen2.5-VL revision in 4-bit NF4 on the single GPU."""
     if not torch.cuda.is_available():
-        raise RuntimeError('CUDA is unavailable.')
+        raise RuntimeError('no CUDA')
     torch.manual_seed(42)
     if not torch.cuda.is_bf16_supported():
-        raise RuntimeError('bfloat16 is required to match the frozen configuration.')
+        raise RuntimeError('GPU has no bfloat16')
     dtype = torch.bfloat16
     started = time.perf_counter()
     processor = AutoProcessor.from_pretrained(
@@ -48,12 +47,11 @@ def load_vlm():
         'model_load_seconds': round(time.perf_counter() - started, 1),
     }
     if metadata['loaded_revision'] != VLM['model_revision']:
-        raise RuntimeError('Loaded model revision differs from the frozen revision.')
+        raise RuntimeError('wrong model revision')
     return model, processor, metadata
 
 
 def load_image(path):
-    """Open an image, apply its EXIF orientation and convert it to RGB."""
     return ImageOps.exif_transpose(Image.open(path)).convert('RGB')
 
 
@@ -69,7 +67,7 @@ def score(model, processor, image, statement):
         joined = processor.tokenizer.encode(text + answer, add_special_tokens=False)
         suffix = joined[len(prefix_ids):]
         if joined[:len(prefix_ids)] != prefix_ids or len(suffix) != 1:
-            raise RuntimeError(f'{answer!r} is not a single token in this prompt context.')
+            raise RuntimeError(f'{answer!r} is not one token')
         answer_ids.append(suffix[0])
 
     inputs = processor(text=[text], images=[image], return_tensors='pt').to('cuda:0')
@@ -82,17 +80,17 @@ def score(model, processor, image, statement):
     elapsed = time.perf_counter() - start
     logits = output.logits[0, -1].float()
     if not torch.isfinite(logits).all().item():
-        raise RuntimeError('Non-finite logits.')
-    # Relative Yes/No support: softmax over the Yes and No logits only (ASSUMPTIONS.md, A4).
+        raise RuntimeError('logits are NaN/inf')
+    # Relative Yes/No support: softmax over the Yes and No logits
     pair = torch.softmax(logits[answer_ids], dim=0)
     log_probs = torch.log_softmax(logits, dim=0)
-    # hidden_states[0] is the embedding output, so index L is decoder layer L (ASSUMPTIONS.md, A7).
+    # hidden_states[0] is the embedding output, so index L is decoder layer L
     if len(output.hidden_states) - 1 != 36:
-        raise RuntimeError('Unexpected number of decoder layers.')
+        raise RuntimeError('unexpected layer count')
     hidden = np.stack([output.hidden_states[layer][0, -1].float().cpu().numpy()
                        for layer in VLM['hidden_layers']]).astype(np.float32)
     if hidden.shape != (3, 2048) or not np.isfinite(hidden).all():
-        raise RuntimeError('Invalid hidden states.')
+        raise RuntimeError('bad hidden states')
     return {
         'p_yes': pair[0].item(),
         'logit_yes': logits[answer_ids[0]].item(), 'logit_no': logits[answer_ids[1]].item(),

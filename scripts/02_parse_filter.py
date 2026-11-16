@@ -1,5 +1,5 @@
 """Stream relationships.json once, map predicates, apply the minimal
-validity filters, and cache a compact Parquet table (ASSUMPTIONS.md, A1 and A3).
+validity filters, and cache a compact Parquet table.
 
 """
 import zipfile
@@ -73,7 +73,7 @@ def main():
                          'subject': subject, 'object': obj})
     table = pd.DataFrame(rows)
     if table['rel_id'].duplicated().any():
-        raise ValueError('relationship_id is not unique; it cannot be used as rel_id.')
+        raise ValueError('relationship_id not unique')
     table = table.merge(images[['image_id', 'coco_id']], on='image_id', how='left')
 
     # Mark VG images that are also used in the group's VSR experiment (matched by COCO id).

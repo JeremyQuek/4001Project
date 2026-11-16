@@ -46,7 +46,7 @@ def main():
     figure.tight_layout()
     figure.savefig(OUTPUTS / 'figure_vlm_accuracy.png', dpi=200)
     plt.close(figure)
-    print('Wrote outputs/figure_vlm_accuracy.png')
+    print('figure saved')
 
 
 if __name__ == '__main__':

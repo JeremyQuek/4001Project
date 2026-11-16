@@ -42,7 +42,7 @@ def metrics(y, risk):
     """AUROC, error-class average precision and Brier score of a risk score in [0, 1]."""
     risk = np.asarray(risk)
     if not np.isfinite(risk).all() or np.any((risk < 0) | (risk > 1)):
-        raise ValueError('Invalid risk scores.')
+        raise ValueError('bad risk scores')
     return {'auroc': float(roc_auc_score(y, risk)),
             'average_precision': float(average_precision_score(y, risk)),
             'brier_score': float(brier_score_loss(y, risk))}
@@ -66,7 +66,6 @@ def coverage_threshold(y, risk, target=TARGET_COVERAGE):
 
 
 def operating_point(y, risk, threshold):
-    """Abstention results when a frozen threshold is applied to new data."""
     y = np.asarray(y)
     keep = np.asarray(risk) <= threshold
     answered = int(keep.sum())
@@ -124,9 +123,8 @@ def paired_bootstrap(y, predictions, image_ids, pairs, repetitions=BOOTSTRAP_REP
 
 
 def fit_logistic(X, y, C, class_weight, config=LR_CONFIG):
-    """StandardScaler + L2 logistic regression, both fitted on the given (training) rows only."""
     if not np.isfinite(X).all() or len(np.unique(y)) != 2:
-        raise ValueError('Training requires finite inputs and both target classes.')
+        raise ValueError('need finite inputs and both classes')
     pipeline = Pipeline([
         ('scaler', StandardScaler()),
         ('classifier', LogisticRegression(C=C, class_weight=class_weight, solver=config['solver'],
@@ -137,7 +135,7 @@ def fit_logistic(X, y, C, class_weight, config=LR_CONFIG):
         pipeline.fit(X, y)
     converged = not any(issubclass(w.category, ConvergenceWarning) for w in caught)
     if pipeline['classifier'].classes_.tolist() != [0, 1]:
-        raise ValueError('Risk output must correspond to error class 1.')
+        raise ValueError('expected classes [0, 1]')
     return pipeline, converged
 
 
@@ -155,12 +153,11 @@ class ErrorMLP(torch.nn.Module):
 
 
 def risk_scores(model, X):
-    """Sigmoid error probability for already-scaled inputs."""
     model.eval()
     with torch.inference_mode():
         values = torch.sigmoid(model(torch.as_tensor(np.asarray(X, dtype=np.float32)))).numpy()
     if not np.isfinite(values).all():
-        raise ValueError('Invalid MLP risk scores.')
+        raise ValueError('bad MLP risk scores')
     return values
 
 
@@ -187,7 +184,7 @@ def fit_mlp(X, y, V, v, seed, weight_decay, class_weight, config=MLP_CONFIG):
             optimizer.zero_grad(set_to_none=True)
             loss = loss_fn(model(train_X[indices]), train_y[indices])
             if not torch.isfinite(loss).item():
-                raise ValueError('Non-finite training loss.')
+                raise ValueError('loss is NaN/inf')
             loss.backward()
             optimizer.step()
             total += float(loss.detach()) * len(indices)

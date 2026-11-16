@@ -31,7 +31,7 @@ def main():
 
     table = pd.read_parquet(PROCESSED / 'spatial_relationships.parquet')
     total = len(table)
-    # Drop relationships whose false variant is itself annotated as true (ASSUMPTIONS.md, A3b).
+    # Drop relationships whose false variant is itself annotated as true
     conflicts = int(table['label_conflict'].sum())
     table = table[~table['label_conflict']]
     # Leave out images that are also used in the group's VSR experiment.
