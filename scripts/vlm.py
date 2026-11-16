@@ -11,9 +11,6 @@ Run this file directly for the one-image smoke test:
 import sys
 import time
 from importlib.metadata import version
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import numpy as np
 import torch

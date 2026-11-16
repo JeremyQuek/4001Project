@@ -1,13 +1,9 @@
-"""Stage 9: regenerate outputs/REPORT.md and the figure from saved artifacts.
+"""Regenerate outputs/REPORT.md and the figure from saved artifacts.
 
 Reads only files written by earlier stages (results.json, frozen.json,
 test_predictions.csv, candidate tables); it never refits or rescores anything,
-so it can be re-run freely after the single test evaluation.
+so it can be re-run from the saved evaluation.
 """
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import matplotlib
 matplotlib.use('Agg')
@@ -19,8 +15,6 @@ from detector_lib import risk_coverage
 
 INPUT_LABELS = {'all_confidence': 'Confidence [p_yes, confidence]', 'all_hidden9': 'Hidden layer 9',
                 'all_hidden18': 'Hidden layer 18', 'all_hidden36': 'Hidden layer 36'}
-# Colour = architecture throughout the figure; text stays in ink colours.
-BLUE, ORANGE, GREY, INK, MUTED, SURFACE = '#2a78d6', '#eb6834', '#8a8983', '#0b0b0b', '#52514e', '#fcfcfb'
 
 
 def table(header, rows):
@@ -49,29 +43,28 @@ def best_hidden(models, kind):
 def make_figure(results, frozen, predictions, path):
     group = results['cohorts']['all']
     models = group['models']
-    plt.rcParams.update({'font.size': 9, 'axes.edgecolor': MUTED, 'axes.labelcolor': MUTED,
-                         'xtick.color': MUTED, 'ytick.color': MUTED, 'text.color': INK})
-    figure, (left, right) = plt.subplots(1, 2, figsize=(11, 4.8), facecolor=SURFACE)
+    plt.rcParams.update({'font.size': 9})
+    figure, (left, right) = plt.subplots(1, 2, figsize=(11, 4.8))
 
     # Panel 1: test AUROC with image-bootstrap 95% intervals, LR and MLP per input set.
     names = list(INPUT_LABELS)
-    for offset, kind, colour, label in ((0.14, 'lr', BLUE, 'Logistic regression'),
-                                        (-0.14, 'mlp', ORANGE, 'MLP (seed 42)')):
+    for offset, kind, colour, label in ((0.14, 'lr', 'tab:blue', 'Logistic regression'),
+                                        (-0.14, 'mlp', 'tab:orange', 'MLP (seed 42)')):
         for position, name in enumerate(names):
             entry = models[f'{kind}_{name}']
             low, high = entry['auroc_image_bootstrap95']
             y = len(names) - 1 - position + offset
             left.plot([low, high], [y, y], color=colour, linewidth=2, solid_capstyle='round')
-            left.plot(entry['auroc'], y, 'o', color=colour, markersize=7, markeredgecolor=SURFACE,
+            left.plot(entry['auroc'], y, 'o', color=colour, markersize=7, markeredgecolor='white',
                       markeredgewidth=1.5, label=label if position == 0 else None)
             left.annotate(f'{entry["auroc"]:.3f}', (high, y), xytext=(5, 0), textcoords='offset points',
-                          va='center', fontsize=8, color=MUTED)
+                          va='center', fontsize=8, color='dimgray')
     heuristic = models['heuristic_confidence']
-    left.axvline(heuristic['auroc'], color=GREY, linestyle=':', linewidth=1.5,
+    left.axvline(heuristic['auroc'], color='tab:gray', linestyle=':', linewidth=1.5,
                  label=f'1 - confidence, nothing fitted ({heuristic["auroc"]:.3f})')
-    left.axvline(0.5, color=MUTED, linewidth=0.8)
+    left.axvline(0.5, color='dimgray', linewidth=0.8)
     left.annotate('chance', (0.5, len(names) - 0.45), xytext=(3, 0), textcoords='offset points',
-                  fontsize=8, color=MUTED)
+                  fontsize=8, color='dimgray')
     left.set_yticks(range(len(names)), [INPUT_LABELS[name] for name in reversed(names)])
     left.set_ylim(-0.6, len(names) - 0.3)
     left.set_xlabel('Test AUROC for detecting a wrong VLM answer (95% image-bootstrap interval)')
@@ -81,20 +74,20 @@ def make_figure(results, frozen, predictions, path):
     # Panel 2: risk-coverage curves; hidden-layer models are the validation-selected layers.
     y = predictions['y_error'].to_numpy()
     lr_hidden, mlp_hidden = best_hidden(frozen['models'], 'lr'), best_hidden(frozen['models'], 'mlp')
-    curves = [(lr_hidden, BLUE, '-', f'LR, hidden layer {frozen["models"][lr_hidden]["layer"]}'),
-              (mlp_hidden, ORANGE, '-', f'MLP, hidden layer {frozen["models"][mlp_hidden]["layer"]}'),
-              ('lr_all_confidence', BLUE, '--', 'LR, confidence'),
-              ('heuristic_confidence', GREY, ':', '1 - confidence, nothing fitted')]
+    curves = [(lr_hidden, 'tab:blue', '-', f'LR, hidden layer {frozen["models"][lr_hidden]["layer"]}'),
+              (mlp_hidden, 'tab:orange', '-', f'MLP, hidden layer {frozen["models"][mlp_hidden]["layer"]}'),
+              ('lr_all_confidence', 'tab:blue', '--', 'LR, confidence'),
+              ('heuristic_confidence', 'tab:gray', ':', '1 - confidence, nothing fitted')]
     for name, colour, style, label in curves:
         coverage, error_rate = risk_coverage(y, predictions[name].to_numpy())
         keep = coverage >= 0.05  # the first few answered queries are too noisy to read
         right.plot(coverage[keep], error_rate[keep], color=colour, linestyle=style, linewidth=2, label=label)
         point = models[name]['operating_point']
         right.plot(point['coverage'], 1 - point['retained_vlm_accuracy'], 'o', color=colour, markersize=7,
-                   markeredgecolor=SURFACE, markeredgewidth=1.5)
-    right.axhline(group['error_prevalence'], color=MUTED, linewidth=0.8)
+                   markeredgecolor='white', markeredgewidth=1.5)
+    right.axhline(group['error_prevalence'], color='dimgray', linewidth=0.8)
     right.annotate(f'no abstention: {group["error_prevalence"]:.3f}', (0.05, group['error_prevalence']),
-                   xytext=(0, 4), textcoords='offset points', fontsize=8, color=MUTED)
+                   xytext=(0, 4), textcoords='offset points', fontsize=8, color='dimgray')
     right.set_xlim(0, 1.01)
     right.set_ylim(bottom=0)
     right.set_xlabel('Coverage (share of test questions answered)')
@@ -104,12 +97,11 @@ def make_figure(results, frozen, predictions, path):
     right.legend(loc='upper center', bbox_to_anchor=(0.5, -0.16), ncol=2, frameon=False, fontsize=8)
 
     for axis in (left, right):
-        axis.set_facecolor(SURFACE)
         axis.spines[['top', 'right']].set_visible(False)
-        axis.grid(axis='x' if axis is left else 'y', color='#e4e3df', linewidth=0.6)
+        axis.grid(axis='x' if axis is left else 'y', alpha=0.3)
         axis.set_axisbelow(True)
     figure.tight_layout()
-    figure.savefig(path, dpi=200, facecolor=SURFACE)
+    figure.savefig(path, dpi=200)
     plt.close(figure)
     return lr_hidden, mlp_hidden
 
@@ -117,31 +109,30 @@ def make_figure(results, frozen, predictions, path):
 def make_cascade_figure(data, path):
     """Accuracy against mean VLM calls for each cascade router (validation, exploratory)."""
     routers = data['cascade']['routers']
-    figure, axis = plt.subplots(figsize=(6.4, 4.6), facecolor=SURFACE)
-    styles = {'confidence': (GREY, ':')}
+    figure, axis = plt.subplots(figsize=(6.4, 4.6))
+    styles = {'confidence': ('tab:gray', ':')}
     for name, entry in routers.items():
-        colour, style = styles.get(name, (BLUE if name.startswith('lr_') else ORANGE, '-'))
+        colour, style = styles.get(name, ('tab:blue' if name.startswith('lr_') else 'tab:orange', '-'))
         points = entry['points']
         axis.plot([p['mean_vlm_calls'] for p in points], [p['accuracy'] for p in points], color=colour,
                   linestyle=style, linewidth=2, marker='o', markersize=4, label='Router: ' + entry['label'].replace('`', ''))
     ends = next(iter(routers.values()))['points']
-    axis.plot([1, 4], [ends[0]['accuracy'], ends[-1]['accuracy']], color=MUTED, linestyle='--', linewidth=1,
+    axis.plot([1, 4], [ends[0]['accuracy'], ends[-1]['accuracy']], color='dimgray', linestyle='--', linewidth=1,
               label='Router: random')
     axis.annotate(f"single query: {ends[0]['accuracy']:.3f}", (1, ends[0]['accuracy']), xytext=(8, -4),
-                  textcoords='offset points', fontsize=8, color=MUTED, va='top')
+                  textcoords='offset points', fontsize=8, color='dimgray', va='top')
     axis.annotate(f"always four: {ends[-1]['accuracy']:.3f}", (4, ends[-1]['accuracy']), xytext=(0, 8),
-                  textcoords='offset points', fontsize=8, color=MUTED, ha='right')
+                  textcoords='offset points', fontsize=8, color='dimgray', ha='right')
     axis.set_xlabel('Mean VLM calls per question')
     axis.set_ylabel('Accuracy (all validation questions answered)')
     axis.set_title('Cascade: verify only the risky answers', loc='left', fontsize=10, fontweight='bold')
     axis.set_xlim(0.9, 4.1)
-    axis.set_facecolor(SURFACE)
     axis.spines[['top', 'right']].set_visible(False)
-    axis.grid(axis='y', color='#e4e3df', linewidth=0.6)
+    axis.grid(axis='y', alpha=0.3)
     axis.set_axisbelow(True)
     axis.legend(loc='upper center', bbox_to_anchor=(0.5, -0.16), ncol=2, frameon=False, fontsize=8)
     figure.tight_layout()
-    figure.savefig(path, dpi=200, facecolor=SURFACE)
+    figure.savefig(path, dpi=200)
     plt.close(figure)
 
 
@@ -343,7 +334,7 @@ Generated by `scripts/09_report.py` from saved artifacts (`outputs/results.json`
 - Target: `y_error = 1` when the VLM's Yes/No answer disagrees with the VG-derived truth.
 - Train error rate {counts['train']['error_rate']:.3f}, validation {counts['val']['error_rate']:.3f}.
 - All fitting used train only; hyperparameters and abstention thresholds used validation only.
-  Test was scored once ({results['protocol']['bootstrap_repetitions']} image-clustered bootstrap resamples).
+  Test uses the selected models and validation thresholds ({results['protocol']['bootstrap_repetitions']} image-clustered bootstrap resamples).
 
 ## Test set
 

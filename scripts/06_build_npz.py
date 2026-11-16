@@ -1,26 +1,17 @@
-"""Stage 6: pack the per-query records into one NPZ file per split and write
+"""Pack extracted features into one NPZ file per split and write
 the row tables, metadata with checksums, and DATASET_CARD.md.
 
-Run with `python -I`. Needs a finished run of 05_extract.py.
+Needs a finished run of 05_extract.py.
 """
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import numpy as np
 import pandas as pd
 
-from common import (CANONICAL, DETECTOR_READY, EXTRACTION, OUTPUTS, PROCESSED, PROMPT_TEMPLATE, VARIANTS,
-                    VLM, read_json, sha256_file, sha256_text, write_json)
+from common import (CANONICAL, DETECTOR_READY, EXTRACTION, OUTPUTS, PROCESSED, VARIANTS,
+                    VLM, extraction_settings, read_json, record_matches, sha256_file, write_json)
 
 ROW_COLUMNS = ['row_idx', 'image_id', 'coco_id', 'rel_id', 'variant', 'canonical_predicate',
                'vg_predicate', 'subject', 'object', 'statement', 'truth', 'split']
-
-
-def signature(statement, image_sha, versions):
-    """Must stay identical to the signature in 05_extract.py."""
-    return sha256_text(repr((sorted(VLM.items(), key=str), PROMPT_TEMPLATE, versions, statement, image_sha)))
 
 
 def markdown_table(frame):
@@ -37,7 +28,7 @@ def main():
     queries = pd.read_csv(PROCESSED / 'queries.csv')
     manifest = pd.read_csv(PROCESSED / 'image_manifest.csv').set_index('image_id')
     run = read_json(OUTPUTS / 'extraction_summary.json')
-    versions = (run['vlm']['torch'], tuple(sorted(run['vlm']['packages'].items())))
+    settings = extraction_settings(run['vlm'])
 
     checksums, counts = {}, {}
     described = []  # train and validation rows with outcomes, for the card
@@ -48,9 +39,8 @@ def main():
         p_yes = np.empty(len(part), dtype=np.float32)
         for row in part.itertuples():
             with np.load(EXTRACTION / 'records' / f'{row.query_id}.npz') as record:
-                expected = signature(row.statement, manifest.at[row.image_id, 'sha256'], versions)
-                if str(record['signature']) != expected:
-                    raise ValueError(f'Record {row.query_id} was made with a different configuration.')
+                if not record_matches(record, row.statement, manifest.at[row.image_id, 'sha256'], settings):
+                    raise ValueError(f'Record {row.query_id} is stale; run 05_extract.py again.')
                 hidden[row.row_idx] = record['hidden']
                 p_yes[row.row_idx] = record['p_yes']
         if not (np.isfinite(hidden).all() and np.isfinite(p_yes).all()):

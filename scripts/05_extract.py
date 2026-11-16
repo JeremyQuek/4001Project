@@ -1,26 +1,20 @@
-"""Stage 5: prompt the frozen VLM for every query and save p_yes plus hidden states.
+"""Extract Yes/No probabilities and hidden states from the frozen VLM.
 
-Resumable: one small NPZ record per query, written atomically. A record is
-reused only if its signature (frozen VLM config, library versions, statement,
-image hash) matches, so an interrupted run continues where it stopped.
+Completed queries are reused when their statement, image and model settings match.
 
-    python -I scripts/05_extract.py --pilot    # 200 training queries, timing report
-    python -I scripts/05_extract.py            # everything in queries.csv
+    python scripts/05_extract.py --pilot    # 200 training queries, timing report
+    python scripts/05_extract.py            # everything in queries.csv
 """
 import argparse
 import os
-import sys
 import time
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import numpy as np
 import pandas as pd
 import torch
 
-from common import EXTRACTION, IMAGES, OUTPUTS, PROCESSED, PROMPT_TEMPLATE, VLM, sha256_text, write_json
-from vlm import load_image, load_vlm, score
+from common import (EXTRACTION, IMAGES, OUTPUTS, PROCESSED, extraction_settings,
+                    record_matches, write_json)
 
 RECORDS = EXTRACTION / 'records'
 
@@ -29,12 +23,7 @@ def record_path(query_id):
     return RECORDS / f'{query_id}.npz'
 
 
-def signature(statement, image_sha, versions):
-    """Everything that determines a VLM output for one query."""
-    return sha256_text(repr((sorted(VLM.items(), key=str), PROMPT_TEMPLATE, versions, statement, image_sha)))
-
-
-def load_record(query_id, expected_signature):
+def load_record(query_id, statement, image_sha, settings):
     """Return a finished record, or None if it is missing, damaged or from another config."""
     path = record_path(query_id)
     if not path.exists():
@@ -44,12 +33,16 @@ def load_record(query_id, expected_signature):
             record = {key: saved[key] for key in saved.files}
     except Exception:
         return None
-    if str(record['signature']) != expected_signature or record['hidden'].shape != (3, 2048):
+    if not record_matches(record, statement, image_sha, settings):
+        return None
+    if record.get('hidden', np.empty(0)).shape != (3, 2048) or 'p_yes' not in record:
         return None
     return record
 
 
 def main():
+    from vlm import load_image, load_vlm, score
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--pilot', action='store_true', help='Only the pilot training queries.')
     args = parser.parse_args()
@@ -66,7 +59,7 @@ def main():
             raise RuntimeError('The pilot must only use the training split.')
 
     model, processor, metadata = load_vlm()
-    versions = (metadata['torch'], tuple(sorted(metadata['packages'].items())))
+    settings = extraction_settings(metadata)
     torch.cuda.reset_peak_memory_stats()
 
     started = time.perf_counter()
@@ -75,8 +68,7 @@ def main():
     cached_image = (None, None)  # the four variants of a relationship share one image
     for position, row in enumerate(queries.itertuples(), 1):
         image_sha = manifest.at[row.image_id, 'sha256']
-        expected = signature(row.statement, image_sha, versions)
-        if load_record(row.query_id, expected) is not None:
+        if load_record(row.query_id, row.statement, image_sha, settings) is not None:
             reused += 1
             continue
         if cached_image[0] != row.image_id:
@@ -87,7 +79,8 @@ def main():
         np.savez(temporary, hidden=result['hidden'], p_yes=np.float32(result['p_yes']),
                  logit_yes=np.float32(result['logit_yes']), logit_no=np.float32(result['logit_no']),
                  yes_no_mass=np.float32(result['yes_no_mass']), top_token=result['top_token'],
-                 input_tokens=result['input_tokens'], signature=expected)
+                 input_tokens=result['input_tokens'], statement=row.statement,
+                 image_sha=image_sha, settings=settings)
         os.replace(temporary, record_path(row.query_id))
         new += 1
         if new % 100 == 0:
@@ -107,7 +100,7 @@ def main():
     }
     if args.pilot:
         # Pilot report (training split only): answer accuracy and Yes/No behaviour.
-        records = [load_record(q.query_id, signature(q.statement, manifest.at[q.image_id, 'sha256'], versions))
+        records = [load_record(q.query_id, q.statement, manifest.at[q.image_id, 'sha256'], settings)
                    for q in queries.itertuples()]
         p_yes = np.array([float(r['p_yes']) for r in records])
         prediction = (p_yes >= 0.5).astype(int)

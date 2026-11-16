@@ -1,15 +1,11 @@
-"""Stage 3: split by image, sample relationships with a per-predicate cap,
+"""Split by image, sample relationships with a per-predicate cap,
 and generate the four query variants for each sampled relationship.
 
 All randomness comes from seeded hashes of image/relationship ids, so the
 output is identical on every run and does not depend on row order.
 """
 import argparse
-import sys
 from collections import Counter
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import pandas as pd
 

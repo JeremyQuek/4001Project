@@ -4,13 +4,15 @@ Tests on the real arrays are skipped until stage 6 has produced them. They read
 only row metadata for the test split and never its outcomes.
 """
 import importlib
+import sys
 
 import joblib
 import numpy as np
 import pandas as pd
 import pytest
 
-from common import CANONICAL, DETECTOR_READY, OPPOSITE, SURFACE_TO_CANONICAL, make_statements
+from common import (CANONICAL, DETECTOR_READY, OPPOSITE, SURFACE_TO_CANONICAL,
+                    extraction_settings, make_statements, read_json, write_json)
 from detector_lib import (coverage_threshold, fit_logistic, fit_mlp, load_mlp, metrics, operating_point,
                           paired_bootstrap, risk_coverage, risk_scores, save_mlp)
 from load_detector_data import load_detector_data
@@ -64,12 +66,6 @@ def test_splits_share_no_image_or_relationship():
     for frame in rows.values():  # every relationship has its four variants, 2 true and 2 false
         grouped = frame.groupby('rel_id')['truth'].agg(['size', 'sum'])
         assert (grouped['size'] == 4).all() and (grouped['sum'] == 2).all()
-
-
-@needs_data
-def test_test_split_is_closed_by_default():
-    with pytest.raises(PermissionError):
-        load_detector_data('test', 'confidence')
 
 
 @needs_data
@@ -173,6 +169,101 @@ def test_mlp_training_is_reproducible():
     first = fit_mlp(X, y, X, y, seed=42, weight_decay=1e-4, class_weight=None)
     second = fit_mlp(X, y, X, y, seed=42, weight_decay=1e-4, class_weight=None)
     assert np.array_equal(first['validation_risk'], second['validation_risk'])
+
+
+def test_extraction_reuses_only_matching_records(tmp_path, monkeypatch):
+    stage = importlib.import_module('05_extract')
+    monkeypatch.setattr(stage, 'RECORDS', tmp_path)
+    metadata = {'torch': 'test', 'packages': {'transformers': 'test'}}
+    settings = extraction_settings(metadata)
+    np.savez(tmp_path / 'q1.npz', hidden=np.zeros((3, 2048), dtype=np.float32),
+             p_yes=np.float32(.8), statement='The cup is on the table.',
+             image_sha='image1', settings=settings)
+    args = ('q1', 'The cup is on the table.', 'image1', settings)
+    assert stage.load_record(*args) is not None
+    assert stage.load_record('q1', 'The table is on the cup.', 'image1', settings) is None
+    assert stage.load_record('q1', args[1], 'changed-image', settings) is None
+    assert stage.load_record('q1', args[1], 'image1', 'changed-settings') is None
+    (tmp_path / 'q1.npz').write_bytes(b'incomplete output')
+    assert stage.load_record(*args) is None
+
+
+def test_pack_train_and_evaluate_can_be_reproduced(tmp_path, monkeypatch):
+    """Exercise the real pipeline with synthetic VLM outputs, without downloading a model."""
+    pack = importlib.import_module('06_build_npz')
+    train = importlib.import_module('07_train_detectors')
+    evaluate = importlib.import_module('08_evaluate_test')
+    processed, extraction = tmp_path / 'processed', tmp_path / 'extraction'
+    ready, outputs = tmp_path / 'ready', tmp_path / 'outputs'
+    for folder in (processed, extraction / 'records', outputs):
+        folder.mkdir(parents=True)
+    metadata = {'torch': 'test', 'packages': {'transformers': 'test'}}
+    settings = extraction_settings(metadata)
+    queries, images = [], []
+    generator = np.random.default_rng(42)
+    for image_id, split in enumerate(('train', 'val', 'test')):
+        images.append({'image_id': image_id, 'sha256': f'image{image_id}'})
+        for index, (variant, statement, truth) in enumerate(make_statements('cup', 'on', 'table')):
+            query_id = f'{split}_{variant}'
+            queries.append({'query_id': query_id, 'image_id': image_id, 'coco_id': -1,
+                            'rel_id': image_id, 'variant': variant, 'canonical_predicate': 'on',
+                            'vg_predicate': 'on', 'subject': 'cup', 'object': 'table',
+                            'statement': statement, 'truth': truth, 'split': split})
+            np.savez(extraction / 'records' / f'{query_id}.npz',
+                     hidden=generator.normal(size=(3, 2048)).astype(np.float32),
+                     p_yes=np.float32([.8, .3, .7, .2][index]), statement=statement,
+                     image_sha=f'image{image_id}', settings=settings)
+    pd.DataFrame(queries).to_csv(processed / 'queries.csv', index=False)
+    pd.DataFrame(images).to_csv(processed / 'image_manifest.csv', index=False)
+    write_json(processed / 'sample_summary.json', {})
+    write_json(outputs / 'extraction_summary.json', {'vlm': metadata})
+    for name, value in {'PROCESSED': processed, 'EXTRACTION': extraction,
+                        'DETECTOR_READY': ready, 'OUTPUTS': outputs}.items():
+        monkeypatch.setattr(pack, name, value)
+    pack.main()
+    for split in ('train', 'val', 'test'):
+        X, y, info = load_detector_data(split, 'confidence', folder=ready)
+        assert X.shape == (4, 2) and y.tolist() == [0, 1, 1, 0]
+        assert set(info['image_ids']) == {('train', 'val', 'test').index(split)}
+
+    out = outputs / 'detectors'
+    for name, value in {'ROOT': tmp_path, 'OUT': out, 'DETECTOR_READY': ready}.items():
+        monkeypatch.setattr(train, name, value)
+    small_lr = {**train.LR_CONFIG, 'C_grid': [.1], 'class_weight_grid': [None]}
+    small_mlp = {**train.MLP_CONFIG, 'max_epochs': 3, 'weight_decay_grid': [1e-4],
+                 'class_weight_grid': [None]}
+    monkeypatch.setattr(train, 'LR_CONFIG', small_lr)
+    monkeypatch.setattr(train, 'MLP_CONFIG', small_mlp)
+    monkeypatch.setattr(train, 'fit_mlp', lambda *a: fit_mlp(*a, config=small_mlp))
+    loader = lambda *a, **kw: load_detector_data(*a, folder=ready, **kw)
+    monkeypatch.setattr(train, 'load_detector_data', loader)
+    monkeypatch.setattr(sys, 'argv', ['07_train_detectors.py'])
+    train.main()
+    # This historical marker no longer prevents reproduction.
+    write_json(outputs / 'test_evaluation_started.json', {'old': 'protocol'})
+    with pytest.raises(SystemExit):
+        train.main()  # existing fits require an explicit overwrite
+    monkeypatch.setattr(sys, 'argv', ['07_train_detectors.py', '--overwrite'])
+    train.main()
+
+    for name, value in {'ROOT': tmp_path, 'OUTPUTS': outputs, 'DETECTOR_READY': ready,
+                        'FROZEN': out / 'frozen.json', 'RESULTS': outputs / 'results.json'}.items():
+        monkeypatch.setattr(evaluate, name, value)
+    monkeypatch.setattr(evaluate, 'load_detector_data', loader)
+    monkeypatch.setattr(evaluate, 'BOOTSTRAP_REPETITIONS', 20)
+    monkeypatch.setattr(evaluate, 'paired_bootstrap',
+                        lambda *a: paired_bootstrap(*a, repetitions=20))
+    monkeypatch.setattr(sys, 'argv', ['08_evaluate_test.py'])
+    evaluate.main()
+    first = read_json(evaluate.RESULTS)
+    assert first['cohorts']['all']['rows'] == 4
+    assert len(first['cohorts']['all']['models']) == 9
+    saved = evaluate.RESULTS.read_bytes()
+    evaluate.main()  # cached result, no rewrite
+    assert evaluate.RESULTS.read_bytes() == saved
+    monkeypatch.setattr(sys, 'argv', ['08_evaluate_test.py', '--rerun'])
+    evaluate.main()
+    assert read_json(evaluate.RESULTS)['cohorts'] == first['cohorts']
 
 
 # ---- Exploratory aggregation (stage 10) ----

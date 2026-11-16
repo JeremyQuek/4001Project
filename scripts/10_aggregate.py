@@ -1,4 +1,4 @@
-"""Stage 10 (exploratory, validation only): three ways to use the signals.
+"""Compare abstention, aggregation and cascades on the validation split.
 
 Compares, on the validation split only:
   1. abstention on a single query (risk = 1 - confidence, or a frozen detector's risk);
@@ -19,10 +19,6 @@ negation. Support for F is p_yes for the first two and 1 - p_yes for the others.
 The mean support over the four queries decides all four answers together: Yes to
 `orig`/`converse` and No to `swap`/`opposite` when the mean is at least 0.5.
 """
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import numpy as np
 

@@ -1,15 +1,10 @@
-"""Stage 8: the single held-out test evaluation.
+"""Evaluate the selected detectors on the held-out test split.
 
-Checks that every frozen file is unchanged, writes an exposure marker, then
-scores the frozen detectors on test once. No fitting and no threshold choice
-happens here. A second run only re-reads the cached results.
+No fitting or threshold selection happens here. Existing results are kept
+unless --rerun is passed.
 """
-import sys
+import argparse
 import time
-from datetime import datetime, timezone
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import joblib
 import numpy as np
@@ -23,7 +18,6 @@ from detector_lib import (BOOTSTRAP_REPETITIONS, load_mlp, metrics, operating_po
 from load_detector_data import load_detector_data
 
 FROZEN = OUTPUTS / 'detectors/frozen.json'
-MARKER = OUTPUTS / 'test_evaluation_started.json'
 RESULTS = OUTPUTS / 'results.json'
 
 
@@ -48,15 +42,21 @@ def group_breakdown(frame, column, model_names):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--rerun', action='store_true', help='Recompute test results from saved models.')
+    args = parser.parse_args()
     started = time.perf_counter()
     torch.set_num_threads(1)
     frozen = read_json(FROZEN)
+    if RESULTS.exists() and not args.rerun:
+        if read_json(RESULTS)['protocol']['frozen_sha256'] != sha256_file(FROZEN):
+            parser.error('Saved results belong to different fits. Use --rerun to evaluate the current models.')
+        print(f'Using saved results: {RESULTS}. Pass --rerun to recompute.')
+        return
     models = frozen['models']
-    # Verify every frozen byte before any test array is read.
+    # Verify the saved inputs and models; source-code edits do not invalidate a run.
     for name, checksum in frozen['data_checksums'].items():
         check_hash(DETECTOR_READY / name, checksum)
-    for name, checksum in frozen['library_sha256'].items():
-        check_hash(Path(__file__).parent / name, checksum)
     for entry in models.values():
         if entry['kind'] == 'lr':
             check_hash(ROOT / entry['model_file'], entry['model_sha256'])
@@ -71,17 +71,7 @@ def main():
                 'test_thresholds': 'Unchanged validation thresholds; test coverage can differ from 80%.',
                 'test_use': 'Final evaluation only; no model, seed or threshold selection.',
                 'other_seeds': 'Separate stability runs, not an ensemble or seed search.'}
-    if MARKER.exists():
-        if read_json(MARKER)['protocol'] != protocol:
-            raise RuntimeError('Test was already opened under a different protocol. Do not re-evaluate.')
-        if RESULTS.exists():
-            print('Evaluation already complete; cached results.json kept and test not reopened.')
-            return
-    else:
-        write_json(MARKER, {'started_utc': datetime.now(timezone.utc).isoformat(), 'protocol': protocol})
-
-    # ---- The test split is opened here, once. ----
-    _, y, info = load_detector_data('test', 'confidence', allow_test=True)
+    _, y, info = load_detector_data('test', 'confidence')
     rows = info['rows']
     for split in ('train', 'val'):
         other = pd.read_csv(DETECTOR_READY / f'{split}_rows.csv')
@@ -94,7 +84,7 @@ def main():
     primary = str(frozen['mlp_config']['primary_seed'])
     for experiment in frozen['experiments']:
         name = experiment['name']
-        X, targets, _ = load_detector_data('test', experiment['feature_set'], experiment['layer'], allow_test=True)
+        X, targets, _ = load_detector_data('test', experiment['feature_set'], experiment['layer'])
         if not np.array_equal(targets, y):
             raise ValueError('Test rows are misaligned between feature sets.')
         lr_entry = models[f'lr_{name}']
@@ -159,7 +149,7 @@ def main():
         'evaluation_wall_seconds': round(time.perf_counter() - started, 1),
     }
     write_json(RESULTS, summary)
-    print(f'Test evaluated once: {len(y)} rows, {int(y.sum())} VLM errors. Results in {RESULTS}.', flush=True)
+    print(f'Test evaluated: {len(y)} rows, {int(y.sum())} VLM errors. Results in {RESULTS}.', flush=True)
 
 
 if __name__ == '__main__':

@@ -1,11 +1,7 @@
-"""Stage 12: extra figure for the written report (VLM accuracy by predicate and by variant).
+"""Extra figure for the written report (VLM accuracy by predicate and by variant).
 
 Reads outputs/results.json only; nothing is refitted or rescored.
 """
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import matplotlib
 matplotlib.use('Agg')
@@ -13,7 +9,6 @@ import matplotlib.pyplot as plt
 
 from common import CANONICAL, OUTPUTS, VARIANTS, read_json
 
-INK, MUTED, SURFACE, BAR = '#0b0b0b', '#52514e', '#fcfcfb', '#2a78d6'
 VARIANT_LABELS = {'orig': 'original (true)', 'converse': 'converse (true)',
                   'swap': 'swapped (false)', 'opposite': 'opposite (false)'}
 
@@ -21,9 +16,8 @@ VARIANT_LABELS = {'orig': 'original (true)', 'converse': 'converse (true)',
 def main():
     results = read_json(OUTPUTS / 'results.json')
     overall = results['cohorts']['all']['unfiltered_vlm_accuracy']
-    plt.rcParams.update({'font.size': 9, 'axes.edgecolor': MUTED, 'axes.labelcolor': MUTED,
-                         'xtick.color': MUTED, 'ytick.color': MUTED, 'text.color': INK})
-    figure, axes = plt.subplots(1, 2, figsize=(11, 3.6), facecolor=SURFACE,
+    plt.rcParams.update({'font.size': 9})
+    figure, axes = plt.subplots(1, 2, figsize=(11, 3.6),
                                 gridspec_kw={'width_ratios': [8, 4]})
     panels = (('canonical_predicate', CANONICAL, {name: name for name in CANONICAL}, 'By spatial predicate'),
               ('variant', VARIANTS, VARIANT_LABELS, 'By statement variant'))
@@ -31,27 +25,26 @@ def main():
         groups = results['breakdowns'][key]
         values = [groups[name]['vlm_accuracy'] for name in order]
         positions = range(len(order))
-        axis.bar(positions, values, width=0.6, color=BAR)
+        axis.bar(positions, values, width=0.6, color='tab:blue')
         for position, name, value in zip(positions, order, values):
             axis.annotate(f'{value:.3f}', (position, value), xytext=(0, 3), textcoords='offset points',
-                          ha='center', fontsize=8, color=MUTED,
-                          bbox={'facecolor': SURFACE, 'edgecolor': 'none', 'pad': 0.6})
-        axis.axhline(overall, color=MUTED, linewidth=0.8, linestyle='--', zorder=0)
-        axis.axhline(0.5, color=MUTED, linewidth=0.8, zorder=0)
+                          ha='center', fontsize=8, color='dimgray',
+                          bbox={'facecolor': 'white', 'edgecolor': 'none', 'pad': 0.6})
+        axis.axhline(overall, color='dimgray', linewidth=0.8, linestyle='--', zorder=0)
+        axis.axhline(0.5, color='dimgray', linewidth=0.8, zorder=0)
         axis.set_xticks(list(positions), [labels[name] for name in order], rotation=20, ha='right')
         axis.set_ylim(0.4, 0.9)
         axis.set_title(title, loc='left', fontsize=10, fontweight='bold')
-        axis.set_facecolor(SURFACE)
         axis.spines[['top', 'right']].set_visible(False)
-        axis.grid(axis='y', color='#e4e3df', linewidth=0.6)
+        axis.grid(axis='y', alpha=0.3)
         axis.set_axisbelow(True)
     axes[0].set_ylabel('VLM accuracy on test')
     # Reference-line labels sit in the right margin so they cannot cover a bar.
     for value, label in ((overall, f'all test\nquestions:\n{overall:.3f}'), (0.5, 'guessing:\n0.5')):
         axes[1].annotate(label, (1.02, value), xycoords=('axes fraction', 'data'), va='center', fontsize=8,
-                         color=MUTED)
+                         color='dimgray')
     figure.tight_layout()
-    figure.savefig(OUTPUTS / 'figure_vlm_accuracy.png', dpi=200, facecolor=SURFACE)
+    figure.savefig(OUTPUTS / 'figure_vlm_accuracy.png', dpi=200)
     plt.close(figure)
     print('Wrote outputs/figure_vlm_accuracy.png')
 

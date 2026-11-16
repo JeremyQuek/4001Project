@@ -17,7 +17,7 @@ PROCESSED = ROOT / 'data/vg/processed'  # parsed tables, splits, queries
 IMAGES = ROOT / 'data/vg/images'        # only the images the sample needs
 EXTRACTION = ROOT / 'data/vg/extraction'
 DETECTOR_READY = ROOT / 'data/vg/detector_ready'
-OUTPUTS = ROOT / 'outputs'
+OUTPUTS = ROOT / os.environ.get('VG_OUTPUT_DIR', 'outputs')
 VSR_MANIFEST = ROOT / 'data/vsr/processed/directional_images.csv'
 
 SEED = 42
@@ -91,8 +91,16 @@ def sha256_file(path, chunk=1 << 20):
     return digest.hexdigest()
 
 
-def sha256_text(text):
-    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+def extraction_settings(metadata):
+    """Settings stored with cached VLM outputs, without hardware or timing fields."""
+    return json.dumps({'vlm': VLM, 'prompt': PROMPT_TEMPLATE, 'torch': metadata['torch'],
+                       'packages': metadata['packages']}, sort_keys=True)
+
+
+def record_matches(record, statement, image_sha, settings):
+    """Only reuse a cached answer for the same input and model settings."""
+    expected = {'statement': statement, 'image_sha': image_sha, 'settings': settings}
+    return all(key in record and str(record[key]) == value for key, value in expected.items())
 
 
 def seeded_priority(*parts, seed=SEED):

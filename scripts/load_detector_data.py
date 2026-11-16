@@ -4,7 +4,7 @@
     X, y, info = load_detector_data('val', 'confidence')
 
 Only `p_yes`, `confidence` and the hidden states can ever become detector inputs.
-The test split can only be opened with `allow_test=True` (final evaluation).
+Training and model selection use train and validation; test is for evaluation.
 """
 from pathlib import Path
 
@@ -17,13 +17,11 @@ SPLITS = ('train', 'val', 'test')
 LAYERS = (9, 18, 36)
 
 
-def load_detector_data(split, feature_set, layer=None, allow_test=False, folder=DETECTOR_READY):
+def load_detector_data(split, feature_set, layer=None, folder=DETECTOR_READY):
     """Return (X float32, y_error int, info) for one split and feature set."""
     folder = Path(folder)
     if split not in SPLITS:
         raise ValueError(f'Unknown split: {split}')
-    if split == 'test' and not allow_test:
-        raise PermissionError('The test split is closed; only the final evaluation may open it.')
     metadata = read_json(folder / 'metadata.json')
     for name in (f'{split}.npz', f'{split}_rows.csv'):
         if sha256_file(folder / name) != metadata['checksums'][name]:

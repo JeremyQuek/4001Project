@@ -1,16 +1,12 @@
-"""Stage 4: download only the images the sample needs (URL from VG image_data.json).
+"""Download only the images the sample needs (URL from VG image_data.json).
 
 Each file is fully decoded and hashed before it is accepted. Failures are
 retried, then logged to failed_images.csv; re-run 03_split_sample.py afterwards
-to replace their relationships. Run with `python -I` (reads downloaded files).
+to replace their relationships.
 """
 import io
-import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import pandas as pd
 import requests

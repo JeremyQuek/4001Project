@@ -1,13 +1,9 @@
-"""Stage 1: download the Visual Genome metadata archives into data/vg/raw/.
+"""Download the Visual Genome metadata archives into data/vg/raw/.
 
 Only the official links are used. Archives are kept zipped and are only ever
 read as data (never extracted over the project or executed).
 """
 import subprocess
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import requests
 

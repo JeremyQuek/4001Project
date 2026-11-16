@@ -1,14 +1,9 @@
-"""Stage 2: stream relationships.json once, map predicates, apply the minimal
+"""Stream relationships.json once, map predicates, apply the minimal
 validity filters, and cache a compact Parquet table (ASSUMPTIONS.md, A1 and A3).
 
-Run with `python -I` because this reads downloaded archives.
 """
-import sys
 import zipfile
 from collections import Counter
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import ijson
 import pandas as pd

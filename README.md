@@ -1,180 +1,153 @@
-# Detecting and reducing spatial-relation errors of a frozen VLM
+# Spatial-relation errors in a frozen VLM
 
-SC4001 Neural Networks and Deep Learning, Group Project E (Hallucination and Reliability
-in Vision Language Models). This is the code for the Visual Genome experiment in the report.
+SC4001 Neural Networks and Deep Learning, Group Project E. This repository contains
+our Visual Genome experiment: generate spatial Yes/No questions, score a frozen
+Qwen2.5-VL-3B model, then train small classifiers to detect incorrect answers.
 
-## What the code does
+Each annotated relationship produces four questions: the original, its converse,
+a swapped version and an opposite version. The first two are labelled true and
+the last two false. Images are split into train/validation/test before sampling.
+Detectors use either `[p_yes, confidence]` or the hidden state at layer 9, 18 or 36.
+All fitting uses train; hyperparameters and abstention thresholds use validation.
+Test is used only for reporting the selected models.
 
-1. Builds 8,000 Yes/No questions about spatial relations from Visual Genome annotations.
-   Each annotated relationship gives four statements: the original and its converse (true),
-   and a swapped and an opposite version (false).
-2. Asks a frozen vision language model (Qwen2.5-VL-3B-Instruct, 4-bit) each question and
-   saves its Yes/No probability and its hidden state at layers 9, 18 and 36.
-3. Trains small detectors (logistic regression and a one-hidden-layer MLP) to predict when
-   the model's answer is wrong, from either the confidence or one hidden layer.
-4. Evaluates the detectors once on a held-out test split.
-5. Compares three ways of using the signals on the validation split: abstention,
-   aggregating the four statements of one fact, and a cascade that verifies only the
-   answers a detector flags.
+## Setup
 
-## Folder layout
-
-```
-README.md              this file
-ASSUMPTIONS.md         every design decision and its reason (labels A1, A2, ... are used in code comments)
-requirements.txt       pinned Python packages
-scripts/               the pipeline, one numbered script per stage (see "Files" below)
-tests/                 unit tests
-data/vg/processed/     filtered relationships, the sampled questions (queries.csv), image list
-data/vg/detector_ready/  row tables, checksums and dataset card for the detector inputs
-data/vsr/processed/    image list of the group's VSR experiment (those images are left out here)
-outputs/               saved results: REPORT.md, results.json, aggregation.json, figures,
-                       trained detectors (outputs/detectors/), logs
-claude/                instructions given to the AI coding assistant (see the AI Use Statement)
-```
-
-Not included because of their size, and rebuilt by the scripts: the Visual Genome archives
-(130 MB), the 1,929 images (250 MB), the model weights (7.5 GB, downloaded from Hugging
-Face on first use), the per-question VLM records (220 MB) and the hidden-state arrays
-`data/vg/detector_ready/{train,val,test}.npz` (190 MB).
-
-## Requirements
-
-- Linux with an NVIDIA GPU of at least 6 GB (developed on an RTX 4060 Laptop, 8 GB; peak
-  use 3.3 GiB) and CUDA 12.6 drivers
-- Python 3.12
-- About 10 GB of free disk and an internet connection (model weights, metadata, images)
+The full extraction uses Python 3.12, an NVIDIA GPU with at least 6 GB VRAM and
+CUDA 12.6. Allow about 10 GB for metadata, images, model weights and features.
+The saved-result reports do not need a GPU.
 
 ```bash
 python3.12 -m venv .venv
-.venv/bin/pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu126
+source .venv/bin/activate
+python -m pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu126
 ```
 
-With [uv](https://docs.astral.sh/uv/) the equivalent is:
+On Windows, create the environment with `py -3.12 -m venv .venv` and activate it
+with `.venv\Scripts\Activate.ps1` in PowerShell. All commands below use the
+activated environment and run from the repository root.
+
+## Rebuild the report from saved results
 
 ```bash
-uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -r requirements.txt \
-    --extra-index-url https://download.pytorch.org/whl/cu126 --index-strategy unsafe-best-match
+python scripts/09_report.py
+python scripts/12_report_figures.py
+# Optional summary for the team:
+python scripts/11_team_summary.py
 ```
 
-## Option A: regenerate the tables and figures from the saved results (no GPU, 1 minute)
+These commands rebuild `outputs/REPORT.md`, `outputs/TEAM_SUMMARY.md` and the
+three PNG figures from the committed results, without inference or retraining.
+The Word draft is retained as a document; its old JavaScript builder has been
+removed. The Markdown report and figures are the reproducible report outputs.
+No Node.js dependency is needed.
 
-The submission ships the test results, the trained detectors and the validation analysis.
-These two commands rebuild `outputs/REPORT.md` and the three figures from them:
+## Reproduce the experiment
+
+Downloads, VLM weights, per-question outputs and detector NPZ arrays are excluded
+from Git because of their size. Scripts 01-06 rebuild them. The committed query
+and row tables document the original sample.
+
+Use a separate result folder to keep the submitted results and fitted models:
 
 ```bash
-.venv/bin/python -I scripts/09_report.py
-.venv/bin/python -I scripts/12_report_figures.py
+export VG_OUTPUT_DIR=outputs/reproduced
 ```
 
-## Option B: reproduce everything from scratch (GPU, about 1.5 hours)
-
-The saved results act as a lock: once the test split has been evaluated, the training
-script refuses to run again, so that nothing can be tuned on test. To start afresh, first
-remove the saved results:
+In PowerShell use `$env:VG_OUTPUT_DIR = "outputs/reproduced"` instead.
+This changes the result/model folder; downloaded data and extracted features stay
+under `data/vg/` and can be reused.
 
 ```bash
-rm -rf outputs/detectors outputs/results.json outputs/test_evaluation_started.json \
-       outputs/test_metrics.csv outputs/test_predictions.csv outputs/aggregation.json
+# Metadata, questions and images
+python scripts/01_download_metadata.py
+python scripts/02_parse_filter.py
+python scripts/03_split_sample.py
+python scripts/04_download_images.py
+# If downloads fail, run 03 then 04 again to replace the failed images.
+
+# Frozen VLM outputs and detector inputs
+python scripts/05_extract.py --pilot  # optional timing run on 200 training queries
+python scripts/05_extract.py
+python scripts/06_build_npz.py
+
+# Fit and select on train/validation, then evaluate on test
+python scripts/07_train_detectors.py
+python scripts/08_evaluate_test.py
+
+# Validation analysis and reports
+python scripts/10_aggregate.py
+python scripts/09_report.py
+python scripts/12_report_figures.py
+python scripts/11_team_summary.py
 ```
 
-Then run the stages in this order from the project root. `-I` runs Python in isolated
-mode, which is used for every stage that reads downloaded files.
+Extraction saves one record per question and reuses completed records when the
+statement, image checksum and model settings match. Older hash-only records are
+recomputed on the next extraction run. The NPZ builder rejects stale records.
+Final dataset and model checksums still catch corrupted or mismatched files.
 
-```bash
-# Data preparation
-.venv/bin/python scripts/vlm.py                          # check: load the VLM, score one synthetic image
-.venv/bin/python -I scripts/01_download_metadata.py      # Visual Genome metadata from the official site
-.venv/bin/python -I scripts/02_parse_filter.py           # keep the eight spatial predicates (3 minutes)
-.venv/bin/python -I scripts/03_split_sample.py           # split by image, sample 250 relationships per predicate
-.venv/bin/python -I scripts/04_download_images.py        # download the 1,929 images that are needed
-#   If any image failed, run 03 and 04 again: failed images are replaced.
+Training protects existing fits from accidental overwriting. To repeat training
+in the same result folder, run `07_train_detectors.py --overwrite`, then
+`08_evaluate_test.py --rerun` and the analysis/report scripts. Evaluation otherwise
+uses cached results and checks that they belong to the current fits. Repeating
+an evaluation is allowed; choosing models or thresholds from test results is not
+part of this experiment.
 
-# VLM features
-.venv/bin/python -I scripts/05_extract.py                # 8,000 forward passes, about 45 minutes; safe to interrupt and re-run
-.venv/bin/python -I scripts/06_build_npz.py              # pack the detector inputs, write the dataset card
+To use the submitted results again, run `unset VG_OUTPUT_DIR` (PowerShell:
+`Remove-Item Env:VG_OUTPUT_DIR`). Seeds and the model revision are fixed; different
+hardware or libraries may still give slightly different results.
 
-# Detectors
-.venv/bin/python -I scripts/07_train_detectors.py        # train and select on train/validation, then freeze (10 minutes)
-.venv/bin/python -I scripts/08_evaluate_test.py          # the single test evaluation
+## Saved results
 
-# Analysis and report
-.venv/bin/python -I scripts/10_aggregate.py              # abstention, aggregation and cascade on validation
-.venv/bin/python -I scripts/09_report.py                 # outputs/REPORT.md and two figures
-.venv/bin/python -I scripts/12_report_figures.py         # figure of VLM accuracy by predicate and variant
-```
-
-### What to expect
-
-| Quantity | Saved result |
+| Quantity | Value |
 |---|---|
-| Questions (train / validation / test) | 5,568 / 1,216 / 1,216 |
-| VLM accuracy on test | 0.707 |
-| Test AUROC, 1 - confidence (nothing trained) | 0.680 |
-| Test AUROC, MLP on hidden layer 36 | 0.753 |
-| Validation accuracy, single question | 0.713 |
-| Validation accuracy, four statements aggregated | 0.849 |
+| Questions: train / validation / test | 5,568 / 1,216 / 1,216 |
+| VLM test accuracy | 0.707 |
+| Test AUROC: 1 - confidence | 0.680 |
+| Test AUROC: MLP on hidden layer 36 | 0.753 |
+| Validation accuracy: single question | 0.713 |
+| Validation accuracy: four statements aggregated | 0.849 |
 
-The full tables are in `outputs/REPORT.md`. The split, the sample and the detector training
-are seeded (seed 42; MLP seeds 42, 43 and 44), so the questions are identical on every run.
-VLM outputs can differ in the last decimal places on a different GPU or driver, which can
-move the numbers above slightly.
+The aggregation and cascade analyses are exploratory and use validation only.
+The group's VSR experiment uses a different dataset, so its scores are not
+directly comparable. See `ASSUMPTIONS.md` for the sampling, labels and limitations.
+
+## Files and result sources
+
+| Scripts | Purpose | Outputs |
+|---|---|---|
+| `01_download_metadata.py` to `04_download_images.py` | Download, filter, split and sample | `data/vg/processed/`, images |
+| `05_extract.py`, `vlm.py` | Frozen VLM inference | `data/vg/extraction/`, extraction summaries |
+| `06_build_npz.py`, `load_detector_data.py` | Pack and load aligned features | `data/vg/detector_ready/` |
+| `07_train_detectors.py`, `detector_lib.py` | LR/MLP fitting and validation selection | `outputs/detectors/` |
+| `08_evaluate_test.py` | Test metrics, bootstrap intervals, per-query predictions | `results.json`, `test_metrics.csv`, `test_predictions.csv` |
+| `10_aggregate.py` | Validation abstention, aggregation and cascade | `aggregation.json` |
+| `09_report.py` | Detection and cascade tables and figures | `REPORT.md`, `figure_test_results.png`, `figure_cascade.png` |
+| `12_report_figures.py` | VLM accuracy by predicate and variant | `figure_vlm_accuracy.png` |
+| `11_team_summary.py` | Optional prose summary | `TEAM_SUMMARY.md` |
+
+Paths in the last column are relative to `outputs/` unless shown otherwise.
+`common.py` holds paths, predicate mappings, statement generation and VLM settings.
+The detector arrays contain three `(N, 2048)` hidden-state matrices, `p_yes`,
+`confidence`, `vlm_pred`, `truth` and `y_error`. Matching CSV files preserve row
+order. Truth labels, predictions, identifiers and split names are never features.
 
 ## Tests
 
 ```bash
-.venv/bin/python -m pytest tests -q
+python -m pytest tests/test_pipeline.py -q
 ```
 
-The tests cover statement generation, the image-level split, feature shapes and the
-absence of label leakage, the direction of the risk scores, the abstention threshold, the
-bootstrap, model save and reload, and the aggregation and cascade rules. Tests that need
-the hidden-state arrays are skipped until stage 6 has been run.
-
-## Files
-
-| Path | Purpose |
-|---|---|
-| `scripts/common.py` | Paths, predicate mapping, the four statement variants, frozen VLM settings |
-| `scripts/vlm.py` | Loads the frozen VLM and scores one statement (Yes/No probability, hidden states) |
-| `scripts/01_download_metadata.py` | Downloads the Visual Genome archives into `data/vg/raw/` |
-| `scripts/02_parse_filter.py` | Reads the relationships, maps predicates, applies the validity filters |
-| `scripts/03_split_sample.py` | Image-level split, per-predicate sampling, statement generation |
-| `scripts/04_download_images.py` | Downloads, decodes and hashes the needed images |
-| `scripts/05_extract.py` | Runs the VLM on every question; resumable |
-| `scripts/06_build_npz.py` | Packs the detector inputs and writes the dataset card |
-| `scripts/load_detector_data.py` | Loads detector inputs with checksum checks; the test split is closed by default |
-| `scripts/detector_lib.py` | Logistic regression and MLP detectors, metrics, abstention rule, bootstrap |
-| `scripts/07_train_detectors.py` | Training and validation-only model selection; freezes the models |
-| `scripts/08_evaluate_test.py` | The single test evaluation |
-| `scripts/09_report.py` | Builds `outputs/REPORT.md` and two figures from saved results |
-| `scripts/10_aggregate.py` | Abstention, aggregation, cascade and detector-informed aggregation (validation only) |
-| `scripts/12_report_figures.py` | Figure of VLM accuracy by predicate and statement variant |
-| `tests/test_pipeline.py` | Unit tests |
-
-Where the report's results come from:
-
-| Report item | Produced by | Saved in |
-|---|---|---|
-| Detection table, abstention table, Figure 2 | `08_evaluate_test.py`, `09_report.py` | `outputs/results.json`, `outputs/figure_test_results.png` |
-| Figure 1 (VLM accuracy) | `12_report_figures.py` | `outputs/figure_vlm_accuracy.png` |
-| Abstention / aggregation / cascade tables, Figure 3 | `10_aggregate.py`, `09_report.py` | `outputs/aggregation.json`, `outputs/figure_cascade.png` |
-| Selected hyperparameters | `07_train_detectors.py` | `outputs/detectors/frozen.json`, `lr_candidates.csv`, `mlp_candidates.csv` |
-
-## Detector inputs
-
-`data/vg/detector_ready/{train,val,test}.npz` hold `hidden_L9`, `hidden_L18`, `hidden_L36`
-(N x 2048, float32), `p_yes`, `confidence` (float32), and `vlm_pred`, `truth`, `y_error`
-(int8). `{split}_rows.csv` lists the matching questions in the same order. `truth`,
-`vlm_pred`, identifiers and split are never used as detector inputs.
+Tests cover statement generation, splits, feature alignment, risk scores,
+thresholds, bootstrap, model save/reload and the synthetic packing-to-evaluation
+pipeline. Checks on the full hidden-state arrays skip until script 06 is run.
 
 ## Acknowledgements
 
 - Visual Genome (Krishna et al., 2017), CC BY 4.0.
-- Qwen2.5-VL-3B-Instruct (Alibaba Cloud), used frozen through Hugging Face Transformers.
-- The VLM loading and scoring steps, the metric definitions, the abstention rule, the
-  bootstrap and the MLP training loop are shared with the group's VSR experiment, so that
-  the two experiments can be set side by side.
-- Code written with the help of Claude Code (Anthropic); see the AI Use Statement in the
-  report.
+- Qwen2.5-VL-3B-Instruct, Alibaba Cloud, used frozen through Transformers.
+- Model scoring, metrics and detector training follow the group's VSR experiment
+  so the two experiments use the same definitions.
+- Code written with help from Claude Code (Anthropic); see the AI Use Statement
+  in the report.

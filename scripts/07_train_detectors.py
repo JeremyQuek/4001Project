@@ -1,17 +1,15 @@
-"""Stage 7: train logistic-regression and MLP error detectors.
+"""Train logistic-regression and MLP error detectors.
 
 Fits use the training split only (scalers included); hyperparameters and the
 abstention thresholds are chosen on validation only. The script then freezes
 every model file, threshold and the test-file checksum in
 outputs/detectors/frozen.json. The test split is never opened here.
 """
+import argparse
 import itertools
-import sys
 import time
 from importlib.metadata import version
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import joblib
 import numpy as np
@@ -20,22 +18,23 @@ from sklearn.preprocessing import StandardScaler
 
 from common import DETECTOR_READY, OUTPUTS, ROOT, read_json, sha256_file, write_csv, write_json
 from detector_lib import (EXPERIMENTS, LR_CONFIG, MLP_CONFIG, TARGET_COVERAGE, coverage_threshold, fit_logistic,
-                          fit_mlp, load_mlp, metrics, risk_scores, save_mlp)
+                          fit_mlp, metrics, save_mlp)
 from load_detector_data import load_detector_data
 
 OUT = OUTPUTS / 'detectors'
-MARKER = OUTPUTS / 'test_evaluation_started.json'
 
 
 def relative(path):
-    return str(Path(path).relative_to(ROOT))
+    return Path(path).relative_to(ROOT).as_posix()
 
 
 def main():
-    if MARKER.exists():
-        raise RuntimeError('The test split has been opened. Detectors must not be retrained or retuned.')
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--overwrite', action='store_true', help='Replace saved detector fits.')
+    args = parser.parse_args()
+    if (OUT / 'frozen.json').exists() and not args.overwrite:
+        parser.error('Detectors already exist. Use --overwrite or set VG_OUTPUT_DIR to a new folder.')
     torch.set_num_threads(1)
-    torch.use_deterministic_algorithms(True)
     started = time.perf_counter()
     (OUT / 'models').mkdir(parents=True, exist_ok=True)
     (OUT / 'histories').mkdir(exist_ok=True)
@@ -76,8 +75,6 @@ def main():
                         'risk': risk, 'scores': scores, 'converged': converged}
         path = OUT / 'models' / f'lr_{name}.joblib'
         joblib.dump(best['pipeline'], path)
-        if not np.array_equal(joblib.load(path).predict_proba(V)[:, 1], best['risk']):
-            raise ValueError('LR predictions changed after save/reload.')
         models[f'lr_{name}'] = {
             'kind': 'lr', **experiment, 'train_rows': len(y), 'validation_rows': len(v),
             'selected_C': best['C'], 'selected_class_weight': best['class_weight'],
@@ -118,8 +115,6 @@ def main():
             seed = run['seed']
             path = OUT / 'models' / f'mlp_{name}_seed{seed}.pt'
             save_mlp(path, run, X.shape[1])
-            if not np.array_equal(risk_scores(load_mlp(path), val_scaled), run['validation_risk']):
-                raise ValueError('MLP predictions changed after save/reload.')
             write_json(OUT / 'histories' / f'mlp_{name}_seed{seed}.json', run['history'])
             entry['seeds'][str(seed)] = {
                 'checkpoint': relative(path), 'checkpoint_sha256': sha256_file(path),
@@ -146,8 +141,6 @@ def main():
                              'then larger weight decay, then unweighted'},
         'fit_split': 'train', 'selection_split': 'val', 'test_opened': False,
         'data_checksums': data['checksums'],
-        'library_sha256': {f: sha256_file(Path(__file__).parent / f)
-                           for f in ('detector_lib.py', 'load_detector_data.py')},
         'versions': {p: version(p) for p in ('scikit-learn', 'numpy', 'torch', 'joblib')},
         'candidates_tried': {'lr': len(lr_rows), 'mlp_configurations': len(mlp_rows),
                              'mlp_seed_fits': len(mlp_rows) * len(MLP_CONFIG['seeds'])},

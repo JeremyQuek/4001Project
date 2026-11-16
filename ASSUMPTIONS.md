@@ -112,10 +112,11 @@ the same frozen VLM on the Visual Spatial Reasoning dataset.
   tied scores are kept or dropped together.
 - **Bootstrap.** 2,000 resamples of test images (all queries of a drawn image go
   together), one shared set of draws for every model, percentile 95% intervals.
-- **Test exposure.** Running the VLM on test images is not treated as opening the test
-  split. The test split counts as opened when `y_error` for test rows is first used,
-  which happens only in `scripts/08_evaluate_test.py`. The dataset card therefore gives
-  error rates for train and validation only.
+- **Test use.** Training and model selection use train and validation only.
+  `08_evaluate_test.py` applies the selected models and unchanged validation
+  thresholds to test. Saved evaluations can be recomputed with `--rerun`; a
+  filesystem marker does not control access. Test outcomes must not be used for
+  model or threshold selection. The dataset card shows train/validation outcomes.
 
 ## Exploratory extension (added after the test evaluation)
 
