@@ -1,4 +1,4 @@
-"""Stages 4-5: prompt the frozen VLM for every query and save p_yes plus hidden states.
+"""Stage 5: prompt the frozen VLM for every query and save p_yes plus hidden states.
 
 Resumable: one small NPZ record per query, written atomically. A record is
 reused only if its signature (frozen VLM config, library versions, statement,

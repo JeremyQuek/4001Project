@@ -1,4 +1,4 @@
-"""Stage 6: pack the per-query records into the shared NPZ contract and write
+"""Stage 6: pack the per-query records into one NPZ file per split and write
 the row tables, metadata with checksums, and DATASET_CARD.md.
 
 Run with `python -I`. Needs a finished run of 05_extract.py.
@@ -56,9 +56,9 @@ def main():
         if not (np.isfinite(hidden).all() and np.isfinite(p_yes).all()):
             raise ValueError('Non-finite values in extracted features.')
         truth = part['truth'].to_numpy(dtype=np.int8)
-        vlm_pred = (p_yes >= 0.5).astype(np.int8)                    # A4
+        vlm_pred = (p_yes >= 0.5).astype(np.int8)                    # ASSUMPTIONS.md, A4
         confidence = np.maximum(p_yes, 1 - p_yes).astype(np.float32)
-        y_error = (vlm_pred != truth).astype(np.int8)                # A5 detector target
+        y_error = (vlm_pred != truth).astype(np.int8)                # detector target (A5)
         arrays = {f'hidden_L{layer}': hidden[:, i] for i, layer in enumerate(VLM['hidden_layers'])}
         arrays.update(p_yes=p_yes, confidence=confidence, vlm_pred=vlm_pred, truth=truth, y_error=y_error)
         np.savez(DETECTOR_READY / f'{split}.npz', **arrays)

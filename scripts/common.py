@@ -10,15 +10,15 @@ import os
 import re
 from pathlib import Path
 
-# VG_PIPELINE_ROOT lets a dry run on synthetic data use a separate folder; unset in normal use.
+# Set VG_PIPELINE_ROOT to run the pipeline in another folder (e.g. on synthetic data); normally unset.
 ROOT = Path(os.environ.get('VG_PIPELINE_ROOT') or Path(__file__).resolve().parents[1])
-RAW = ROOT / 'data/vg/raw'              # untrusted downloads only
+RAW = ROOT / 'data/vg/raw'              # downloaded archives, read as data only
 PROCESSED = ROOT / 'data/vg/processed'  # parsed tables, splits, queries
 IMAGES = ROOT / 'data/vg/images'        # only the images the sample needs
 EXTRACTION = ROOT / 'data/vg/extraction'
 DETECTOR_READY = ROOT / 'data/vg/detector_ready'
 OUTPUTS = ROOT / 'outputs'
-TEAMMATE_MANIFEST = ROOT / 'data/vsr/processed/directional_images.csv'
+VSR_MANIFEST = ROOT / 'data/vsr/processed/directional_images.csv'
 
 SEED = 42
 SPLIT_FRACTIONS = {'train': 0.70, 'val': 0.15, 'test': 0.15}
@@ -28,7 +28,7 @@ SPLIT_FRACTIONS = {'train': 0.70, 'val': 0.15, 'test': 0.15}
 VG_BASE = 'https://homes.cs.washington.edu/~ranjay/visualgenome/data/dataset/'
 VG_FILES = ['relationships.json.zip', 'objects.json.zip', 'image_data.json.zip']
 
-# A1: exact lowercase VG surface forms accepted for each canonical predicate.
+# Exact lowercase VG surface forms accepted for each canonical predicate (ASSUMPTIONS.md, A1).
 PREDICATE_FORMS = {
     'to the left of': ['left of', 'to left of', 'to the left of', 'on left side of', 'on the left of'],
     'to the right of': ['right of', 'to right of', 'to the right of', 'on right side of', 'on the right of'],
@@ -49,7 +49,7 @@ OPPOSITE = {
 }
 VARIANTS = ['orig', 'converse', 'swap', 'opposite']
 
-# Frozen VLM configuration; identical to the teammate's configs/vsr_experiment.json.
+# Frozen VLM configuration; the group's VSR experiment uses the same values.
 VLM = {
     'model_id': 'Qwen/Qwen2.5-VL-3B-Instruct',
     'model_revision': '66285546d2b821cf421d4f5eb2576359d3770cd3',

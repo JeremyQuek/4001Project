@@ -1,7 +1,7 @@
-"""Stage 2b: stream relationships.json once, map predicates (A1), apply the
-minimal validity filters (A3), and cache a compact Parquet table.
+"""Stage 2: stream relationships.json once, map predicates, apply the minimal
+validity filters, and cache a compact Parquet table (ASSUMPTIONS.md, A1 and A3).
 
-Run with `python -I` because this reads untrusted downloaded archives.
+Run with `python -I` because this reads downloaded archives.
 """
 import sys
 import zipfile
@@ -14,7 +14,7 @@ import ijson
 import pandas as pd
 
 from common import (CANONICAL, OPPOSITE, PREDICATE_FORMS, PROCESSED, RAW, SURFACE_TO_CANONICAL,
-                    TEAMMATE_MANIFEST, clean_name, write_json)
+                    VSR_MANIFEST, clean_name, write_json)
 
 
 def entity_name(entity):
@@ -44,7 +44,7 @@ def main():
     image_ids = set(images['image_id'])
 
     counts = Counter()          # filter bookkeeping
-    surface_counts = Counter()  # matches per accepted VG surface form (before A3)
+    surface_counts = Counter()  # matches per accepted VG surface form (before the filters)
     seen = set()                # (image, subject, canonical predicate, object) for duplicates
     rows = []
     for item in stream_items('relationships.json.zip'):
@@ -58,7 +58,7 @@ def main():
             counts['predicate_matched'] += 1
             surface_counts[surface] += 1
             subject, obj = entity_name(relation['subject']), entity_name(relation['object'])
-            # A3 filters, applied in this order; each relationship is counted once.
+            # Validity filters, applied in this order; each relationship is counted once.
             if not subject or not obj:
                 counts['dropped_empty_name'] += 1
                 continue
@@ -81,9 +81,9 @@ def main():
         raise ValueError('relationship_id is not unique; it cannot be used as rel_id.')
     table = table.merge(images[['image_id', 'coco_id']], on='image_id', how='left')
 
-    # Mark VG images that are also one of the teammate's VSR (COCO) images.
-    if TEAMMATE_MANIFEST.exists():
-        vsr_coco = set(pd.read_csv(TEAMMATE_MANIFEST, dtype=str)['image_id'].astype(int))
+    # Mark VG images that are also used in the group's VSR experiment (matched by COCO id).
+    if VSR_MANIFEST.exists():
+        vsr_coco = set(pd.read_csv(VSR_MANIFEST, dtype=str)['image_id'].astype(int))
         table['in_teammate_vsr'] = table['coco_id'].isin(vsr_coco)
     else:
         vsr_coco = None
@@ -120,13 +120,13 @@ def main():
     write_json(PROCESSED / 'filter_summary.json', summary)
 
     print('Filter counts:', dict(counts))
-    print('\nMatches per accepted VG surface form (before A3 filters):')
+    print('\nMatches per accepted VG surface form (before the filters):')
     for canon, forms in PREDICATE_FORMS.items():
         print(f'  {canon}: ' + ', '.join(f'{form}={surface_counts[form]}' for form in forms))
-    print('\nKept after A3 filters:')
+    print('\nKept after the filters:')
     print(per_canonical.reindex(CANONICAL).to_string())
     print(f'\nTotal kept: {len(table)} relationships in {table["image_id"].nunique()} images; '
-          f'{summary["vg_images_also_in_teammate_vsr"]} of those images are teammate VSR images.')
+          f'{summary["vg_images_also_in_teammate_vsr"]} of those images are also VSR images.')
 
 
 if __name__ == '__main__':

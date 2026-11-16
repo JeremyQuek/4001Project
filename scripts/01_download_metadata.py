@@ -1,4 +1,4 @@
-"""Stage 2a: download the Visual Genome metadata archives into data/vg/raw/.
+"""Stage 1: download the Visual Genome metadata archives into data/vg/raw/.
 
 Only the official links are used. Archives are kept zipped and are only ever
 read as data (never extracted over the project or executed).
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import requests
 
-from common import RAW, ROOT, TEAMMATE_MANIFEST, VG_BASE, VG_FILES, sha256_file, write_json
+from common import RAW, ROOT, VSR_MANIFEST, VG_BASE, VG_FILES, sha256_file, write_json
 
 
 def download(url, target):
@@ -41,16 +41,17 @@ def main():
         print(f'{name}: {target.stat().st_size / 2**20:.1f} MiB', flush=True)
     write_json(RAW / 'sources.json', record)
 
-    # Teammate's VSR image list (branch origin/isaac of the shared repository); used
-    # only to keep VSR images out of this dataset so cross-evaluation stays clean.
-    if not TEAMMATE_MANIFEST.exists():
+    # Image list of the group's VSR experiment, used only to keep those images out of
+    # this dataset. The file ships with the code; inside the group's git repository it
+    # can also be restored from the branch that holds the VSR experiment.
+    if not VSR_MANIFEST.exists():
         shown = subprocess.run(
             ['git', 'show', 'origin/isaac:data/vsr/processed/directional_images.csv'],
             cwd=ROOT, capture_output=True)
         if shown.returncode == 0:
-            TEAMMATE_MANIFEST.parent.mkdir(parents=True, exist_ok=True)
-            TEAMMATE_MANIFEST.write_bytes(shown.stdout)
-    print('Teammate VSR manifest:', 'available' if TEAMMATE_MANIFEST.exists() else 'NOT available')
+            VSR_MANIFEST.parent.mkdir(parents=True, exist_ok=True)
+            VSR_MANIFEST.write_bytes(shown.stdout)
+    print('VSR image list:', 'available' if VSR_MANIFEST.exists() else 'NOT available')
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 {
-  "status": "Exploratory extension outside the team plan. Validation split only; test never read.",
+  "status": "Exploratory extension added after the test evaluation. Validation split only; test never read.",
   "split": "val",
   "rows": 1216,
   "relationships": 304,

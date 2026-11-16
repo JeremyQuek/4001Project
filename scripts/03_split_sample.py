@@ -1,4 +1,4 @@
-"""Stage 3a: split by image (A6), sample relationships with a per-predicate cap,
+"""Stage 3: split by image, sample relationships with a per-predicate cap,
 and generate the four query variants for each sampled relationship.
 
 All randomness comes from seeded hashes of image/relationship ids, so the
@@ -27,7 +27,7 @@ def split_of(image_id):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--per-predicate', type=int, default=125,
+    parser.add_argument('--per-predicate', type=int, default=250,
                         help='Relationships per canonical predicate over all splits.')
     parser.add_argument('--max-per-image', type=int, default=2)
     parser.add_argument('--pilot-relationships', type=int, default=50)
@@ -35,14 +35,14 @@ def main():
 
     table = pd.read_parquet(PROCESSED / 'spatial_relationships.parquet')
     total = len(table)
-    # A3b (user decision): drop relationships whose false variant is annotated true.
+    # Drop relationships whose false variant is itself annotated as true (ASSUMPTIONS.md, A3b).
     conflicts = int(table['label_conflict'].sum())
     table = table[~table['label_conflict']]
-    # Leave out VG images that are also teammate VSR images.
+    # Leave out images that are also used in the group's VSR experiment.
     vsr_images = int(table.loc[table['in_teammate_vsr'], 'image_id'].nunique())
     vsr_relationships = int(table['in_teammate_vsr'].sum())
     table = table[~table['in_teammate_vsr']].copy()
-    # Images that failed download/decoding in an earlier run of stage 3b are excluded,
+    # Images that failed download/decoding in an earlier run of 04_download_images.py are excluded,
     # so re-running this script replaces their relationships.
     failed_path = PROCESSED / 'failed_images.csv'
     failed = set(pd.read_csv(failed_path)['image_id']) if failed_path.exists() else set()
@@ -115,7 +115,7 @@ def main():
     print(counts.to_string())
     print(f'\n{len(sample)} relationships, {sample["image_id"].nunique()} images, {len(queries)} queries; '
           f'pilot = {len(pilot_ids)} training relationships.')
-    print(f'Dropped {conflicts} label-conflict relationships; left out {vsr_images} teammate VSR images '
+    print(f'Dropped {conflicts} label-conflict relationships; left out {vsr_images} VSR images '
           f'({vsr_relationships} relationships); {len(failed)} failed images excluded.')
 
 

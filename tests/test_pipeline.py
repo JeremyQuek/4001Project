@@ -15,8 +15,8 @@ from detector_lib import (coverage_threshold, fit_logistic, fit_mlp, load_mlp, m
                           paired_bootstrap, risk_coverage, risk_scores, save_mlp)
 from load_detector_data import load_detector_data
 
-needs_data = pytest.mark.skipif(not (DETECTOR_READY / 'metadata.json').exists(),
-                                reason='detector-ready arrays not built yet')
+needs_data = pytest.mark.skipif(not all((DETECTOR_READY / f'{split}.npz').exists() for split in ('train', 'val', 'test')),
+                                reason='hidden-state arrays not built yet (run stages 1 to 6)')
 
 
 def synthetic(n=400, seed=0):

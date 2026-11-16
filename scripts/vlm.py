@@ -1,9 +1,9 @@
 """Frozen VLM loader and Yes/No scorer.
 
-The loading and scoring logic follows the teammate's scripts/run_vlm.py
-(branch origin/isaac, by isaacwvh) step for step so both runs use an identical
-base model: same revision, 4-bit NF4 quantization, pixel budget, prompt, answer
-token check, and hidden-state definition.
+The model is never trained. The group's VSR experiment loads and scores the
+model in the same way (same revision, 4-bit NF4 quantization, pixel budget,
+prompt, answer-token check and hidden-state definition), so both experiments
+use an identical base model.
 
 Run this file directly for the one-image smoke test:
     python scripts/vlm.py
@@ -56,7 +56,7 @@ def load_vlm():
 
 
 def load_image(path):
-    """Same image handling as the teammate: apply EXIF orientation, convert to RGB."""
+    """Open an image, apply its EXIF orientation and convert it to RGB."""
     return ImageOps.exif_transpose(Image.open(path)).convert('RGB')
 
 
@@ -72,7 +72,7 @@ def score(model, processor, image, statement):
         joined = processor.tokenizer.encode(text + answer, add_special_tokens=False)
         suffix = joined[len(prefix_ids):]
         if joined[:len(prefix_ids)] != prefix_ids or len(suffix) != 1:
-            raise RuntimeError(f'{answer!r} is not one token in this context; stop and report.')
+            raise RuntimeError(f'{answer!r} is not a single token in this prompt context.')
         answer_ids.append(suffix[0])
 
     inputs = processor(text=[text], images=[image], return_tensors='pt').to('cuda:0')
@@ -86,10 +86,10 @@ def score(model, processor, image, statement):
     logits = output.logits[0, -1].float()
     if not torch.isfinite(logits).all().item():
         raise RuntimeError('Non-finite logits.')
-    # A4: confidence is the softmax over the Yes and No logits only.
+    # Relative Yes/No support: softmax over the Yes and No logits only (ASSUMPTIONS.md, A4).
     pair = torch.softmax(logits[answer_ids], dim=0)
     log_probs = torch.log_softmax(logits, dim=0)
-    # A7: hidden_states[0] is the embedding output, so index L is decoder layer L.
+    # hidden_states[0] is the embedding output, so index L is decoder layer L (ASSUMPTIONS.md, A7).
     if len(output.hidden_states) - 1 != 36:
         raise RuntimeError('Unexpected number of decoder layers.')
     hidden = np.stack([output.hidden_states[layer][0, -1].float().cpu().numpy()

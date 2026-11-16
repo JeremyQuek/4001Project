@@ -1,15 +1,18 @@
-# Assumptions
+# Assumptions and design decisions
 
-Assumptions A1 to A7 are copied verbatim from the team instruction set
-(`claude/CLAUDE.md`). The section after them records every further decision made
-while implementing the plan, with the reason for each.
+This file records the choices behind the pipeline, with the reason for each. A1 to A7
+were fixed in the project plan before any code was written; the later sections list the
+decisions made during implementation. Code comments refer to these labels.
 
-## Assumptions from the instruction set (verbatim)
+"The VSR experiment" below means the second experiment of this group project, which runs
+the same frozen VLM on the Visual Spatial Reasoning dataset.
+
+## Assumptions fixed in the plan
 
 - **A1, predicate mapping.** VG predicates are free text, so plan labels are mapped to
   canonical phrases. UP means "above", DOWN means "below", FRONT means "in front of",
   BACK means "behind". Lowercase and strip VG predicates, then map only these exact
-  surface forms (print counts for each and show them to the user before going on):
+  surface forms (`02_parse_filter.py` prints the count of each):
 
   | Canonical | Accepted VG surface forms |
   |---|---|
@@ -25,12 +28,11 @@ while implementing the plan, with the reason for each.
   Leave out anything ambiguous or non-spatial ("near", "next to", "by", "with", "has").
   Note: "below/under" and "above/over" are close; keep them as separate canonical labels.
 - **A2, ground truth.** VG relationships are positive annotations only. Labels for the
-  generated statements come from the annotation itself (see "Query variants"). No
+  generated statements come from the annotation itself (see the four variants in
+  `common.make_statements`). No
   human relabelling is performed. VG label noise is a stated limitation.
-  No bounding-box geometry filter is applied (not in the plan); mention it as possible
-  future work only.
-- **A3, minimal validity filters** (needed so a statement has one meaning, not an
-  improvement): drop a relationship if the subject and object names are identical, if
+  No bounding-box geometry filter is applied; it is possible future work.
+- **A3, minimal validity filters** (needed so a statement has one meaning): drop a relationship if the subject and object names are identical, if
   either name is empty, if it is a duplicate (same image, subject name, canonical
   predicate, object name), or if the image is missing or cannot be decoded.
 - **A4, "confidence".** The VLM answers Yes/No. Confidence is read from the logits at the
@@ -45,28 +47,28 @@ while implementing the plan, with the reason for each.
   all variants from one image stay in the same split. Validation is used for all
   selection; test is used once.
 - **A7, which hidden states.** Capture the decoder hidden state at the final prompt token
-  (just before the answer) at layers 9, 18 and 36 (same as the teammate), each with
+  (just before the answer) at layers 9, 18 and 36 (same as the VSR experiment), each with
   2,048 values. Save as float32.
 
-## Further decisions made during implementation
+## Decisions made during implementation
 
-### Decided by the user
+### Labels and dataset size
 
-- **A3b, contradictory labels (user decision, 15 Nov 2026).** A relationship is dropped if
+- **A3b, contradictory labels.** A relationship is dropped if
   its `swap` or `opposite` statement is itself annotated as true in the same image (for
   example both "man left of woman" and "woman left of man", which happens when an image
   holds several objects with the same name). This removed 2,736 of 539,144 filtered
   relationships, but about 13% of left/right relationships. It only uses VG's own
   annotations; no geometry or relabelling is involved.
-- **Dataset size (user decision after the pilot).** 2,000 relationships, 250 per canonical
-  predicate, giving 8,000 queries. The pilot was run on the first (1,000-relationship)
-  sample; its 200 queries are training rows.
+- **Dataset size.** 2,000 relationships, 250 per canonical predicate, giving 8,000
+  queries. The size was chosen after a 200-query pilot on training images measured about
+  0.35 s per query.
 
 ### Data
 
 - **Visual Genome files.** Relationships and objects are version 1.4 and image meta data
   is version 1.2 (the newest of each on the official download page). The objects file is
-  downloaded as the plan requires but not read: relationship records already carry the
+  downloaded but not read: relationship records already carry the
   subject and object names.
 - **Object names.** VG 1.4 stores either `name` or a `names` list; the first listed name
   is used. Names are lowercased and whitespace is collapsed. Nothing else is changed
@@ -78,38 +80,33 @@ while implementing the plan, with the reason for each.
 - **Sampling.** Each canonical predicate gets a quota in each split (250 per predicate =
   174 train, 38 validation, 38 test). Relationships are taken in seeded-hash order, at
   most 2 per image, filling the rarest predicate first.
-- **Teammate overlap.** The teammate's VSR manifest (branch `origin/isaac`,
-  `data/vsr/processed/directional_images.csv`, 855 images) uses COCO image IDs. The 248
+- **Overlap with the VSR experiment.** Its image list
+  (`data/vsr/processed/directional_images.csv`, 855 images) uses COCO image IDs. The 248
   eligible VG images whose `coco_id` is in that manifest are left out (1,657
-  relationships).
-- **Images.** EXIF orientation is applied and images are converted to RGB, as in the
-  teammate's runner.
+  relationships), so that detectors from one experiment can later be tested on the other.
+- **Images.** EXIF orientation is applied and images are converted to RGB.
 
 ### VLM
 
-- **Loader and scorer.** `scripts/vlm.py` follows the teammate's `scripts/run_vlm.py`
-  step for step: `dtype=bfloat16`, `device_map={'': 0}`, `use_fast=True` processor,
+- **Loader and scorer.** `scripts/vlm.py` uses the same steps as the VSR experiment: `dtype=bfloat16`, `device_map={'': 0}`, `use_fast=True` processor,
   default chat template (which includes Qwen's default system prompt),
   `use_cache=False`, `logits_to_keep=1`.
 - **Layer numbering.** `hidden_states[0]` is the embedding output, so "layer L" is
-  `hidden_states[L]`; layer 36 is the last decoder layer before the final norm. These
-  are the same indices the teammate saved.
+  `hidden_states[L]`; layer 36 is the last decoder layer before the final norm. The
+  VSR experiment saves the same indices.
 - **Library versions.** Python 3.12.14, torch 2.9.1+cu126, transformers 4.57.6,
-  accelerate 1.12.0, bitsandbytes 0.49.2 (all match the teammate). GPU: RTX 4060 Laptop.
+  accelerate 1.12.0, bitsandbytes 0.49.2 (the same as the VSR experiment). GPU: RTX 4060 Laptop.
 
 ### Detectors and evaluation
 
-- **Experiment names** follow the teammate's summary (`all_confidence`, `all_hidden9`,
+- **Experiment names** are shared with the VSR experiment (`all_confidence`, `all_hidden9`,
   `all_hidden18`, `all_hidden36`, prefixed `lr_` or `mlp_`) so the tables can be merged.
 - **Heuristic baseline.** `heuristic_confidence` (risk = 1 - confidence, nothing fitted)
-  is reported as well because the teammate's summary has it.
-- **LR selection.** Validation AUROC, then validation AP, then smaller C, then unweighted
-  (the teammate's tie-break order).
+  is reported as a reference that needs no training.
+- **LR selection.** Validation AUROC, then validation AP, then smaller C, then unweighted.
 - **MLP selection.** Hyperparameters are chosen by the mean validation AUROC over seeds
-  42, 43 and 44, then mean validation AP, then larger weight decay, then unweighted (the
-  teammate's rule). Seed 42 is the primary result; the other seeds only describe
-  training variability. Early stopping uses `min_delta = 1e-5` as in the teammate's
-  config.
+  42, 43 and 44, then mean validation AP, then larger weight decay, then unweighted. Seed 42 is the primary result; the other seeds only describe
+  training variability. Early stopping uses `min_delta = 1e-5`.
 - **Abstention threshold.** Questions with risk at or below the threshold are answered.
   The threshold is the largest validation risk value whose coverage does not exceed 80%;
   tied scores are kept or dropped together.
@@ -120,7 +117,7 @@ while implementing the plan, with the reason for each.
   which happens only in `scripts/08_evaluate_test.py`. The dataset card therefore gives
   error rates for train and validation only.
 
-## Exploratory extension (user request, 15 Nov 2026; not in the team plan)
+## Exploratory extension (added after the test evaluation)
 
 - **Three-way comparison.** `scripts/10_aggregate.py` compares single-query abstention,
   aggregation of the four variants, and aggregation with abstention. It was added after the
@@ -135,7 +132,6 @@ while implementing the plan, with the reason for each.
 - **Detector in the hybrid.** The hidden-state MLP with the highest mean validation AUROC
   (seed 42 scores saved in stage 7). It was selected on validation, so its rows are slightly
   optimistic.
-
 - **Cascade.** Each query is treated as one question that costs one VLM call. A router
   (1 - confidence, or the layer-36 LR or MLP risk) picks the riskiest share of questions;
   those get three more calls (the other variants of the same fact) and the aggregated

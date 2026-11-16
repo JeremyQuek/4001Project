@@ -1,8 +1,8 @@
-"""Stage 3b: download only the images the sample needs (URL from VG image_data.json).
+"""Stage 4: download only the images the sample needs (URL from VG image_data.json).
 
 Each file is fully decoded and hashed before it is accepted. Failures are
 retried, then logged to failed_images.csv; re-run 03_split_sample.py afterwards
-to replace their relationships. Run with `python -I` (reads untrusted files).
+to replace their relationships. Run with `python -I` (reads downloaded files).
 """
 import io
 import sys

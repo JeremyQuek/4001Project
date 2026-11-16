@@ -8,3 +8,6 @@ data/vg/raw/
 data/vg/images/
 data/vg/extraction/
 data/vg/detector_ready/*.npz
+scripts/11_team_summary.py
+# Submission archive, rebuilt on demand.
+SC4001_ProjectE_code.zip

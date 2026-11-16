@@ -1,4 +1,4 @@
-"""Stage 10 (exploratory extension, not in the team plan): three ways to use the signals.
+"""Stage 10 (exploratory, validation only): three ways to use the signals.
 
 Compares, on the validation split only:
   1. abstention on a single query (risk = 1 - confidence, or a frozen detector's risk);
@@ -240,7 +240,7 @@ def main():
                                    'aggregate_accuracy': float(aggregate_correct[mask].mean())}
     votes = np.bincount(np.unique(rel_id, return_inverse=True)[1], weights=single_correct)
     output = {
-        'status': 'Exploratory extension outside the team plan. Validation split only; test never read.',
+        'status': 'Exploratory extension added after the test evaluation. Validation split only; test never read.',
         'split': 'val', 'rows': int(len(truth)), 'relationships': int(len(votes)),
         'images': int(len(np.unique(image_id))),
         'detector_used': detector,
